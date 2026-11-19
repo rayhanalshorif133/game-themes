@@ -1,0 +1,110 @@
+/* Theme 2: Esports Fire & Gold Arena Styling */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --esports-red: #ef4444;
+  --esports-gold: #f59e0b;
+  --esports-dark: #0c0d12;
+  --esports-card: #151720;
+  --esports-border: #232736;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--esports-dark);
+  color: #f3f4f6;
+  background-image: radial-gradient(circle at 50% 0%, rgba(239, 68, 68, 0.08) 0%, transparent 60%);
+}
+
+.font-esports {
+  font-family: 'Rajdhani', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #0c0d12;
+}
+::-webkit-scrollbar-thumb {
+  background: #ef4444;
+  border-radius: 4px;
+}
+
+/* Chamfered & Angled Esports Cards */
+.esports-card {
+  background: linear-gradient(180deg, #181a24 0%, #12131a 100%);
+  border: 1px solid #262a3b;
+  position: relative;
+  transition: all 0.25s ease-in-out;
+}
+
+.esports-card:hover {
+  border-color: #ef4444;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px -10px rgba(239, 68, 68, 0.25);
+}
+
+/* Fire & Gold Buttons */
+.btn-fire {
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  color: #ffffff;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.35);
+  transition: all 0.2s ease;
+}
+
+.btn-fire:hover {
+  background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+  transform: scale(1.02);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #0c0d12;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+  transform: scale(1.02);
+}
+
+/* Diagonal Ribbon */
+.ribbon-tag {
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+}
+
+.tag-angled {
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+
+/* WhatsApp Pulse in Esports Gold */
+.wa-gold-pulse {
+  animation: pulse-gold 2s infinite;
+}
+
+@keyframes pulse-gold {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(245, 158, 11, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+  }
+}

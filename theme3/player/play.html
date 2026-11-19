@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Arcade Cabinet 2D - Pixel WAP Theme 3</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            arcadeBg: '#070913',
+            arcadeSurface: '#0e1322',
+            arcadeCyan: '#00f0ff',
+            arcadePink: '#ff007f',
+            arcadeYellow: '#ffe600',
+            arcadeGreen: '#00ff66',
+            arcadeBorder: '#1e2942'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme3.css">
+  <style>
+    canvas { touch-action: none; }
+  </style>
+</head>
+<body class="bg-arcadeBg text-slate-100 min-h-screen flex flex-col justify-between selection:bg-arcadeCyan selection:text-black">
+
+  <!-- Header -->
+  <header class="bg-arcadeBg/95 border-b-2 border-arcadeCyan px-4 py-3 sticky top-0 z-30 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="p-2 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs flex items-center gap-1.5 border border-slate-700 font-retro">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span class="hidden sm:inline">Lobby</span>
+      </a>
+      <div>
+        <h1 id="gameHeaderTitle" class="text-base sm:text-lg font-bold font-retro text-white leading-tight">Loading ROM...</h1>
+        <div class="flex items-center gap-2 text-[10px] text-slate-400 font-retro">
+          <span id="gameCategoryBadge" class="text-arcadeCyan font-bold">2D ACTION</span>
+          <span>•</span>
+          <span id="gameTypeBadge" class="text-arcadeYellow">1P ARCADE</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <div id="playerTokenPill" class="px-2.5 py-1 bg-slate-900 border-2 border-arcadeYellow text-arcadeYellow text-xs font-retro font-bold flex items-center gap-1">
+        <i class="fa-solid fa-coins"></i>
+        <span id="headerTokens">0</span>
+      </div>
+      <a href="subscription.html" id="headerSubsPill" class="px-2.5 py-1 text-xs font-bold transition font-retro">
+        <!-- Injected by JS -->
+      </a>
+      <a href="profile.html" class="p-2 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-semibold" title="Profile">
+        <i class="fa-solid fa-user"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Game Arena -->
+  <main class="max-w-4xl mx-auto px-4 py-4 w-full flex-1">
+    
+    <!-- Retro Arcade Cabinet Screen Frame -->
+    <div class="relative overflow-hidden bg-black border-4 border-slate-800 shadow-[8px_8px_0px_#020617] flex flex-col items-center justify-center min-h-[380px] sm:min-h-[460px]">
+      
+      <!-- Top Bezel Label -->
+      <div class="w-full bg-slate-900 border-b-2 border-slate-800 py-1 px-4 flex items-center justify-between text-[10px] font-retro text-slate-400">
+        <span class="text-arcadeCyan">CABINET 01 • PIXEL WAP</span>
+        <span class="text-arcadeYellow font-pixel text-sm tracking-wider" id="inGameScoreTicker">SCORE: 00000</span>
+        <span class="text-arcadePink">INSERT 1 CREDIT</span>
+      </div>
+
+      <!-- Subscription Lock Overlay -->
+      <div id="subscriptionLockOverlay" class="hidden absolute inset-0 z-20 bg-slate-950/95 backdrop-blur-md p-6 flex flex-col items-center justify-center text-center font-retro">
+        <div class="w-16 h-16 bg-arcadePink text-white flex items-center justify-center text-3xl mb-4 shadow-[4px_4px_0px_#9f1239] border-2 border-pink-400">
+          🔒
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold text-white mb-2">INSERT CREDIT TO PLAY!</h2>
+        <p class="text-xs sm:text-sm text-slate-300 max-w-md mb-6 font-sans">
+          WAP Arcade এর যে কোনো 2D গেম বা টুর্নামেন্ট আনলক করতে পাস প্রয়োজন। ৩ টাকা দিয়ে ১ দিন পাস নিন অথবা ফ্রি ৫০ টোকেন কয়েন দিয়ে আনলক করুন!
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-md mb-4">
+          <button onclick="quickBuyPlan('plan-1')" class="btn-arcade-pink p-3.5 text-xs flex items-center justify-between">
+            <div class="text-left font-retro">
+              <div class="text-[9px] text-pink-200">bKash Instant</div>
+              <div class="text-sm font-bold">১ দিন পাস (৩ টাকা)</div>
+            </div>
+            <i class="fa-solid fa-bolt text-lg text-arcadeYellow"></i>
+          </button>
+
+          <button onclick="quickExchangeTokens('plan-1')" class="btn-arcade-yellow p-3.5 text-xs flex items-center justify-between">
+            <div class="text-left font-retro">
+              <div class="text-[9px] text-yellow-800">Token Exchange</div>
+              <div class="text-sm font-bold">৫০ কয়েন দিয়ে ১ দিন</div>
+            </div>
+            <i class="fa-solid fa-coins text-lg text-slate-950"></i>
+          </button>
+        </div>
+
+        <a href="subscription.html" class="text-xs text-arcadeCyan hover:underline font-retro">
+          অন্যান্য পাস দেখুন (৫ টাকা ২ দিন, ১০ টাকা ৫ দিন) →
+        </a>
+      </div>
+
+      <!-- HTML5 2D Canvas Engine -->
+      <div class="relative w-full flex items-center justify-center bg-black p-1 sm:p-2">
+        <canvas id="gameCanvas" width="600" height="400" class="max-w-full h-auto bg-black border border-slate-900 shadow-inner"></canvas>
+      </div>
+
+      <!-- Mobile Touch Controls D-Pad -->
+      <div id="mobileControlsArea" class="w-full bg-slate-950/95 border-t-2 border-slate-800 p-3 flex items-center justify-between gap-4 select-none">
+        <!-- Directional D-Pad -->
+        <div class="grid grid-cols-3 gap-1 w-32 h-32">
+          <div></div>
+          <button id="btnUp" class="bg-slate-800 active:bg-arcadeCyan text-white active:text-black font-bold rounded-none flex items-center justify-center text-lg border border-slate-700 shadow-[2px_2px_0px_#000]">
+            ▲
+          </button>
+          <div></div>
+
+          <button id="btnLeft" class="bg-slate-800 active:bg-arcadeCyan text-white active:text-black font-bold rounded-none flex items-center justify-center text-lg border border-slate-700 shadow-[2px_2px_0px_#000]">
+            ◀
+          </button>
+          <div class="bg-slate-900 flex items-center justify-center text-[9px] text-slate-600 font-retro">PAD</div>
+          <button id="btnRight" class="bg-slate-800 active:bg-arcadeCyan text-white active:text-black font-bold rounded-none flex items-center justify-center text-lg border border-slate-700 shadow-[2px_2px_0px_#000]">
+            ▶
+          </button>
+
+          <div></div>
+          <button id="btnDown" class="bg-slate-800 active:bg-arcadeCyan text-white active:text-black font-bold rounded-none flex items-center justify-center text-lg border border-slate-700 shadow-[2px_2px_0px_#000]">
+            ▼
+          </button>
+          <div></div>
+        </div>
+
+        <!-- Action / Fire Button -->
+        <div class="flex flex-col items-center gap-2">
+          <button id="btnAction" class="w-20 h-20 bg-arcadePink active:bg-pink-400 text-white font-extrabold text-sm border-2 border-pink-300 shadow-[4px_4px_0px_#9f1239] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#9f1239] font-retro flex flex-col items-center justify-center">
+            <span>ACTION</span>
+            <span class="text-[9px] font-pixel text-yellow-300">[FIRE/JUMP]</span>
+          </button>
+          <span class="text-[9px] text-slate-400 font-pixel">PC: Arrow Keys + Space</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs Container (Rules, Leaderboard, Reviews) -->
+    <div class="mt-6 arcade-card p-5">
+      <div class="flex border-b-2 border-slate-800 pb-3 gap-4 font-retro text-xs sm:text-sm">
+        <button onclick="switchArenaTab('rules')" id="tabBtnRules" class="font-bold text-arcadeCyan border-b-2 border-arcadeCyan pb-1">
+          <i class="fa-solid fa-scroll mr-1"></i> How to Play & Rules
+        </button>
+        <button onclick="switchArenaTab('leaderboard')" id="tabBtnLeaderboard" class="font-bold text-slate-400 hover:text-white pb-1">
+          <i class="fa-solid fa-trophy mr-1"></i> High Score Board
+        </button>
+        <button onclick="switchArenaTab('reviews')" id="tabBtnReviews" class="font-bold text-slate-400 hover:text-white pb-1">
+          <i class="fa-solid fa-star mr-1"></i> Player Ratings
+        </button>
+      </div>
+
+      <!-- Tab 1: Rules -->
+      <div id="arenaTabRules" class="pt-4 text-xs text-slate-300 space-y-3 font-sans">
+        <h3 class="font-bold font-retro text-white text-sm" id="rulesTitle">Game Rules:</h3>
+        <ul class="list-disc pl-5 space-y-1.5 text-slate-400" id="rulesList">
+          <!-- Injected by JS -->
+        </ul>
+        <div class="p-3 bg-slate-950 border border-slate-800 text-[11px] text-arcadeYellow font-retro">
+          💡 TIP: High scores are permanently recorded onto the live tournament leaderboard whenever you complete a session!
+        </div>
+      </div>
+
+      <!-- Tab 2: Leaderboard -->
+      <div id="arenaTabLeaderboard" class="pt-4 text-xs hidden">
+        <div class="flex items-center justify-between mb-3 font-retro">
+          <span class="font-bold text-white uppercase">TOP 10 HIGH SCORES (LEADERBOARD)</span>
+          <span class="text-[11px] text-arcadeGreen">Updated in Real Time</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-950 text-slate-400 uppercase text-[10px] font-retro">
+              <tr>
+                <th class="py-2.5 px-3">Rank</th>
+                <th class="py-2.5 px-3">Player</th>
+                <th class="py-2.5 px-3">Score</th>
+                <th class="py-2.5 px-3">Pass Tier</th>
+              </tr>
+            </thead>
+            <tbody id="arenaLeaderboardTbody" class="divide-y divide-slate-800/60 font-sans">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 3: Ratings & Reviews -->
+      <div id="arenaTabReviews" class="pt-4 text-xs hidden space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <h4 class="font-bold font-retro text-white">Player Reviews & Community Rating</h4>
+          <button onclick="openReviewModal()" class="btn-arcade-cyan px-3 py-1.5 text-xs font-bold">
+            <i class="fa-solid fa-star"></i> Rate Game
+          </button>
+        </div>
+
+        <div id="gameReviewsContainer" class="space-y-3">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Review Modal -->
+  <div id="reviewModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-md arcade-card p-6 relative">
+      <button onclick="closeReviewModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 class="text-base font-bold font-retro text-white mb-3">Rate & Review 2D Game</h3>
+      <form onsubmit="handleReviewSubmit(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold font-retro text-slate-300 mb-1">Star Rating (1 - 5)</label>
+          <select id="reviewRatingInput" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 text-xs text-white">
+            <option value="5">★★★★★ - Amazing 2D Retro Experience</option>
+            <option value="4">★★★★☆ - Very Fun to Play</option>
+            <option value="3">★★★☆☆ - Good Gameplay</option>
+            <option value="2">★★☆☆☆ - Needs Improvement</option>
+            <option value="1">★☆☆☆☆ - Challenging / Hard</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold font-retro text-slate-300 mb-1">Your Feedback / Comment</label>
+          <textarea id="reviewCommentInput" rows="3" required placeholder="Write your thoughts..."
+                    class="w-full px-3 py-2 bg-slate-950 border border-slate-800 text-xs text-white"></textarea>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2 font-retro">
+          <button type="button" onclick="closeReviewModal()" class="px-4 py-2 text-xs bg-slate-800 text-slate-300">
+            Cancel
+          </button>
+          <button type="submit" class="btn-arcade-cyan px-4 py-2 text-xs font-bold">
+            Submit Rating
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="p-4 text-center text-xs text-slate-500 font-sans border-t border-slate-900 mt-auto">
+    © 2026 PIXEL WAP 2D BD.
+  </footer>
+
+  <!-- Unified Database & Canvas Engine -->
+  <script src="../../assets/js/db.js"></script>
+  <script src="../../assets/js/games-engine.js"></script>
+  <script>
+    let currentGame = null;
+    let currentUser = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      checkUserAndGame();
+    });
+
+    function checkUserAndGame() {
+      currentUser = window.wapDB.getCurrentUser();
+      if (!currentUser) {
+        alert('Please login to enter the 2D Arcade arena!');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Update header
+      document.getElementById('headerTokens').innerText = currentUser.tokens || 0;
+      const hasSubs = window.wapDB.hasActiveSubscription(currentUser);
+      const subsPill = document.getElementById('headerSubsPill');
+
+      if (hasSubs) {
+        subsPill.className = 'px-2.5 py-1 text-xs font-bold bg-emerald-500/20 text-arcadeGreen border border-emerald-500/40';
+        subsPill.innerText = `● ${currentUser.subscription.planName}`;
+      } else {
+        subsPill.className = 'px-2.5 py-1 text-xs font-bold bg-pink-500/20 text-arcadePink border border-pink-500/40';
+        subsPill.innerText = `⚠️ NO PASS`;
+      }
+
+      // Get game ID from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const gameId = urlParams.get('id') || 'game-1';
+      currentGame = window.wapDB.getGameById(gameId) || window.wapDB.getGames()[0];
+
+      // Update game info
+      document.getElementById('gameHeaderTitle').innerText = currentGame.title;
+      document.getElementById('gameCategoryBadge').innerText = currentGame.category.toUpperCase();
+      document.getElementById('gameTypeBadge').innerText = currentGame.type.toUpperCase();
+      document.getElementById('rulesTitle').innerText = `${currentGame.title} - How to Play:`;
+
+      const rulesList = document.getElementById('rulesList');
+      rulesList.innerHTML = (currentGame.rules || []).map(r => `<li>${r}</li>`).join('');
+
+      renderLeaderboard();
+      renderReviews();
+
+      // Check subscription lock
+      if (!hasSubs) {
+        document.getElementById('subscriptionLockOverlay').classList.remove('hidden');
+      } else {
+        document.getElementById('subscriptionLockOverlay').classList.add('hidden');
+        startGameSession();
+      }
+
+      if (urlParams.get('view') === 'rules') {
+        switchArenaTab('rules');
+      }
+    }
+
+    function startGameSession() {
+      const canvas = document.getElementById('gameCanvas');
+      
+      // Initialize shared game engine
+      window.wapGamesEngine.init(canvas, currentGame.engineKey || 'space-blaster', {
+        onScore: (score) => {
+          document.getElementById('inGameScoreTicker').innerText = `SCORE: ${score.toString().padStart(5, '0')}`;
+        },
+        onGameOver: (finalScore) => {
+          window.wapDB.recordGamePlay(currentUser.id, currentGame.id, finalScore);
+          renderLeaderboard();
+        }
+      });
+
+      // Bind mobile controls
+      setupMobileControls();
+    }
+
+    function setupMobileControls() {
+      const bindBtn = (id, key) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          window.wapGamesEngine.handleKey(key, true);
+        });
+        el.addEventListener('touchend', (e) => {
+          e.preventDefault();
+          window.wapGamesEngine.handleKey(key, false);
+        });
+        el.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          window.wapGamesEngine.handleKey(key, true);
+        });
+        el.addEventListener('mouseup', (e) => {
+          e.preventDefault();
+          window.wapGamesEngine.handleKey(key, false);
+        });
+      };
+
+      bindBtn('btnUp', 'ArrowUp');
+      bindBtn('btnDown', 'ArrowDown');
+      bindBtn('btnLeft', 'ArrowLeft');
+      bindBtn('btnRight', 'ArrowRight');
+      bindBtn('btnAction', 'Space');
+    }
+
+    function quickBuyPlan(planId) {
+      window.location.href = `subscription.html?plan=${planId}`;
+    }
+
+    function quickExchangeTokens(planId) {
+      if (!currentUser) return;
+      const res = window.wapDB.exchangeTokensForSubscription(currentUser.id, planId);
+      if (res.success) {
+        alert('Congratulations! 1-Day Pass unlocked using 50 Tokens!');
+        window.location.reload();
+      } else {
+        alert(res.message);
+      }
+    }
+
+    function switchArenaTab(tab) {
+      document.getElementById('arenaTabRules').classList.add('hidden');
+      document.getElementById('arenaTabLeaderboard').classList.add('hidden');
+      document.getElementById('arenaTabReviews').classList.add('hidden');
+
+      document.getElementById('tabBtnRules').className = 'font-bold text-slate-400 hover:text-white pb-1';
+      document.getElementById('tabBtnLeaderboard').className = 'font-bold text-slate-400 hover:text-white pb-1';
+      document.getElementById('tabBtnReviews').className = 'font-bold text-slate-400 hover:text-white pb-1';
+
+      if (tab === 'rules') {
+        document.getElementById('arenaTabRules').classList.remove('hidden');
+        document.getElementById('tabBtnRules').className = 'font-bold text-arcadeCyan border-b-2 border-arcadeCyan pb-1';
+      } else if (tab === 'leaderboard') {
+        document.getElementById('arenaTabLeaderboard').classList.remove('hidden');
+        document.getElementById('tabBtnLeaderboard').className = 'font-bold text-arcadeYellow border-b-2 border-arcadeYellow pb-1';
+      } else if (tab === 'reviews') {
+        document.getElementById('arenaTabReviews').classList.remove('hidden');
+        document.getElementById('tabBtnReviews').className = 'font-bold text-arcadePink border-b-2 border-arcadePink pb-1';
+      }
+    }
+
+    function renderLeaderboard() {
+      const players = window.wapDB.getPlayers();
+      const tbody = document.getElementById('arenaLeaderboardTbody');
+      
+      const ranked = players.map(p => {
+        return {
+          name: p.name,
+          score: (p.scores && p.scores[currentGame.id]) || 0,
+          pass: p.subscription ? p.subscription.planName : 'Free'
+        };
+      }).sort((a, b) => b.score - a.score);
+
+      tbody.innerHTML = ranked.slice(0, 8).map((p, idx) => {
+        return `
+          <tr class="hover:bg-slate-900/40">
+            <td class="py-2 px-3 font-retro font-bold text-arcadeYellow">#${idx + 1}</td>
+            <td class="py-2 px-3 font-medium text-white">${p.name}</td>
+            <td class="py-2 px-3 font-mono font-bold text-arcadeCyan">${p.score} pts</td>
+            <td class="py-2 px-3 text-slate-400">${p.pass}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderReviews() {
+      const reviews = window.wapDB.getReviews(currentGame.id);
+      const container = document.getElementById('gameReviewsContainer');
+
+      if (!reviews || reviews.length === 0) {
+        container.innerHTML = `<div class="text-slate-500 py-3 text-xs">No player ratings yet. Be the first to rate!</div>`;
+        return;
+      }
+
+      container.innerHTML = reviews.map(r => {
+        return `
+          <div class="p-3 bg-slate-950 border border-slate-800">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-white font-retro">${r.playerName}</span>
+              <span class="text-arcadeYellow text-xs font-mono">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+            </div>
+            <p class="text-xs text-slate-300">"${r.comment}"</p>
+            <div class="text-[10px] text-slate-500 font-mono mt-1">${r.date}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openReviewModal() {
+      document.getElementById('reviewModal').classList.remove('hidden');
+    }
+
+    function closeReviewModal() {
+      document.getElementById('reviewModal').classList.add('hidden');
+    }
+
+    function handleReviewSubmit(e) {
+      e.preventDefault();
+      const rating = parseInt(document.getElementById('reviewRatingInput').value);
+      const comment = document.getElementById('reviewCommentInput').value.trim();
+
+      window.wapDB.addReview(currentGame.id, currentUser.name, rating, comment);
+      alert('Thank you! Your rating has been recorded.');
+      closeReviewModal();
+      renderReviews();
+    }
+  </script>
+</body>
+</html>

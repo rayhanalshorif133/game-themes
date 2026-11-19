@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Management & Ban Control - WAP Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyberDark: '#090d16',
+            cyberCard: '#111827',
+            cyberPurple: '#6366f1',
+            cyberGreen: '#10b981'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="bg-cyberDark text-slate-100 min-h-screen flex selection:bg-purple-500">
+
+  <!-- Desktop Left Sidebar -->
+  <aside class="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-64 bg-slate-950 border-r border-slate-800 z-40">
+    <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white text-lg shadow-lg shadow-purple-600/30">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div>
+          <span class="font-gaming font-bold text-lg text-white tracking-wider">WAP ADMIN</span>
+          <span class="text-[10px] block text-purple-400 font-mono -mt-1">PORTAL CONTROLLER</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <div class="px-3 pb-2 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Core Management</div>
+      
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-gauge-high w-4 text-center"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-gamepad w-4 text-center text-indigo-400"></i>
+        <span>2D Games Manage</span>
+      </a>
+
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
+        <span>Tournaments Setup</span>
+      </a>
+
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold bg-purple-600 text-white shadow-lg shadow-purple-600/30 transition">
+        <i class="fa-solid fa-users w-4 text-center"></i>
+        <span>Players & Ban Control</span>
+      </a>
+
+      <div class="pt-4 px-3 pb-2 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Marketing & Finance</div>
+
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-bullhorn w-4 text-center text-purple-400"></i>
+        <span>Promo SMS Center</span>
+      </a>
+
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-credit-card w-4 text-pink-400"></i>
+        <span>Subscriptions & bKash</span>
+      </a>
+
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-star w-4 text-yellow-400"></i>
+        <span>Player Reviews</span>
+      </a>
+    </div>
+
+    <div class="p-4 border-t border-slate-800 space-y-2">
+      <a href="../index.html" target="_blank" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold bg-indigo-600/20 text-indigo-300 hover:bg-indigo-600/30 border border-indigo-500/30 transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Portal Site
+        </span>
+        <i class="fa-solid fa-external-link text-[10px]"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div id="mobileSidebarOverlay" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm md:hidden"></div>
+
+  <!-- Mobile Drawer Sidebar -->
+  <div id="mobileSidebar" class="fixed top-0 bottom-0 left-0 w-64 bg-slate-950 border-r border-slate-800 z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <span class="font-gaming font-bold text-white">WAP ADMIN</span>
+      </div>
+      <button onclick="toggleMobileSidebar()" class="text-slate-400 hover:text-white p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+    <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-gauge-high w-4"></i> Dashboard
+      </a>
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-gamepad w-4 text-indigo-400"></i> Games Manage
+      </a>
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-trophy w-4 text-amber-400"></i> Tournaments
+      </a>
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold bg-purple-600 text-white">
+        <i class="fa-solid fa-users w-4"></i> Players & Ban
+      </a>
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-bullhorn w-4 text-purple-400"></i> Promo SMS
+      </a>
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-credit-card w-4 text-pink-400"></i> Subscriptions
+      </a>
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-star w-4 text-yellow-400"></i> Reviews
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="md:pl-64 flex-1 flex flex-col min-h-screen">
+    
+    <!-- Top Header Bar -->
+    <header class="sticky top-0 z-30 bg-slate-950/95 backdrop-blur-md border-b border-slate-800 px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="md:hidden p-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 text-xs">
+          <i class="fa-solid fa-bars text-sm"></i>
+        </button>
+        <h1 class="text-base sm:text-lg font-bold font-gaming text-white">PLAYERS MANAGEMENT & BAN</h1>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="px-3 py-1.5 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-mono font-bold">
+          <i class="fa-solid fa-users"></i> <span id="totalPlayersBadge">0</span> Players
+        </span>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1">
+      
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-xl font-bold font-gaming text-white">Player Directory & Fair Play Control</h2>
+          <p class="text-xs text-slate-400">View detailed scores, ban/unban users, inspect token balances, or send direct alerts.</p>
+        </div>
+
+        <!-- Search Filter -->
+        <div class="w-full sm:w-72">
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 text-xs">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <input type="text" id="playerSearchInput" oninput="renderPlayersTable()" placeholder="Search by name, phone or code..."
+                   class="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500">
+          </div>
+        </div>
+      </div>
+
+      <!-- Players Table -->
+      <div class="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden shadow-xl">
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-950/80 text-slate-400 uppercase text-[10px]">
+              <tr>
+                <th class="py-3 px-4">Player</th>
+                <th class="py-3 px-4">Phone / Contact</th>
+                <th class="py-3 px-4">Tokens</th>
+                <th class="py-3 px-4">Referral Info</th>
+                <th class="py-3 px-4">Subscription</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="playersTbody" class="divide-y divide-slate-800/60">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <footer class="p-4 text-center text-xs text-slate-500 border-t border-slate-900 mt-auto">
+      © 2026 WAP Games 2D Admin Panel.
+    </footer>
+  </div>
+
+  <!-- Player A-Z Details & Scores Modal -->
+  <div id="playerDetailsModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-lg cyber-card rounded-2xl p-6 border border-slate-800 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closeDetailsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 class="text-lg font-bold font-gaming text-white mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-id-card text-purple-400"></i> Player A-to-Z Details & Scoreboard
+      </h3>
+
+      <div class="space-y-4">
+        <!-- Personal info -->
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="font-bold text-white text-base" id="detailName">Name</h4>
+            <span id="detailBanStatus">Status</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs text-slate-300">
+            <div>Phone: <strong class="text-white font-mono" id="detailPhone">-</strong></div>
+            <div>Joined: <span class="font-mono" id="detailJoined">-</span></div>
+            <div>Tokens: <strong class="text-amber-400 font-mono" id="detailTokens">-</strong></div>
+            <div>Referral Code: <span class="font-mono text-purple-300" id="detailRefCode">-</span></div>
+            <div>Total Referrals: <span class="font-bold" id="detailRefCount">-</span></div>
+            <div>Referred By: <span id="detailReferredBy">None</span></div>
+          </div>
+        </div>
+
+        <!-- Subscription info -->
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+          <div class="text-xs text-slate-400 font-semibold mb-1">Subscription Details</div>
+          <div class="flex items-center justify-between">
+            <div class="text-sm font-bold text-emerald-400" id="detailSubsPlan">Plan</div>
+            <div class="text-xs text-slate-400" id="detailSubsExpiry">Expiry</div>
+          </div>
+        </div>
+
+        <!-- 2D Game High Scores -->
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+          <div class="text-xs text-slate-400 font-semibold mb-2">2D Games Scores Record</div>
+          <div class="space-y-2" id="detailScoresList">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Quick Admin Action Buttons inside modal -->
+        <div class="pt-2 flex items-center justify-end gap-2">
+          <button type="button" id="modalBanBtn" onclick="toggleBanFromModal()" class="px-4 py-2 rounded-xl text-xs font-bold transition"></button>
+          <button type="button" onclick="openDirectMessageModalFromDetails()" class="px-4 py-2 rounded-xl text-xs font-bold bg-purple-600 hover:bg-purple-500 text-white">
+            <i class="fa-solid fa-envelope"></i> Send Message
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Direct Message Modal -->
+  <div id="messageModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-md cyber-card rounded-2xl p-6 border border-slate-800 shadow-2xl relative">
+      <button onclick="closeMessageModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 class="text-base font-bold font-gaming text-white mb-2 flex items-center gap-2">
+        <i class="fa-solid fa-paper-plane text-purple-400"></i> Send Direct Message to Player
+      </h3>
+      <p class="text-xs text-slate-400 mb-4">Recipient: <strong class="text-white" id="msgRecipientName">Player</strong></p>
+
+      <form onsubmit="handleSendMessage(event)" class="space-y-3">
+        <input type="hidden" id="msgRecipientId">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Message Content</label>
+          <textarea id="msgContentInput" rows="4" required placeholder="Type direct alert, reward announcement, or warning..."
+                    class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"></textarea>
+        </div>
+
+        <button type="submit" class="neon-btn w-full py-2.5 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-2">
+          <i class="fa-solid fa-paper-plane"></i> Send Direct Message
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- WhatsApp Floating Button -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <a href="https://wa.me/8801700000000?text=Admin%20Player%20Inquiry" target="_blank" 
+       class="w-12 h-12 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center text-xl shadow-xl whatsapp-pulse">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <script src="../assets/js/db.js"></script>
+  <script>
+    let activePlayerDetail = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderPlayersTable();
+    });
+
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('mobileSidebar');
+      const overlay = document.getElementById('mobileSidebarOverlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
+
+    function renderPlayersTable() {
+      const players = window.wapDB.getPlayers();
+      const query = (document.getElementById('playerSearchInput').value || '').toLowerCase();
+      document.getElementById('totalPlayersBadge').innerText = players.length;
+
+      const filtered = players.filter(p => {
+        return (
+          p.name.toLowerCase().includes(query) ||
+          p.phone.toLowerCase().includes(query) ||
+          (p.referralCode && p.referralCode.toLowerCase().includes(query))
+        );
+      });
+
+      const tbody = document.getElementById('playersTbody');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-slate-500">No players found matching your query.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(p => {
+        const hasSubs = window.wapDB.hasActiveSubscription(p);
+        return `
+          <tr class="hover:bg-slate-900/50">
+            <td class="py-3 px-4">
+              <div class="font-bold text-white">${p.name}</div>
+              <div class="text-[10px] text-slate-500">ID: ${p.id}</div>
+            </td>
+            <td class="py-3 px-4 font-mono text-slate-300">
+              ${p.phone}
+              ${p.email ? `<div class="text-[10px] text-slate-500">${p.email}</div>` : ''}
+            </td>
+            <td class="py-3 px-4 font-mono font-bold text-amber-400">
+              🪙 ${p.tokens || 0}
+            </td>
+            <td class="py-3 px-4">
+              <span class="font-mono text-indigo-300 text-[11px] font-bold">${p.referralCode || 'N/A'}</span>
+              <div class="text-[10px] text-slate-400">${p.referralCount || 0} Invited</div>
+            </td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 rounded text-[10px] font-semibold ${hasSubs ? 'bg-emerald-500/20 text-emerald-400' : 'bg-pink-500/20 text-pink-400'}">
+                ${hasSubs ? p.subscription.planName : 'No Subs'}
+              </span>
+              ${hasSubs ? `<div class="text-[10px] text-slate-400 mt-0.5 font-mono">Until ${new Date(p.subscription.expiresAt).toLocaleDateString()}</div>` : ''}
+            </td>
+            <td class="py-3 px-4">
+              ${p.banned 
+                ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">BANNED</span>' 
+                : '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400">Active</span>'}
+            </td>
+            <td class="py-3 px-4 text-right space-x-1 whitespace-nowrap">
+              <button onclick="viewPlayerDetails('${p.id}')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700" title="Scores & Details">
+                <i class="fa-solid fa-eye text-indigo-400"></i> Details
+              </button>
+              <button onclick="openDirectMessageModal('${p.id}', '${p.name}')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 border border-purple-500/30" title="Direct Message">
+                <i class="fa-solid fa-envelope"></i>
+              </button>
+              <button onclick="toggleBan('${p.id}')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold ${p.banned ? 'bg-emerald-600/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-600/40' : 'bg-rose-600/20 text-rose-300 border border-rose-500/30 hover:bg-rose-600/40'}">
+                ${p.banned ? 'Unban' : 'Ban'}
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function viewPlayerDetails(id) {
+      activePlayerDetail = window.wapDB.getPlayerById(id);
+      if (!activePlayerDetail) return;
+
+      document.getElementById('detailName').innerText = activePlayerDetail.name;
+      document.getElementById('detailPhone').innerText = activePlayerDetail.phone;
+      document.getElementById('detailJoined').innerText = activePlayerDetail.joinedAt || 'N/A';
+      document.getElementById('detailTokens').innerText = activePlayerDetail.tokens || 0;
+      document.getElementById('detailRefCode').innerText = activePlayerDetail.referralCode || 'N/A';
+      document.getElementById('detailRefCount').innerText = activePlayerDetail.referralCount || 0;
+      document.getElementById('detailReferredBy').innerText = activePlayerDetail.referredBy || 'Direct Signup';
+
+      const banStatusEl = document.getElementById('detailBanStatus');
+      if (activePlayerDetail.banned) {
+        banStatusEl.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30';
+        banStatusEl.innerText = `BANNED: ${activePlayerDetail.banReason || 'Suspended'}`;
+      } else {
+        banStatusEl.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400';
+        banStatusEl.innerText = 'Account Good Standing';
+      }
+
+      // Subs
+      const hasSubs = window.wapDB.hasActiveSubscription(activePlayerDetail);
+      document.getElementById('detailSubsPlan').innerText = hasSubs ? activePlayerDetail.subscription.planName : 'No Active Subscription';
+      document.getElementById('detailSubsExpiry').innerText = hasSubs ? 'Expires: ' + new Date(activePlayerDetail.subscription.expiresAt).toLocaleString() : 'N/A';
+
+      // Scores
+      const allGames = window.wapDB.getGames();
+      const scoresContainer = document.getElementById('detailScoresList');
+      const pScores = activePlayerDetail.scores || {};
+
+      scoresContainer.innerHTML = allGames.map(g => {
+        const s = pScores[g.id] || 0;
+        return `
+          <div class="flex items-center justify-between text-xs py-1 border-b border-slate-900">
+            <span class="text-slate-300 font-medium">${g.title} (${g.category})</span>
+            <span class="font-mono font-bold text-amber-400">${s} pts</span>
+          </div>
+        `;
+      }).join('');
+
+      // Modal Ban button toggle
+      const banBtn = document.getElementById('modalBanBtn');
+      if (activePlayerDetail.banned) {
+        banBtn.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white';
+        banBtn.innerText = 'Unban Player';
+      } else {
+        banBtn.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white';
+        banBtn.innerText = 'Ban Player';
+      }
+
+      document.getElementById('playerDetailsModal').classList.remove('hidden');
+    }
+
+    function closeDetailsModal() {
+      document.getElementById('playerDetailsModal').classList.add('hidden');
+    }
+
+    function toggleBan(id) {
+      const player = window.wapDB.getPlayerById(id);
+      if (!player) return;
+
+      if (!player.banned) {
+        const reason = prompt(`Enter reason to BAN "${player.name}":`, 'Fair play policy violation / Cheat detection');
+        if (reason !== null) {
+          window.wapDB.toggleBanPlayer(id, reason);
+          alert(`Player "${player.name}" has been BANNED.`);
+          renderPlayersTable();
+        }
+      } else {
+        if (confirm(`Unban player "${player.name}"?`)) {
+          window.wapDB.toggleBanPlayer(id);
+          alert(`Player "${player.name}" has been UNBANNED.`);
+          renderPlayersTable();
+        }
+      }
+    }
+
+    function toggleBanFromModal() {
+      if (!activePlayerDetail) return;
+      toggleBan(activePlayerDetail.id);
+      closeDetailsModal();
+    }
+
+    function openDirectMessageModal(id, name) {
+      document.getElementById('msgRecipientId').value = id;
+      document.getElementById('msgRecipientName').innerText = name;
+      document.getElementById('msgContentInput').value = '';
+      document.getElementById('messageModal').classList.remove('hidden');
+    }
+
+    function openDirectMessageModalFromDetails() {
+      if (!activePlayerDetail) return;
+      closeDetailsModal();
+      openDirectMessageModal(activePlayerDetail.id, activePlayerDetail.name);
+    }
+
+    function closeMessageModal() {
+      document.getElementById('messageModal').classList.add('hidden');
+    }
+
+    function handleSendMessage(e) {
+      e.preventDefault();
+      const id = document.getElementById('msgRecipientId').value;
+      const text = document.getElementById('msgContentInput').value.trim();
+
+      const success = window.wapDB.sendMessageToPlayer(id, text);
+      if (success) {
+        alert('Message delivered successfully to player inbox!');
+        closeMessageModal();
+      } else {
+        alert('Failed to send message.');
+      }
+    }
+  </script>
+</body>
+</html>

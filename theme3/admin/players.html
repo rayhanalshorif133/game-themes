@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Management & Ban Control - Pixel HQ Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            arcadeBg: '#070913',
+            arcadeSurface: '#0e1322',
+            arcadeCyan: '#00f0ff',
+            arcadePink: '#ff007f',
+            arcadeYellow: '#ffe600',
+            arcadeGreen: '#00ff66',
+            arcadeBorder: '#1e2942'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme3.css">
+</head>
+<body class="bg-arcadeBg text-slate-100 min-h-screen flex selection:bg-arcadeCyan selection:text-black">
+
+  <!-- Desktop Left Sidebar -->
+  <aside class="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-64 bg-slate-950 border-r-2 border-arcadeCyan z-40">
+    <div class="p-5 border-b-2 border-slate-800 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-arcadeCyan text-slate-950 flex items-center justify-center font-arcade text-lg shadow-[2px_2px_0px_#0284c7]">
+          🕹️
+        </div>
+        <div>
+          <span class="font-arcade text-sm text-white tracking-wider flex items-center gap-1.5">
+            PIXEL HQ <span class="text-[9px] px-1 bg-arcadePink text-white">T3</span>
+          </span>
+          <span class="text-[10px] block text-arcadeGreen font-pixel tracking-wider -mt-0.5">ARCADE CONTROLLER</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto font-retro text-xs">
+      <div class="px-3 pb-1 text-[10px] font-bold text-slate-500 uppercase">CABINET CONTROLS</div>
+      
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:text-arcadeCyan hover:bg-slate-900 border border-transparent hover:border-slate-800 transition">
+        <i class="fa-solid fa-gauge-high w-4 text-center"></i>
+        <span>HQ Dashboard</span>
+      </a>
+
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:text-arcadeCyan hover:bg-slate-900 border border-transparent hover:border-slate-800 transition">
+        <i class="fa-solid fa-gamepad w-4 text-center text-arcadeCyan"></i>
+        <span>2D Games ROMs</span>
+      </a>
+
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:text-arcadeYellow hover:bg-slate-900 border border-transparent hover:border-slate-800 transition">
+        <i class="fa-solid fa-trophy w-4 text-center text-arcadeYellow"></i>
+        <span>Tournaments Setup</span>
+      </a>
+
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2.5 btn-arcade-cyan text-slate-950 font-bold transition">
+        <i class="fa-solid fa-users w-4 text-center"></i>
+        <span>Players & Ban Control</span>
+      </a>
+
+      <div class="pt-4 px-3 pb-1 text-[10px] font-bold text-slate-500 uppercase">COMMUNICATION & BILLING</div>
+
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:text-arcadePink hover:bg-slate-900 border border-transparent hover:border-slate-800 transition">
+        <i class="fa-solid fa-bullhorn w-4 text-center text-arcadePink"></i>
+        <span>Promo SMS Center</span>
+      </a>
+
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:text-pink-400 hover:bg-slate-900 border border-transparent hover:border-slate-800 transition">
+        <i class="fa-solid fa-credit-card w-4 text-pink-400"></i>
+        <span>bKash Pass Audit</span>
+      </a>
+
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:text-arcadeYellow hover:bg-slate-900 border border-transparent hover:border-slate-800 transition">
+        <i class="fa-solid fa-star w-4 text-center text-arcadeYellow"></i>
+        <span>Player Reviews</span>
+      </a>
+
+      <div class="pt-4 px-3 pb-1 text-[10px] font-bold text-slate-500 uppercase">THEME SWITCHING</div>
+      
+      <a href="../../Theme1/admin/players.html" class="flex items-center justify-between px-3 py-2 bg-indigo-950/60 hover:bg-indigo-900 text-indigo-300 border border-indigo-700/40 transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-palette text-indigo-400"></i> Theme 1 Players
+        </span>
+        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+      </a>
+
+      <a href="../../theme2/admin/players.html" class="flex items-center justify-between px-3 py-2 bg-red-950/60 hover:bg-red-900 text-amber-300 border border-red-700/40 transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-fire text-red-400"></i> Theme 2 Players
+        </span>
+        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+      </a>
+    </div>
+
+    <div class="p-4 border-t-2 border-slate-800 space-y-2 font-retro">
+      <a href="../index.html" target="_blank" class="w-full flex items-center justify-between px-3 py-2 bg-arcadeCyan text-slate-950 font-bold border border-cyan-400 text-xs shadow-[2px_2px_0px_#0284c7] transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Arcade Site
+        </span>
+        <i class="fa-solid fa-external-link text-[10px]"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div id="mobileSidebarOverlay" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm md:hidden"></div>
+
+  <!-- Mobile Drawer Sidebar -->
+  <div id="mobileSidebar" class="fixed top-0 bottom-0 left-0 w-64 bg-slate-950 border-r-2 border-arcadeCyan z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col font-retro">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-arcadeCyan text-slate-950 flex items-center justify-center font-arcade text-xs">
+          🕹️
+        </div>
+        <span class="font-arcade text-white text-xs">PIXEL HQ</span>
+      </div>
+      <button onclick="toggleMobileSidebar()" class="text-slate-400 hover:text-white p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+    <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto text-xs">
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white">
+        <i class="fa-solid fa-gauge-high w-4"></i> Dashboard
+      </a>
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white">
+        <i class="fa-solid fa-gamepad w-4 text-arcadeCyan"></i> Games ROMs
+      </a>
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white">
+        <i class="fa-solid fa-trophy w-4 text-arcadeYellow"></i> Tournaments
+      </a>
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2 btn-arcade-cyan text-slate-950 font-bold">
+        <i class="fa-solid fa-users w-4"></i> Players & Ban
+      </a>
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white">
+        <i class="fa-solid fa-bullhorn w-4 text-arcadePink"></i> Promo SMS
+      </a>
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white">
+        <i class="fa-solid fa-credit-card w-4 text-pink-400"></i> Subscriptions
+      </a>
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white">
+        <i class="fa-solid fa-star w-4 text-arcadeYellow"></i> Reviews
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="md:pl-64 flex-1 flex flex-col min-h-screen">
+    
+    <!-- Top Header Bar -->
+    <header class="sticky top-0 z-30 bg-arcadeBg/95 backdrop-blur-md border-b-2 border-arcadeCyan px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="md:hidden p-2 bg-slate-900 text-slate-300 border border-slate-700 text-xs">
+          <i class="fa-solid fa-bars text-sm"></i>
+        </button>
+        <h1 class="text-base sm:text-lg font-bold font-retro text-white">PLAYER ROSTER & BAN CONTROLLER</h1>
+      </div>
+
+      <div class="flex items-center gap-2 font-retro">
+        <span class="px-3 py-1 bg-slate-900 border border-slate-800 text-xs text-arcadeYellow" id="totalPlayersBadge">
+          0 Players Registered
+        </span>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
+      
+      <!-- Filter and Search Bar -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 font-retro">
+        <!-- Search Input -->
+        <div class="relative w-full sm:w-80">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+          <input type="text" id="playerSearchInput" oninput="handleSearch()" placeholder="Search by name or phone..."
+                 class="w-full pl-9 pr-4 py-2 bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-arcadeCyan font-sans">
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="flex items-center gap-1.5 w-full sm:w-auto">
+          <button onclick="setPlayerFilter('all')" class="p-filter active px-3 py-1.5 text-xs font-bold bg-arcadeCyan text-slate-950 border border-cyan-400">ALL</button>
+          <button onclick="setPlayerFilter('active')" class="p-filter px-3 py-1.5 text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800">ACTIVE</button>
+          <button onclick="setPlayerFilter('subscribed')" class="p-filter px-3 py-1.5 text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800">SUBSCRIBED</button>
+          <button onclick="setPlayerFilter('banned')" class="p-filter px-3 py-1.5 text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800">BANNED</button>
+        </div>
+      </div>
+
+      <!-- Players Table -->
+      <div class="arcade-card overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-950 text-slate-400 uppercase text-[10px] font-retro">
+              <tr>
+                <th class="py-3 px-4">Player Details</th>
+                <th class="py-3 px-4">Phone Number</th>
+                <th class="py-3 px-4">Coins</th>
+                <th class="py-3 px-4">Referral Code</th>
+                <th class="py-3 px-4">Subscription Pass</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="playersTbody" class="divide-y divide-slate-800 font-sans">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <footer class="p-4 text-center text-xs text-slate-500 font-sans border-t border-slate-900 mt-auto">
+      © 2026 PIXEL WAP 2D BD (Theme 3 Operator Terminal).
+    </footer>
+  </div>
+
+  <!-- Player Details & Scores Modal -->
+  <div id="playerDetailsModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-xl arcade-card p-6 border-2 border-arcadeCyan relative max-h-[90vh] overflow-y-auto font-retro">
+      <button onclick="closeDetailsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-id-card text-arcadeYellow"></i> PLAYER CAREER & SCORE BREAKDOWN
+      </h3>
+
+      <div class="space-y-4 font-sans text-xs">
+        <!-- Profile Header -->
+        <div class="p-4 bg-slate-950 border border-slate-800 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-slate-900 border-2 border-arcadeCyan flex items-center justify-center text-2xl" id="detailAvatar">
+              P
+            </div>
+            <div>
+              <h4 class="text-base font-bold text-white font-retro" id="detailName">Player Name</h4>
+              <p class="text-xs text-slate-400 font-mono" id="detailPhone">01700000000</p>
+            </div>
+          </div>
+          <div class="text-right font-retro">
+            <span class="px-2 py-0.5 text-[10px] font-bold" id="detailBanStatus">Active</span>
+            <div class="text-[10px] text-slate-400 mt-1 font-sans">Joined: <span id="detailJoined">2026-11-01</span></div>
+          </div>
+        </div>
+
+        <!-- Token & Referral Info -->
+        <div class="grid grid-cols-2 gap-3 font-retro">
+          <div class="p-3 bg-slate-950 border border-slate-800">
+            <div class="text-[10px] text-slate-400 uppercase">Coin Balance</div>
+            <div class="text-lg font-bold text-arcadeYellow mt-0.5">
+              🪙 <span id="detailTokens">50</span>
+            </div>
+          </div>
+          <div class="p-3 bg-slate-950 border border-slate-800">
+            <div class="text-[10px] text-slate-400 uppercase">Referrals</div>
+            <div class="text-sm font-bold text-arcadeCyan font-mono mt-0.5" id="detailRefCode">REF123</div>
+            <div class="text-[10px] text-arcadeGreen mt-1"><span id="detailRefCount">0</span> Players Invited</div>
+          </div>
+        </div>
+
+        <!-- Subscription Card -->
+        <div class="p-3.5 bg-slate-950 border border-slate-800">
+          <div class="flex items-center justify-between mb-1">
+            <div class="text-xs font-bold text-white font-retro">Active Pass Tier</div>
+            <span class="text-xs font-mono font-bold text-pink-400" id="detailSubsPlan">3 TK Daily Pass</span>
+          </div>
+          <div class="text-[11px] text-slate-400 font-mono" id="detailSubsExpiry">Expires: 2026-11-20</div>
+        </div>
+
+        <!-- 2D High Scores Breakdown -->
+        <div>
+          <h5 class="text-xs font-bold font-retro text-arcadeYellow uppercase mb-2">High Scores in 2D ROMs</h5>
+          <div class="p-3.5 bg-slate-950 border border-slate-800 space-y-2 max-h-48 overflow-y-auto" id="detailScoresList">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Direct Actions -->
+        <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-3 font-retro">
+          <button type="button" onclick="openDirectMessageModalFromDetails()" class="btn-arcade-pink px-4 py-2 text-xs font-bold flex items-center gap-1.5">
+            <i class="fa-solid fa-envelope"></i> Send Message
+          </button>
+          <div class="flex items-center gap-2">
+            <button type="button" id="modalBanBtn" onclick="toggleBanFromModal()" class="px-4 py-2 text-xs font-bold bg-red-600 hover:bg-red-500 text-white transition">
+              Ban Player
+            </button>
+            <button type="button" onclick="closeDetailsModal()" class="px-4 py-2 text-xs bg-slate-800 text-slate-300">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Direct Message Modal -->
+  <div id="messageModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-md arcade-card p-6 border-2 border-arcadePink relative font-retro">
+      <button onclick="closeMessageModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 class="text-sm font-bold text-white mb-2 flex items-center gap-2">
+        <i class="fa-solid fa-paper-plane text-arcadePink"></i> SEND DIRECT OPERATOR MESSAGE
+      </h3>
+      <p class="text-xs text-slate-400 mb-4 font-sans">Delivers immediately into the player's profile notifications inbox.</p>
+
+      <form onsubmit="handleSendMessage(event)" class="space-y-3.5 font-sans text-xs">
+        <input type="hidden" id="msgRecipientId">
+        
+        <div>
+          <label class="block text-xs font-bold font-retro text-slate-300 mb-1">Recipient</label>
+          <div class="p-2.5 bg-slate-950 border border-slate-800 text-xs font-bold text-arcadeCyan font-retro" id="msgRecipientName">
+            Player
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold font-retro text-slate-300 mb-1">Message Content</label>
+          <textarea id="msgContentInput" rows="4" required placeholder="Type alert or tournament invitation..."
+                    class="w-full px-3 py-2 bg-slate-950 border border-slate-800 text-xs text-white"></textarea>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2 font-retro">
+          <button type="button" onclick="closeMessageModal()" class="px-4 py-2 text-xs bg-slate-800 text-slate-300">
+            Cancel
+          </button>
+          <button type="submit" class="btn-arcade-pink px-5 py-2 text-xs font-bold text-white">
+            SEND MESSAGE
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Shared Unified Database -->
+  <script src="../../assets/js/db.js"></script>
+  <script>
+    let activePlayerFilter = 'all';
+    let searchQuery = '';
+    let activePlayerDetail = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderPlayersTable();
+    });
+
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('mobileSidebar');
+      const overlay = document.getElementById('mobileSidebarOverlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
+
+    function handleSearch() {
+      searchQuery = document.getElementById('playerSearchInput').value.toLowerCase().trim();
+      renderPlayersTable();
+    }
+
+    function setPlayerFilter(f) {
+      activePlayerFilter = f;
+      document.querySelectorAll('.p-filter').forEach(btn => {
+        btn.classList.remove('active', 'bg-arcadeCyan', 'text-slate-950', 'border-cyan-400');
+        btn.classList.add('bg-slate-900', 'text-slate-300', 'border-slate-800');
+      });
+      event.target.classList.add('active', 'bg-arcadeCyan', 'text-slate-950', 'border-cyan-400');
+      event.target.classList.remove('bg-slate-900', 'text-slate-300', 'border-slate-800');
+      renderPlayersTable();
+    }
+
+    function renderPlayersTable() {
+      const all = window.wapDB.getPlayers();
+      document.getElementById('totalPlayersBadge').innerText = `${all.length} Players Registered`;
+
+      let filtered = all;
+
+      if (activePlayerFilter === 'active') {
+        filtered = filtered.filter(p => !p.banned);
+      } else if (activePlayerFilter === 'banned') {
+        filtered = filtered.filter(p => p.banned);
+      } else if (activePlayerFilter === 'subscribed') {
+        filtered = filtered.filter(p => window.wapDB.hasActiveSubscription(p));
+      }
+
+      if (searchQuery) {
+        filtered = filtered.filter(p => 
+          (p.name && p.name.toLowerCase().includes(searchQuery)) ||
+          (p.phone && p.phone.includes(searchQuery))
+        );
+      }
+
+      const tbody = document.getElementById('playersTbody');
+
+      if (!filtered || filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400 text-xs font-sans">No players match the criteria.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(p => {
+        const hasSubs = window.wapDB.hasActiveSubscription(p);
+        return `
+          <tr class="hover:bg-slate-900/60 transition ${p.banned ? 'bg-red-950/20' : ''}">
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-slate-900 border border-slate-700 flex items-center justify-center text-white text-xs font-bold font-arcade">
+                  ${p.avatar || p.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <div class="font-bold text-white font-retro">${p.name}</div>
+                  <div class="text-[10px] text-slate-500 font-mono">ID: ${p.id.slice(0, 8)}</div>
+                </div>
+              </div>
+            </td>
+            <td class="py-3 px-4 font-mono text-slate-300">${p.phone}</td>
+            <td class="py-3 px-4 font-mono font-bold text-arcadeYellow font-retro">
+              🪙 ${p.tokens || 0}
+            </td>
+            <td class="py-3 px-4">
+              <span class="font-mono text-arcadeCyan text-[11px] font-bold">${p.referralCode || 'N/A'}</span>
+              <div class="text-[10px] text-slate-400">${p.referralCount || 0} Invited</div>
+            </td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 text-[10px] font-semibold font-retro ${hasSubs ? 'bg-emerald-500/20 text-arcadeGreen' : 'bg-red-500/20 text-red-400'}">
+                ${hasSubs ? p.subscription.planName : 'No Pass'}
+              </span>
+              ${hasSubs ? `<div class="text-[10px] text-slate-500 mt-0.5 font-mono">Until ${new Date(p.subscription.expiresAt).toLocaleDateString()}</div>` : ''}
+            </td>
+            <td class="py-3 px-4">
+              ${p.banned 
+                ? '<span class="px-2 py-0.5 text-[10px] font-bold bg-red-600 text-white font-retro">BANNED</span>' 
+                : '<span class="px-2 py-0.5 text-[10px] font-bold bg-emerald-500/10 text-arcadeGreen font-retro">Active</span>'}
+            </td>
+            <td class="py-3 px-4 text-right space-x-1 whitespace-nowrap font-retro">
+              <button onclick="viewPlayerDetails('${p.id}')" class="px-2.5 py-1 text-[11px] font-bold bg-slate-900 hover:bg-slate-800 text-arcadeCyan border border-slate-700" title="Scores & Details">
+                <i class="fa-solid fa-eye"></i> Details
+              </button>
+              <button onclick="openDirectMessageModal('${p.id}', '${p.name}')" class="px-2.5 py-1 text-[11px] font-bold bg-arcadePink/20 hover:bg-arcadePink/40 text-arcadePink border border-pink-500/30" title="Direct Message">
+                <i class="fa-solid fa-envelope"></i>
+              </button>
+              <button onclick="toggleBan('${p.id}')" class="px-2.5 py-1 text-[11px] font-bold ${p.banned ? 'bg-emerald-600/20 text-arcadeGreen border border-emerald-500/30' : 'bg-red-600/20 text-red-300 border border-red-500/30'}">
+                ${p.banned ? 'Unban' : 'Ban'}
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function viewPlayerDetails(id) {
+      activePlayerDetail = window.wapDB.getPlayerById(id);
+      if (!activePlayerDetail) return;
+
+      document.getElementById('detailAvatar').innerText = activePlayerDetail.avatar || activePlayerDetail.name.charAt(0).toUpperCase();
+      document.getElementById('detailName').innerText = activePlayerDetail.name;
+      document.getElementById('detailPhone').innerText = activePlayerDetail.phone;
+      document.getElementById('detailJoined').innerText = activePlayerDetail.joinedAt || 'N/A';
+      document.getElementById('detailTokens').innerText = activePlayerDetail.tokens || 0;
+      document.getElementById('detailRefCode').innerText = activePlayerDetail.referralCode || 'N/A';
+      document.getElementById('detailRefCount').innerText = activePlayerDetail.referralCount || 0;
+
+      const banStatusEl = document.getElementById('detailBanStatus');
+      if (activePlayerDetail.banned) {
+        banStatusEl.className = 'px-2 py-0.5 text-[10px] font-bold bg-red-600 text-white font-retro';
+        banStatusEl.innerText = `BANNED: ${activePlayerDetail.banReason || 'Suspended'}`;
+      } else {
+        banStatusEl.className = 'px-2 py-0.5 text-[10px] font-bold bg-emerald-500/20 text-arcadeGreen font-retro';
+        banStatusEl.innerText = 'Good Standing';
+      }
+
+      const hasSubs = window.wapDB.hasActiveSubscription(activePlayerDetail);
+      document.getElementById('detailSubsPlan').innerText = hasSubs ? activePlayerDetail.subscription.planName : 'No Active Pass';
+      document.getElementById('detailSubsExpiry').innerText = hasSubs ? 'Expires: ' + new Date(activePlayerDetail.subscription.expiresAt).toLocaleString() : 'N/A';
+
+      const allGames = window.wapDB.getGames();
+      const scoresContainer = document.getElementById('detailScoresList');
+      const pScores = activePlayerDetail.scores || {};
+
+      scoresContainer.innerHTML = allGames.map(g => {
+        const s = pScores[g.id] || 0;
+        return `
+          <div class="flex items-center justify-between text-xs py-1 border-b border-slate-900 font-retro">
+            <span class="text-slate-300">${g.title} (${g.category})</span>
+            <span class="font-mono font-bold text-arcadeYellow">${s} pts</span>
+          </div>
+        `;
+      }).join('');
+
+      const banBtn = document.getElementById('modalBanBtn');
+      if (activePlayerDetail.banned) {
+        banBtn.className = 'px-4 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white';
+        banBtn.innerText = 'Unban Player';
+      } else {
+        banBtn.className = 'px-4 py-2 text-xs font-bold bg-red-600 hover:bg-red-500 text-white';
+        banBtn.innerText = 'Ban Player';
+      }
+
+      document.getElementById('playerDetailsModal').classList.remove('hidden');
+    }
+
+    function closeDetailsModal() {
+      document.getElementById('playerDetailsModal').classList.add('hidden');
+    }
+
+    function toggleBan(id) {
+      const player = window.wapDB.getPlayerById(id);
+      if (!player) return;
+
+      if (!player.banned) {
+        const reason = prompt(`Enter reason to BAN "${player.name}":`, 'Fair play violation / Bot detected');
+        if (reason !== null) {
+          window.wapDB.toggleBanPlayer(id, reason);
+          alert(`Player "${player.name}" has been BANNED.`);
+          renderPlayersTable();
+        }
+      } else {
+        if (confirm(`Unban player "${player.name}"?`)) {
+          window.wapDB.toggleBanPlayer(id);
+          alert(`Player "${player.name}" has been UNBANNED.`);
+          renderPlayersTable();
+        }
+      }
+    }
+
+    function toggleBanFromModal() {
+      if (!activePlayerDetail) return;
+      toggleBan(activePlayerDetail.id);
+      closeDetailsModal();
+    }
+
+    function openDirectMessageModal(id, name) {
+      document.getElementById('msgRecipientId').value = id;
+      document.getElementById('msgRecipientName').innerText = name;
+      document.getElementById('msgContentInput').value = '';
+      document.getElementById('messageModal').classList.remove('hidden');
+    }
+
+    function openDirectMessageModalFromDetails() {
+      if (!activePlayerDetail) return;
+      closeDetailsModal();
+      openDirectMessageModal(activePlayerDetail.id, activePlayerDetail.name);
+    }
+
+    function closeMessageModal() {
+      document.getElementById('messageModal').classList.add('hidden');
+    }
+
+    function handleSendMessage(e) {
+      e.preventDefault();
+      const id = document.getElementById('msgRecipientId').value;
+      const text = document.getElementById('msgContentInput').value.trim();
+
+      const success = window.wapDB.sendMessageToPlayer(id, text);
+      if (success) {
+        alert('Message delivered successfully to player inbox!');
+        closeMessageModal();
+      } else {
+        alert('Failed to send message.');
+      }
+    }
+  </script>
+</body>
+</html>

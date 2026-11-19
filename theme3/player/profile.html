@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Career & Profile - Pixel WAP Theme 3</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            arcadeBg: '#070913',
+            arcadeSurface: '#0e1322',
+            arcadeCyan: '#00f0ff',
+            arcadePink: '#ff007f',
+            arcadeYellow: '#ffe600',
+            arcadeGreen: '#00ff66',
+            arcadeBorder: '#1e2942'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme3.css">
+</head>
+<body class="bg-arcadeBg text-slate-100 min-h-screen flex flex-col justify-between selection:bg-arcadeCyan selection:text-black">
+
+  <!-- Header -->
+  <header class="bg-arcadeBg/95 border-b-2 border-arcadeCyan px-4 py-3 sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="p-2 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs flex items-center gap-1.5 border border-slate-700 font-retro">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span>Lobby</span>
+        </a>
+        <h1 class="text-base sm:text-lg font-bold font-retro text-white">PLAYER CAREER PROFILE</h1>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a href="wallet.html" class="px-3 py-1.5 bg-slate-900 border-2 border-arcadeYellow text-arcadeYellow text-xs font-retro font-bold flex items-center gap-1.5">
+          <i class="fa-solid fa-coins"></i>
+          <span id="navTokens">0</span>
+        </a>
+        <button onclick="handleLogout()" class="p-2 bg-slate-900 hover:bg-red-950 text-slate-400 hover:text-red-400 border border-slate-800 text-xs" title="Logout">
+          <i class="fa-solid fa-power-off"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-4 py-6 w-full flex-1 space-y-6">
+    
+    <!-- Hero Profile Box -->
+    <div class="arcade-card p-6 sm:p-8 border-2 border-arcadeCyan shadow-[6px_6px_0px_rgba(0,240,255,0.4)]">
+      <div class="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 text-center sm:text-left">
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+          <div class="w-20 h-20 bg-slate-950 border-4 border-arcadeCyan text-4xl flex items-center justify-center shadow-[4px_4px_0px_#0284c7]" id="avatarDisplay">
+            👾
+          </div>
+          <div>
+            <div class="text-[10px] text-arcadeCyan font-bold font-retro uppercase">1P PLAYER ID</div>
+            <h2 class="text-2xl font-bold font-retro text-white" id="profileName">Player Name</h2>
+            <div class="text-xs text-slate-400 font-mono mt-0.5" id="profilePhone">01700000000</div>
+            <div class="text-[11px] text-slate-400 mt-1 font-sans">Joined: <span id="profileJoined" class="text-slate-300">2026-11-01</span></div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:items-end gap-2 font-retro">
+          <span class="px-3 py-1 text-xs font-bold bg-slate-950 border border-arcadeYellow text-arcadeYellow" id="profileSubsBadge">
+            3 TK Pass (Active)
+          </span>
+          <span class="text-xs text-slate-400 font-mono">Coins: <strong class="text-arcadeYellow font-retro" id="profileTokens">0</strong> 🪙</span>
+        </div>
+      </div>
+
+      <!-- Avatar Picker -->
+      <div class="mt-6 pt-4 border-t-2 border-slate-800">
+        <div class="text-xs font-bold font-retro text-slate-400 uppercase mb-2">CHOOSE RETRO AVATAR:</div>
+        <div class="flex flex-wrap items-center gap-2" id="avatarSelector">
+          <button type="button" onclick="selectAvatar('👾')" class="w-10 h-10 bg-slate-950 hover:bg-slate-900 border border-slate-700 text-lg flex items-center justify-center">👾</button>
+          <button type="button" onclick="selectAvatar('🕹️')" class="w-10 h-10 bg-slate-950 hover:bg-slate-900 border border-slate-700 text-lg flex items-center justify-center">🕹️</button>
+          <button type="button" onclick="selectAvatar('🤖')" class="w-10 h-10 bg-slate-950 hover:bg-slate-900 border border-slate-700 text-lg flex items-center justify-center">🤖</button>
+          <button type="button" onclick="selectAvatar('⚡')" class="w-10 h-10 bg-slate-950 hover:bg-slate-900 border border-slate-700 text-lg flex items-center justify-center">⚡</button>
+          <button type="button" onclick="selectAvatar('🚀')" class="w-10 h-10 bg-slate-950 hover:bg-slate-900 border border-slate-700 text-lg flex items-center justify-center">🚀</button>
+          <button type="button" onclick="selectAvatar('🐱‍💻')" class="w-10 h-10 bg-slate-950 hover:bg-slate-900 border border-slate-700 text-lg flex items-center justify-center">🐱‍💻</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2D High Scores & Inbox Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
+      <!-- High Scores Breakdown -->
+      <div class="arcade-card p-5">
+        <div class="flex items-center justify-between pb-3 border-b-2 border-slate-800 mb-4 font-retro">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-trophy text-arcadeYellow"></i> YOUR 2D HIGH SCORES
+          </h3>
+          <span class="text-xs text-arcadeCyan font-pixel">RECORDED</span>
+        </div>
+
+        <div class="space-y-2.5 font-retro text-xs" id="profileScoresContainer">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- Admin Direct Messages Inbox -->
+      <div class="arcade-card p-5">
+        <div class="flex items-center justify-between pb-3 border-b-2 border-slate-800 mb-4 font-retro">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-envelope text-arcadePink"></i> OPERATOR INBOX (MESSAGES)
+          </h3>
+          <span class="text-xs text-slate-400 font-pixel" id="inboxCountText">0 MESSAGES</span>
+        </div>
+
+        <div class="space-y-3 font-sans text-xs max-h-60 overflow-y-auto" id="profileInboxContainer">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Info & Password Form -->
+    <div class="arcade-card p-6 border-2 border-slate-800">
+      <h3 class="text-sm font-bold font-retro text-white mb-4">UPDATE PLAYER ACCOUNT & PASSWORD</h3>
+      
+      <form onsubmit="handleProfileUpdate(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs font-bold font-retro text-slate-300 mb-1">Gamer Name</label>
+          <input type="text" id="editNameInput" required
+                 class="w-full px-3 py-2 bg-slate-950 border border-slate-800 text-xs text-white">
+        </div>
+        <div>
+          <label class="block text-xs font-bold font-retro text-slate-300 mb-1">New Password (ঐচ্ছিক)</label>
+          <input type="password" id="editPassInput" placeholder="Leave blank to keep current"
+                 class="w-full px-3 py-2 bg-slate-950 border border-slate-800 text-xs text-white">
+        </div>
+        <div class="flex items-end">
+          <button type="submit" class="btn-arcade-cyan w-full py-2.5 text-xs font-bold">
+            SAVE CHANGES
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="p-4 text-center text-xs text-slate-500 font-sans border-t border-slate-900 mt-auto">
+    © 2026 PIXEL WAP 2D BD.
+  </footer>
+
+  <!-- Shared Unified Database -->
+  <script src="../../assets/js/db.js"></script>
+  <script>
+    let currentUser = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      currentUser = window.wapDB.getCurrentUser();
+      if (!currentUser) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      renderProfile();
+    });
+
+    function renderProfile() {
+      document.getElementById('navTokens').innerText = currentUser.tokens || 0;
+      document.getElementById('profileTokens').innerText = currentUser.tokens || 0;
+      document.getElementById('profileName').innerText = currentUser.name;
+      document.getElementById('profilePhone').innerText = currentUser.phone;
+      document.getElementById('profileJoined').innerText = currentUser.joinedAt || 'N/A';
+      document.getElementById('avatarDisplay').innerText = currentUser.avatar || '👾';
+      document.getElementById('editNameInput').value = currentUser.name;
+
+      // Subs badge
+      const hasSubs = window.wapDB.hasActiveSubscription(currentUser);
+      const subsBadge = document.getElementById('profileSubsBadge');
+      if (hasSubs) {
+        subsBadge.className = 'px-3 py-1 text-xs font-bold bg-emerald-500/20 text-arcadeGreen border border-emerald-500/40';
+        subsBadge.innerText = `● ${currentUser.subscription.planName} (Active)`;
+      } else {
+        subsBadge.className = 'px-3 py-1 text-xs font-bold bg-pink-500/20 text-arcadePink border border-pink-500/40';
+        subsBadge.innerText = `⚠️ No Active Pass`;
+      }
+
+      // High scores
+      const games = window.wapDB.getGames();
+      const scoresContainer = document.getElementById('profileScoresContainer');
+      const pScores = currentUser.scores || {};
+
+      scoresContainer.innerHTML = games.map(g => {
+        const s = pScores[g.id] || 0;
+        return `
+          <div class="p-3 bg-slate-950 border border-slate-800 flex items-center justify-between">
+            <span class="text-white">${g.title} (${g.category})</span>
+            <span class="font-mono font-bold text-arcadeYellow text-sm">${s} pts</span>
+          </div>
+        `;
+      }).join('');
+
+      // Inbox
+      const inboxContainer = document.getElementById('profileInboxContainer');
+      const msgs = currentUser.messages || [];
+      document.getElementById('inboxCountText').innerText = `${msgs.length} MESSAGES`;
+
+      if (msgs.length === 0) {
+        inboxContainer.innerHTML = `<div class="p-4 text-center text-slate-500 text-xs">No direct operator messages received.</div>`;
+      } else {
+        inboxContainer.innerHTML = msgs.map(m => {
+          return `
+            <div class="p-3 bg-slate-950 border border-arcadePink/30">
+              <div class="flex items-center justify-between mb-1 font-retro text-[10px] text-arcadePink">
+                <span>OPERATOR BROADCAST</span>
+                <span>${m.date}</span>
+              </div>
+              <p class="text-slate-200 text-xs">${m.text}</p>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function selectAvatar(emoji) {
+      if (!currentUser) return;
+      currentUser.avatar = emoji;
+      window.wapDB.updatePlayerProfile(currentUser.id, { avatar: emoji });
+      document.getElementById('avatarDisplay').innerText = emoji;
+      alert(`Avatar updated to ${emoji}!`);
+    }
+
+    function handleProfileUpdate(e) {
+      e.preventDefault();
+      const newName = document.getElementById('editNameInput').value.trim();
+      const newPass = document.getElementById('editPassInput').value.trim();
+
+      const updateData = { name: newName };
+      if (newPass) updateData.password = newPass;
+
+      window.wapDB.updatePlayerProfile(currentUser.id, updateData);
+      currentUser.name = newName;
+      document.getElementById('profileName').innerText = newName;
+      alert('Profile updated successfully!');
+    }
+
+    function handleLogout() {
+      if (confirm('Logout from Pixel Arcade session?')) {
+        window.wapDB.logout();
+        window.location.href = 'login.html';
+      }
+    }
+  </script>
+</body>
+</html>

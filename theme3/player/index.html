@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcade Lobby - Pixel WAP 2D Theme 3</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            arcadeBg: '#070913',
+            arcadeSurface: '#0e1322',
+            arcadeCyan: '#00f0ff',
+            arcadePink: '#ff007f',
+            arcadeYellow: '#ffe600',
+            arcadeGreen: '#00ff66',
+            arcadeBorder: '#1e2942'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme3.css">
+</head>
+<body class="bg-arcadeBg text-slate-100 min-h-screen flex flex-col justify-between selection:bg-arcadeCyan selection:text-black">
+
+  <!-- Header -->
+  <header class="bg-arcadeBg/95 border-b-2 border-arcadeCyan px-4 py-3 sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand & Player Name -->
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 bg-arcadeCyan text-slate-950 flex items-center justify-center text-lg font-arcade border border-cyan-300 shadow-[2px_2px_0px_#0284c7]">
+          🕹️
+        </div>
+        <div>
+          <span class="font-arcade text-xs sm:text-sm text-transparent bg-clip-text bg-gradient-to-r from-arcadeCyan to-arcadePink">PIXEL LOBBY</span>
+          <span class="text-[9px] block text-arcadeGreen font-pixel tracking-wider -mt-0.5">THEME 3 CABINET</span>
+        </div>
+      </a>
+
+      <!-- Right Player Nav -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Token Coins Badge -->
+        <a href="wallet.html" class="px-3 py-1.5 bg-slate-900 border-2 border-arcadeYellow text-arcadeYellow text-xs font-retro font-bold flex items-center gap-1.5 shadow-[2px_2px_0px_#a16207]">
+          <i class="fa-solid fa-coins"></i>
+          <span id="navUserTokens">0</span>
+        </a>
+
+        <!-- Subs Pass Badge -->
+        <a href="subscription.html" id="navSubsBadge" class="hidden sm:flex px-3 py-1.5 text-xs font-retro font-bold border">
+          <!-- Injected by JS -->
+        </a>
+
+        <!-- Profile Link -->
+        <a href="profile.html" class="p-2 bg-slate-900 hover:bg-slate-800 text-slate-200 border-2 border-slate-700 text-xs font-semibold" title="Profile">
+          <i class="fa-solid fa-user"></i>
+        </a>
+
+        <!-- Logout Button -->
+        <button onclick="handleLogout()" class="p-2 bg-slate-900 hover:bg-red-950 text-slate-400 hover:text-red-400 border border-slate-800 text-xs" title="Logout">
+          <i class="fa-solid fa-power-off"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-4 py-6 w-full flex-1 space-y-6">
+    
+    <!-- Player Banner / Subscription Alert -->
+    <div id="subsStatusCard" class="p-5 sm:p-6 bg-slate-950 border-2 border-slate-800 shadow-[4px_4px_0px_#020617] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-retro">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- 2D Games Catalog -->
+    <div>
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+        <div>
+          <h2 class="text-xl font-bold font-retro text-white flex items-center gap-2">
+            <span class="text-arcadeCyan">SELECT ROM:</span> 2D Games Roster
+          </h2>
+          <p class="text-xs text-slate-400 font-sans mt-0.5">ক্লিক করে সরাসরি 2D আর্কেড এরেনাতে প্রবেশ করুন।</p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1" id="lobbyCatContainer">
+          <button onclick="filterLobby('all')" class="l-cat active px-3 py-1 text-xs font-bold font-retro bg-arcadeCyan text-slate-950 border border-cyan-400">ALL</button>
+          <button onclick="filterLobby('Action')" class="l-cat px-3 py-1 text-xs font-bold font-retro bg-slate-900 text-slate-300 border border-slate-800">ACTION</button>
+          <button onclick="filterLobby('Arcade')" class="l-cat px-3 py-1 text-xs font-bold font-retro bg-slate-900 text-slate-300 border border-slate-800">ARCADE</button>
+          <button onclick="filterLobby('Classic')" class="l-cat px-3 py-1 text-xs font-bold font-retro bg-slate-900 text-slate-300 border border-slate-800">CLASSIC</button>
+          <button onclick="filterLobby('Multiplayer')" class="l-cat px-3 py-1 text-xs font-bold font-retro bg-slate-900 text-slate-300 border border-slate-800">2P MULTI</button>
+        </div>
+      </div>
+
+      <!-- Games Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" id="lobbyGamesGrid">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+
+    <!-- Active Tournaments Banner -->
+    <div class="pt-6 border-t-2 border-slate-800">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold font-retro text-white flex items-center gap-2">
+          <i class="fa-solid fa-trophy text-arcadeYellow"></i> LIVE TOURNAMENTS (1,500 TK CASH)
+        </h3>
+        <span class="text-xs text-arcadePink font-retro">Compete for Leaderboard #1</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="lobbyTournamentsList">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="p-4 text-center text-xs text-slate-500 font-sans border-t border-slate-900 mt-auto">
+    © 2026 PIXEL WAP 2D BD (Theme 3 Retro Arcade).
+  </footer>
+
+  <!-- Floating WhatsApp Quick Support Button -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <a href="https://wa.me/8801700000000?text=Hello%20Theme3%20Player%20Support" target="_blank" 
+       class="w-13 h-13 p-3.5 bg-arcadeCyan hover:bg-cyan-300 text-slate-950 flex items-center justify-center text-xl shadow-[4px_4px_0px_#0284c7] border-2 border-cyan-200 wa-arcade-pulse transition transform hover:scale-110"
+       title="Quick WhatsApp Help">
+      <i class="fa-brands fa-whatsapp text-2xl font-bold"></i>
+    </a>
+  </div>
+
+  <!-- Shared Unified Database -->
+  <script src="../../assets/js/db.js"></script>
+  <script>
+    let currentFilter = 'all';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      checkAuth();
+      renderUserData();
+      renderGames();
+      renderTournaments();
+    });
+
+    function checkAuth() {
+      const user = window.wapDB.getCurrentUser();
+      if (!user) {
+        window.location.href = 'login.html';
+      }
+    }
+
+    function renderUserData() {
+      const user = window.wapDB.getCurrentUser();
+      if (!user) return;
+
+      document.getElementById('navUserTokens').innerText = user.tokens || 0;
+
+      const hasSubs = window.wapDB.hasActiveSubscription(user);
+      const navSubsBadge = document.getElementById('navSubsBadge');
+      const subsStatusCard = document.getElementById('subsStatusCard');
+
+      if (hasSubs) {
+        navSubsBadge.className = 'hidden sm:flex px-3 py-1.5 text-xs font-retro font-bold bg-emerald-500/20 text-arcadeGreen border-emerald-500/40';
+        navSubsBadge.innerHTML = `● ${user.subscription.planName}`;
+
+        subsStatusCard.className = 'p-5 sm:p-6 bg-slate-950 border-2 border-arcadeGreen shadow-[4px_4px_0px_#059669] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-retro';
+        subsStatusCard.innerHTML = `
+          <div>
+            <div class="flex items-center gap-2 text-arcadeGreen font-bold text-xs uppercase">
+              <span class="w-2.5 h-2.5 rounded-full bg-arcadeGreen animate-ping"></span>
+              PASS ACTIVE (আনলকড)
+            </div>
+            <div class="text-xl sm:text-2xl font-extrabold text-white mt-1">
+              ${user.subscription.planName} - ALL 2D GAMES READY
+            </div>
+            <p class="text-xs text-slate-400 font-sans mt-1">
+              মেয়াদ উত্তীর্ণ হবে: <strong class="text-white">${new Date(user.subscription.expiresAt).toLocaleString()}</strong>
+            </p>
+          </div>
+          <a href="wallet.html" class="btn-arcade-dark px-4 py-2.5 text-xs font-bold text-arcadeYellow flex items-center gap-1.5">
+            <i class="fa-solid fa-coins"></i> COIN VAULT (${user.tokens || 0})
+          </a>
+        `;
+      } else {
+        navSubsBadge.className = 'hidden sm:flex px-3 py-1.5 text-xs font-retro font-bold bg-pink-500/20 text-arcadePink border-pink-500/40';
+        navSubsBadge.innerHTML = `⚠️ NO PASS`;
+
+        subsStatusCard.className = 'p-5 sm:p-6 bg-slate-950 border-2 border-arcadePink shadow-[4px_4px_0px_#9f1239] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-retro';
+        subsStatusCard.innerHTML = `
+          <div>
+            <div class="flex items-center gap-2 text-arcadePink font-bold text-xs uppercase">
+              ⚠️ ARENA PASS EXPIRED / NO ACTIVE PASS
+            </div>
+            <div class="text-xl sm:text-2xl font-extrabold text-white mt-1">
+              গেম খেলতে ৩ টাকার ১ দিন পাস অথবা ৫০ টোকেন এক্সচেঞ্জ করুন!
+            </div>
+            <p class="text-xs text-slate-400 font-sans mt-1">
+              আপনার ওয়ালেটে <strong>${user.tokens || 0} টোকেন কয়েন</strong> রয়েছে।
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <a href="subscription.html" class="btn-arcade-pink px-4 py-2.5 text-xs font-bold">
+              <i class="fa-solid fa-bolt"></i> GET 3 TK PASS
+            </a>
+            <a href="wallet.html" class="btn-arcade-yellow px-4 py-2.5 text-xs font-bold">
+              🪙 USE 50 COINS
+            </a>
+          </div>
+        `;
+      }
+    }
+
+    function filterLobby(cat) {
+      currentFilter = cat;
+      document.querySelectorAll('.l-cat').forEach(btn => {
+        btn.classList.remove('bg-arcadeCyan', 'text-slate-950', 'border-cyan-400');
+        btn.classList.add('bg-slate-900', 'text-slate-300', 'border-slate-800');
+      });
+      event.target.classList.add('bg-arcadeCyan', 'text-slate-950', 'border-cyan-400');
+      event.target.classList.remove('bg-slate-900', 'text-slate-300', 'border-slate-800');
+      renderGames();
+    }
+
+    function renderGames() {
+      const all = window.wapDB.getGames();
+      const filtered = currentFilter === 'all'
+        ? all
+        : currentFilter === 'Multiplayer'
+          ? all.filter(g => g.type === 'Multiplayer')
+          : all.filter(g => g.category.toLowerCase() === currentFilter.toLowerCase());
+
+      const grid = document.getElementById('lobbyGamesGrid');
+      grid.innerHTML = filtered.map(game => {
+        return `
+          <div class="arcade-card p-3 flex flex-col justify-between group">
+            <div class="relative h-44 overflow-hidden bg-slate-950 border border-slate-800">
+              <img src="${game.thumbnail}" alt="${game.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+              
+              <div class="absolute top-2 left-2 flex gap-1.5">
+                ${game.isNew ? '<span class="px-2 py-0.5 text-[9px] font-bold bg-arcadePink text-white font-retro">NEW</span>' : ''}
+                <span class="px-2 py-0.5 text-[9px] font-bold bg-slate-950/90 text-arcadeCyan border border-arcadeCyan/40 font-retro">
+                  ${game.type}
+                </span>
+              </div>
+            </div>
+
+            <div class="pt-3 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="text-[10px] text-arcadeCyan font-bold font-retro">${game.category}</div>
+                <h3 class="text-base font-bold font-retro text-white">${game.title}</h3>
+                <p class="text-slate-400 text-xs mt-1 line-clamp-2 font-sans">${game.description}</p>
+              </div>
+
+              <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between gap-2">
+                <a href="play.html?id=${game.id}" class="btn-arcade-cyan flex-1 text-center py-2 text-xs font-bold flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-play"></i> PLAY NOW
+                </a>
+                <a href="play.html?id=${game.id}&view=rules" class="px-3 py-2 text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700" title="Rules">
+                  <i class="fa-solid fa-circle-info"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTournaments() {
+      const tournaments = window.wapDB.getTournaments();
+      const container = document.getElementById('lobbyTournamentsList');
+      container.innerHTML = tournaments.map(t => {
+        return `
+          <div class="arcade-card p-4 flex items-center justify-between gap-3 font-retro">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 text-[9px] font-bold ${t.status === 'Active' ? 'bg-arcadePink text-white' : 'bg-slate-800 text-arcadeYellow'}">
+                  ● ${t.status}
+                </span>
+                <span class="text-xs font-bold text-white">${t.title}</span>
+              </div>
+              <div class="text-[11px] text-slate-400 mt-1 font-sans">
+                Game: <strong class="text-arcadeCyan font-retro">${t.gameTitle}</strong> • Prize: <strong class="text-arcadeYellow font-retro">${t.prizePool}</strong>
+              </div>
+            </div>
+            <a href="play.html?id=${t.gameId}&tournament=${t.id}" class="btn-arcade-yellow px-3 py-2 text-xs font-bold whitespace-nowrap">
+              ENTER LEAGUE
+            </a>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function handleLogout() {
+      if (confirm('Logout from Pixel Arcade session?')) {
+        window.wapDB.logout();
+        window.location.href = 'login.html';
+      }
+    }
+  </script>
+</body>
+</html>

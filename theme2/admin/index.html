@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Esports Admin HQ - WAP Games Command Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            esportsDark: '#0c0d12',
+            esportsCard: '#151720',
+            esportsRed: '#ef4444',
+            esportsGold: '#f59e0b',
+            esportsBorder: '#262a3b',
+            bkash: '#e2136e'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme2.css">
+</head>
+<body class="bg-esportsDark text-slate-100 min-h-screen flex selection:bg-red-500 selection:text-white">
+
+  <!-- Desktop Left Sidebar -->
+  <aside class="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-64 bg-slate-950 border-r border-esportsBorder z-40">
+    <!-- Brand -->
+    <div class="p-5 border-b border-esportsBorder flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-600 to-amber-500 flex items-center justify-center text-white text-lg shadow-lg shadow-red-600/30">
+          <i class="fa-solid fa-fire"></i>
+        </div>
+        <div>
+          <span class="font-esports font-extrabold text-lg text-white tracking-wider flex items-center gap-1.5">
+            WAP ARENA <span class="text-[9px] px-1.5 py-0.2 rounded bg-red-600 text-white font-mono">T2</span>
+          </span>
+          <span class="text-[10px] block text-amber-400 font-mono -mt-1 font-bold">ESPORTS COMMAND</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <div class="px-3 pb-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider font-esports">Arena Management</div>
+      
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold btn-fire text-white shadow-lg shadow-red-600/30 transition">
+        <i class="fa-solid fa-gauge-high w-4 text-center"></i>
+        <span>Arena Dashboard</span>
+      </a>
+
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-amber-400 transition">
+        <i class="fa-solid fa-gamepad w-4 text-center text-red-400"></i>
+        <span>2D Games Catalog</span>
+      </a>
+
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-amber-400 transition">
+        <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
+        <span>Tournaments Setup</span>
+      </a>
+
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-amber-400 transition">
+        <i class="fa-solid fa-users w-4 text-center text-emerald-400"></i>
+        <span>Players & Ban Control</span>
+      </a>
+
+      <div class="pt-4 px-3 pb-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider font-esports">Monetization & Comms</div>
+
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-amber-400 transition">
+        <i class="fa-solid fa-bullhorn w-4 text-center text-red-400"></i>
+        <span>Promo SMS Center</span>
+      </a>
+
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-amber-400 transition">
+        <i class="fa-solid fa-credit-card w-4 text-center text-pink-400"></i>
+        <span>bKash Subscriptions</span>
+      </a>
+
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-amber-400 transition">
+        <i class="fa-solid fa-star w-4 text-center text-amber-400"></i>
+        <span>Player Reviews</span>
+      </a>
+
+      <div class="pt-4 px-3 pb-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider font-esports">Theme Switching</div>
+      
+      <a href="../../Theme1/admin/index.html" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold bg-indigo-950/60 hover:bg-indigo-900 text-indigo-300 border border-indigo-700/40 transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-palette text-indigo-400"></i>
+          <span>Theme 1 Admin</span>
+        </span>
+        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+      </a>
+    </div>
+
+    <!-- Sidebar Bottom Actions -->
+    <div class="p-4 border-t border-esportsBorder space-y-2">
+      <button onclick="openSettingsModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-slate-300 transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-gear text-amber-400"></i> Arena Settings
+        </span>
+        <i class="fa-solid fa-angle-right text-[10px] text-slate-400"></i>
+      </button>
+      <a href="../index.html" target="_blank" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold bg-red-950/60 text-red-300 hover:bg-red-900/60 border border-red-500/30 transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Esports Arena
+        </span>
+        <i class="fa-solid fa-external-link text-[10px]"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div id="mobileSidebarOverlay" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm md:hidden"></div>
+
+  <!-- Mobile Drawer Sidebar -->
+  <div id="mobileSidebar" class="fixed top-0 bottom-0 left-0 w-64 bg-slate-950 border-r border-esportsBorder z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col">
+    <div class="p-4 border-b border-esportsBorder flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white">
+          <i class="fa-solid fa-fire"></i>
+        </div>
+        <span class="font-esports font-bold text-white tracking-wider">WAP ARENA HQ</span>
+      </div>
+      <button onclick="toggleMobileSidebar()" class="text-slate-400 hover:text-white p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+    <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold btn-fire text-white">
+        <i class="fa-solid fa-gauge-high w-4"></i> Dashboard
+      </a>
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-gamepad w-4 text-red-400"></i> Games Manage
+      </a>
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-trophy w-4 text-amber-400"></i> Tournaments
+      </a>
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-users w-4 text-emerald-400"></i> Players & Ban
+      </a>
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-bullhorn w-4 text-red-400"></i> Promo SMS
+      </a>
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-credit-card w-4 text-pink-400"></i> Subscriptions
+      </a>
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-star w-4 text-amber-400"></i> Reviews
+      </a>
+      <div class="pt-4 border-t border-slate-800">
+        <a href="../../Theme1/admin/index.html" class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold bg-indigo-950 text-indigo-300">
+          <i class="fa-solid fa-palette"></i> Switch to Theme 1 Admin
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="md:pl-64 flex-1 flex flex-col min-h-screen">
+    
+    <!-- Top Header Bar -->
+    <header class="sticky top-0 z-30 bg-esportsDark/95 backdrop-blur-md border-b border-esportsBorder px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="md:hidden p-2 rounded-xl bg-slate-900 text-slate-300 border border-esportsBorder text-xs">
+          <i class="fa-solid fa-bars text-sm"></i>
+        </button>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-esports bg-amber-500 text-slate-950">THEME 2</span>
+            <h1 class="text-base sm:text-lg font-bold font-esports text-white">ESPORTS COMMAND CENTER</h1>
+          </div>
+          <p class="text-[11px] text-slate-400 hidden sm:block">Full control of 2D games, tournament brackets, bKash audits & players.</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button onclick="openSettingsModal()" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-esportsBorder text-xs sm:px-3 sm:py-1.5 flex items-center gap-1.5" title="Settings">
+          <i class="fa-solid fa-gear text-amber-400"></i>
+          <span class="hidden sm:inline text-xs font-medium">Settings</span>
+        </button>
+
+        <div class="flex items-center gap-2 pl-2 border-l border-esportsBorder">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-red-600 to-amber-500 flex items-center justify-center text-xs font-bold text-white shadow">
+            AD
+          </div>
+          <div class="hidden sm:block text-left">
+            <div class="text-xs font-bold font-esports text-white">Super Admin</div>
+            <div class="text-[10px] text-emerald-400 font-mono">● Online</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
+      
+      <!-- Top Alert / Live Stats Ticker -->
+      <div class="p-3.5 rounded-2xl bg-gradient-to-r from-red-950/70 via-slate-900 to-amber-950/60 border border-red-500/30 flex flex-wrap items-center justify-between gap-3 shadow-lg">
+        <div class="flex items-center gap-2.5">
+          <span class="w-3 h-3 rounded-full bg-red-500 animate-ping"></span>
+          <span class="text-xs font-bold font-esports uppercase text-amber-400">Live Status:</span>
+          <span class="text-xs text-slate-200">System operating at 100% capacity. bKash payment gateway ready.</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="games.html" class="px-3 py-1 rounded-lg text-xs font-bold btn-fire flex items-center gap-1">
+            <i class="fa-solid fa-plus"></i> Upload Game
+          </a>
+          <a href="tournaments.html" class="px-3 py-1 rounded-lg text-xs font-bold btn-gold flex items-center gap-1">
+            <i class="fa-solid fa-trophy"></i> Create Tournament
+          </a>
+        </div>
+      </div>
+
+      <!-- KPI Metrics Grid -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Total Players -->
+        <div class="esports-card p-5 rounded-2xl border border-esportsBorder flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold font-esports text-slate-400 uppercase tracking-wider">Total Players</div>
+            <div class="text-2xl sm:text-3xl font-extrabold font-esports text-white mt-1" id="kpiTotalPlayers">0</div>
+            <div class="text-[10px] text-emerald-400 mt-1 flex items-center gap-1">
+              <i class="fa-solid fa-arrow-trend-up"></i> +50 Free Tokens on Signup
+            </div>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-red-600/15 border border-red-500/30 flex items-center justify-center text-red-500 text-xl">
+            <i class="fa-solid fa-users"></i>
+          </div>
+        </div>
+
+        <!-- Active Paid Subscriptions -->
+        <div class="esports-card p-5 rounded-2xl border border-esportsBorder flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold font-esports text-slate-400 uppercase tracking-wider">Active Subscribers</div>
+            <div class="text-2xl sm:text-3xl font-extrabold font-esports text-amber-400 mt-1" id="kpiActiveSubs">0</div>
+            <div class="text-[10px] text-amber-300/80 mt-1">3 TK, 5 TK, 10 TK Passes</div>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl">
+            <i class="fa-solid fa-crown"></i>
+          </div>
+        </div>
+
+        <!-- Total Revenue -->
+        <div class="esports-card p-5 rounded-2xl border border-esportsBorder flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold font-esports text-slate-400 uppercase tracking-wider">Total Revenue</div>
+            <div class="text-2xl sm:text-3xl font-extrabold font-esports text-emerald-400 mt-1" id="kpiTotalRevenue">0 TK</div>
+            <div class="text-[10px] text-slate-400 mt-1 flex items-center gap-1">
+              <span class="text-pink-400 font-bold">bKash</span> / Nagad Online
+            </div>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl">
+            <i class="fa-solid fa-sack-dollar"></i>
+          </div>
+        </div>
+
+        <!-- Active Tournaments -->
+        <div class="esports-card p-5 rounded-2xl border border-esportsBorder flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold font-esports text-slate-400 uppercase tracking-wider">Tournaments</div>
+            <div class="text-2xl sm:text-3xl font-extrabold font-esports text-white mt-1" id="kpiTournaments">0</div>
+            <div class="text-[10px] text-red-400 mt-1 flex items-center gap-1">
+              <i class="fa-solid fa-bolt"></i> Single & Multiplayer
+            </div>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-red-600/15 border border-red-500/30 flex items-center justify-center text-red-500 text-xl">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Center & Tournaments Highlight -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Live Tournaments Overview (2 Cols) -->
+        <div class="lg:col-span-2 esports-card rounded-2xl p-5 border border-esportsBorder flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-esportsBorder">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-fire text-amber-400"></i>
+                <h3 class="font-bold font-esports text-sm text-white">Live Tournaments Arena</h3>
+              </div>
+              <a href="tournaments.html" class="text-xs text-amber-400 hover:underline font-bold">Manage All →</a>
+            </div>
+
+            <div class="space-y-3" id="dashTournamentsList">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-esportsBorder flex items-center justify-between text-xs text-slate-400 font-mono">
+            <span>Instant Prize Distribution via bKash</span>
+            <span class="text-amber-400 font-bold">2D High Score Mode</span>
+          </div>
+        </div>
+
+        <!-- Quick Admin Commands (1 Col) -->
+        <div class="esports-card rounded-2xl p-5 border border-esportsBorder space-y-4">
+          <div class="flex items-center gap-2 pb-3 border-b border-esportsBorder">
+            <i class="fa-solid fa-bolt text-red-400"></i>
+            <h3 class="font-bold font-esports text-sm text-white">Quick Control Hub</h3>
+          </div>
+
+          <div class="space-y-2.5">
+            <a href="games.html" class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-red-500/50 transition">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-red-600/20 text-red-400 flex items-center justify-center text-sm">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-white font-esports">Upload 2D Game</div>
+                  <div class="text-[10px] text-slate-400">Add new game or edit rules</div>
+                </div>
+              </div>
+              <i class="fa-solid fa-angle-right text-slate-400 text-xs"></i>
+            </a>
+
+            <a href="players.html" class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-amber-500/50 transition">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm">
+                  <i class="fa-solid fa-user-slash"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-white font-esports">Player Ban & Message</div>
+                  <div class="text-[10px] text-slate-400">Suspend cheat or message</div>
+                </div>
+              </div>
+              <i class="fa-solid fa-angle-right text-slate-400 text-xs"></i>
+            </a>
+
+            <a href="sms.html" class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-red-500/50 transition">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-red-600/20 text-red-400 flex items-center justify-center text-sm">
+                  <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-white font-esports">Promo SMS Broadcaster</div>
+                  <div class="text-[10px] text-slate-400">Send bulk offers to players</div>
+                </div>
+              </div>
+              <i class="fa-solid fa-angle-right text-slate-400 text-xs"></i>
+            </a>
+
+            <button onclick="openSettingsModal()" class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-amber-500/50 transition text-left">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm">
+                  <i class="fa-solid fa-sliders"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-white font-esports">Payment & Numbers</div>
+                  <div class="text-[10px] text-slate-400">Configure bKash & WhatsApp</div>
+                </div>
+              </div>
+              <i class="fa-solid fa-angle-right text-slate-400 text-xs"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Subscriptions & Payment Transactions -->
+      <div class="esports-card rounded-2xl border border-esportsBorder overflow-hidden shadow-xl">
+        <div class="p-4 border-b border-esportsBorder flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-receipt text-pink-400"></i>
+            <h3 class="font-bold font-esports text-sm text-white">Recent Subscription & Pass Payments</h3>
+          </div>
+          <a href="subscriptions.html" class="text-xs text-amber-400 hover:underline font-bold">View All Audits →</a>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-950/80 text-slate-400 uppercase text-[10px] font-esports tracking-wider">
+              <tr>
+                <th class="py-3 px-4">Player</th>
+                <th class="py-3 px-4">Plan / Pass</th>
+                <th class="py-3 px-4">Method</th>
+                <th class="py-3 px-4">TrxID / Token</th>
+                <th class="py-3 px-4">Amount</th>
+                <th class="py-3 px-4">Date</th>
+                <th class="py-3 px-4">Status</th>
+              </tr>
+            </thead>
+            <tbody id="dashTxTbody" class="divide-y divide-esportsBorder">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-4 text-center text-xs text-slate-400 border-t border-esportsBorder mt-auto">
+      © 2026 WAP Games 2D (Theme 2 Esports Arena Edition). All rights reserved.
+    </footer>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-lg esports-card rounded-2xl p-6 border border-esportsBorder shadow-2xl relative">
+      <button onclick="closeSettingsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 class="text-lg font-bold font-esports text-white mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-sliders text-amber-400"></i> Arena Settings & Numbers
+      </h3>
+
+      <form onsubmit="savePortalSettings(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp Quick Support Number</label>
+          <input type="text" id="settingWhatsapp" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white" placeholder="8801700000000">
+          <p class="text-[10px] text-slate-400 mt-1">Used for floating WhatsApp button in both Theme 1 & 2.</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">bKash Merchant Number</label>
+            <input type="text" id="settingBkash" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white" placeholder="01700000000">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Nagad Merchant Number</label>
+            <input type="text" id="settingNagad" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white" placeholder="01800000000">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Signup Bonus Tokens</label>
+            <input type="number" id="settingSignupBonus" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white" value="50">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Referral Reward Tokens</label>
+            <input type="number" id="settingRefBonus" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white" value="25">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Banner Announcement Text</label>
+          <input type="text" id="settingNotice" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white" placeholder="⚡ Live 2D Esports Tournaments!">
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeSettingsModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">
+            Cancel
+          </button>
+          <button type="submit" class="btn-fire px-5 py-2 rounded-xl text-xs font-bold text-white shadow-lg shadow-red-600/30">
+            Save Settings
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating WhatsApp Quick Support Button -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <a href="https://wa.me/8801700000000?text=Admin%20Esports%20Support" target="_blank" 
+       class="w-12 h-12 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center justify-center text-xl shadow-xl wa-gold-pulse"
+       title="Quick WhatsApp Support">
+      <i class="fa-brands fa-whatsapp text-2xl"></i>
+    </a>
+  </div>
+
+  <!-- Shared Database -->
+  <script src="../../assets/js/db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadDashboardKPIs();
+      loadTournamentsPreview();
+      loadRecentTransactions();
+    });
+
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('mobileSidebar');
+      const overlay = document.getElementById('mobileSidebarOverlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
+
+    function loadDashboardKPIs() {
+      const players = window.wapDB.getPlayers();
+      const games = window.wapDB.getGames();
+      const tournaments = window.wapDB.getTournaments();
+      const transactions = window.wapDB.getSubscriptionHistory();
+
+      // Total players
+      document.getElementById('kpiTotalPlayers').innerText = players.length;
+
+      // Active subs
+      const activeSubs = players.filter(p => window.wapDB.hasActiveSubscription(p));
+      document.getElementById('kpiActiveSubs').innerText = activeSubs.length;
+
+      // Calculate total cash revenue
+      let totalRevenue = 0;
+      transactions.forEach(t => {
+        if (t.amount && t.amount.includes('TK')) {
+          const num = parseInt(t.amount.replace('TK', '').trim()) || 0;
+          totalRevenue += num;
+        }
+      });
+      document.getElementById('kpiTotalRevenue').innerText = `${totalRevenue} TK`;
+
+      // Tournaments
+      document.getElementById('kpiTournaments').innerText = tournaments.length;
+    }
+
+    function loadTournamentsPreview() {
+      const list = window.wapDB.getTournaments();
+      const container = document.getElementById('dashTournamentsList');
+      
+      if (!list || list.length === 0) {
+        container.innerHTML = `<div class="text-xs text-slate-400 py-4 text-center">No active tournaments found.</div>`;
+        return;
+      }
+
+      container.innerHTML = list.slice(0, 3).map(t => {
+        return `
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold font-esports ${t.status === 'Active' ? 'bg-red-600 text-white' : 'bg-slate-800 text-amber-400'}">
+                  ● ${t.status}
+                </span>
+                <span class="text-xs font-bold text-white font-esports">${t.title}</span>
+              </div>
+              <div class="text-[11px] text-slate-400 mt-1 flex items-center gap-3">
+                <span>Game: <strong class="text-amber-400">${t.gameTitle}</strong></span>
+                <span>Participants: <strong>${t.participantsCount}</strong></span>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs font-bold font-esports text-amber-400">${t.prizePool}</div>
+              <div class="text-[10px] text-slate-400">Entry: ${t.entryFee} ${t.entryFeeType === 'token' ? 'Tokens' : 'TK'}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function loadRecentTransactions() {
+      const history = window.wapDB.getSubscriptionHistory();
+      const tbody = document.getElementById('dashTxTbody');
+
+      if (!history || history.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-4 text-center text-slate-400">No transactions recorded yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = history.slice(0, 5).map(tx => {
+        return `
+          <tr class="hover:bg-slate-900/60 transition">
+            <td class="py-3 px-4 font-medium text-white flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-red-600/20 text-red-400 flex items-center justify-center text-[10px] font-bold">
+                ${tx.playerName.charAt(0)}
+              </span>
+              <span>${tx.playerName}</span>
+            </td>
+            <td class="py-3 px-4 text-slate-300 font-esports font-bold">${tx.planName}</td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${tx.method === 'bKash' ? 'bg-pink-600/20 text-pink-400' : tx.method === 'Nagad' ? 'bg-amber-600/20 text-amber-400' : 'bg-amber-500/20 text-amber-300'}">
+                ${tx.method}
+              </span>
+            </td>
+            <td class="py-3 px-4 font-mono text-slate-400 text-[11px]">${tx.trxId || 'N/A'}</td>
+            <td class="py-3 px-4 font-bold text-amber-400 font-mono">${tx.amount}</td>
+            <td class="py-3 px-4 text-slate-400 text-[11px]">${tx.date}</td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400">
+                ${tx.status}
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function openSettingsModal() {
+      const s = window.wapDB.getSettings();
+      document.getElementById('settingWhatsapp').value = s.whatsappNumber || '';
+      document.getElementById('settingBkash').value = s.bkashNumber || '';
+      document.getElementById('settingNagad').value = s.nagadNumber || '';
+      document.getElementById('settingSignupBonus').value = s.signupBonusTokens || 50;
+      document.getElementById('settingRefBonus').value = s.referralBonusTokens || 25;
+      document.getElementById('settingNotice').value = s.bannerNotice || '';
+      document.getElementById('settingsModal').classList.remove('hidden');
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.add('hidden');
+    }
+
+    function savePortalSettings(e) {
+      e.preventDefault();
+      const updated = {
+        whatsappNumber: document.getElementById('settingWhatsapp').value.trim(),
+        bkashNumber: document.getElementById('settingBkash').value.trim(),
+        nagadNumber: document.getElementById('settingNagad').value.trim(),
+        signupBonusTokens: parseInt(document.getElementById('settingSignupBonus').value) || 50,
+        referralBonusTokens: parseInt(document.getElementById('settingRefBonus').value) || 25,
+        bannerNotice: document.getElementById('settingNotice').value.trim()
+      };
+      window.wapDB.saveSettings(updated);
+      alert('Arena settings saved successfully!');
+      closeSettingsModal();
+    }
+  </script>
+</body>
+</html>

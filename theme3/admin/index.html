@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcade Operator HQ - Pixel WAP Admin (Theme 3)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            arcadeBg: '#070913',
+            arcadeSurface: '#0e1322',
+            arcadeCyan: '#00f0ff',
+            arcadePink: '#ff007f',
+            arcadeYellow: '#ffe600',
+            arcadeGreen: '#00ff66',
+            arcadeBorder: '#1e2942',
+            bkash: '#e2136e'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme3.css">
+</head>
+<body class="bg-arcadeBg text-slate-100 min-h-screen flex selection:bg-arcadeCyan selection:text-black">
+
+  <!-- Desktop Left Sidebar -->
+  <aside class="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-64 bg-slate-950 border-r-2 border-arcadeCyan z-40">
+    <!-- Brand -->
+    <div class="p-5 border-b-2 border-slate-800 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-arcadeCyan text-slate-950 flex items-center justify-center font-arcade text-lg shadow-[2px_2px_0px_#0284c7]">
+          🕹️
+        </div>
+        <div>
+          <span class="font-arcade text-sm text-white tracking-wider flex items-center gap-1.5">
+            PIXEL HQ <span class="text-[9px] px-1 bg-arcadePink text-white">T3</span>
+          </span>
+          <span class="text-[10px] block text-arcadeGreen font-pixel tracking-wider -mt-0.5">ARCADE CONTROLLER</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto font-retro text-xs">
+      <div class="px-3 pb-1 text-[10px] font-bold text-slate-500 uppercase">CABINET CONTROLS</div>
+      
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 btn-arcade-cyan text-slate-950 font-bold transition">
+        <i class="fa-solid fa-gauge-high w-4 text-center"></i>
+        <span>HQ Dashboard</span>
+      </a>
+
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:text-arcadeCyan hover:bg-slate-900 border border-transparent hover:border-slate-800 transition">
+        <i class="fa-solid fa-gamepad w-4 text-center text-arcadeCyan"></i>
+        <span>2D Games ROMs</span>
+      </a>
+
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:text-arcadeYellow hover:bg-slate-900 border border-transparent hover:border-slate-800 transition">
+        <i class="fa-solid fa-trophy w-4 text-center text-arcadeYellow"></i>
+        <span>Tournaments Setup</span>
+      </a>
+
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:text-arcadeGreen hover:bg-slate-900 border border-transparent hover:border-slate-800 transition">
+        <i class="fa-solid fa-users w-4 text-center text-arcadeGreen"></i>
+        <span>Players & Ban Control</span>
+      </a>
+
+      <div class="pt-4 px-3 pb-1 text-[10px] font-bold text-slate-500 uppercase">COMMUNICATION & BILLING</div>
+
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:text-arcadePink hover:bg-slate-900 border border-transparent hover:border-slate-800 transition">
+        <i class="fa-solid fa-bullhorn w-4 text-center text-arcadePink"></i>
+        <span>Promo SMS Center</span>
+      </a>
+
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:text-pink-400 hover:bg-slate-900 border border-transparent hover:border-slate-800 transition">
+        <i class="fa-solid fa-credit-card w-4 text-center text-pink-400"></i>
+        <span>bKash Pass Audit</span>
+      </a>
+
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:text-arcadeYellow hover:bg-slate-900 border border-transparent hover:border-slate-800 transition">
+        <i class="fa-solid fa-star w-4 text-center text-arcadeYellow"></i>
+        <span>Player Reviews</span>
+      </a>
+
+      <div class="pt-4 px-3 pb-1 text-[10px] font-bold text-slate-500 uppercase">THEME SWITCHING</div>
+      
+      <a href="../../Theme1/admin/index.html" class="flex items-center justify-between px-3 py-2 bg-indigo-950/60 hover:bg-indigo-900 text-indigo-300 border border-indigo-700/40 transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-palette text-indigo-400"></i> Theme 1 Admin
+        </span>
+        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+      </a>
+
+      <a href="../../theme2/admin/index.html" class="flex items-center justify-between px-3 py-2 bg-red-950/60 hover:bg-red-900 text-amber-300 border border-red-700/40 transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-fire text-red-400"></i> Theme 2 Admin
+        </span>
+        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+      </a>
+    </div>
+
+    <!-- Sidebar Bottom Actions -->
+    <div class="p-4 border-t-2 border-slate-800 space-y-2 font-retro">
+      <button onclick="openSettingsModal()" class="w-full flex items-center justify-between px-3 py-2 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 text-xs transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-sliders text-arcadeYellow"></i> Operator Settings
+        </span>
+        <i class="fa-solid fa-angle-right text-[10px]"></i>
+      </button>
+      <a href="../index.html" target="_blank" class="w-full flex items-center justify-between px-3 py-2 bg-arcadeCyan text-slate-950 font-bold border border-cyan-400 text-xs shadow-[2px_2px_0px_#0284c7] transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Arcade Site
+        </span>
+        <i class="fa-solid fa-external-link text-[10px]"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div id="mobileSidebarOverlay" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm md:hidden"></div>
+
+  <!-- Mobile Drawer Sidebar -->
+  <div id="mobileSidebar" class="fixed top-0 bottom-0 left-0 w-64 bg-slate-950 border-r-2 border-arcadeCyan z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col font-retro">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-arcadeCyan text-slate-950 flex items-center justify-center font-arcade text-xs">
+          🕹️
+        </div>
+        <span class="font-arcade text-white text-xs">PIXEL HQ</span>
+      </div>
+      <button onclick="toggleMobileSidebar()" class="text-slate-400 hover:text-white p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+    <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto text-xs">
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2 btn-arcade-cyan text-slate-950 font-bold">
+        <i class="fa-solid fa-gauge-high w-4"></i> Dashboard
+      </a>
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white">
+        <i class="fa-solid fa-gamepad w-4 text-arcadeCyan"></i> Games ROMs
+      </a>
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white">
+        <i class="fa-solid fa-trophy w-4 text-arcadeYellow"></i> Tournaments
+      </a>
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white">
+        <i class="fa-solid fa-users w-4 text-arcadeGreen"></i> Players & Ban
+      </a>
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white">
+        <i class="fa-solid fa-bullhorn w-4 text-arcadePink"></i> Promo SMS
+      </a>
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white">
+        <i class="fa-solid fa-credit-card w-4 text-pink-400"></i> Subscriptions
+      </a>
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white">
+        <i class="fa-solid fa-star w-4 text-arcadeYellow"></i> Reviews
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="md:pl-64 flex-1 flex flex-col min-h-screen">
+    
+    <!-- Top Header Bar -->
+    <header class="sticky top-0 z-30 bg-arcadeBg/95 backdrop-blur-md border-b-2 border-arcadeCyan px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="md:hidden p-2 bg-slate-900 text-slate-300 border border-slate-700 text-xs">
+          <i class="fa-solid fa-bars text-sm"></i>
+        </button>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 bg-arcadePink text-white font-retro text-[10px] font-bold">THEME 3</span>
+            <h1 class="text-base sm:text-lg font-bold font-retro text-white">ARCADE OPERATOR TERMINAL</h1>
+          </div>
+          <p class="text-[11px] text-slate-400 hidden sm:block font-sans">Control 2D ROMs, bKash pass audits, tournaments & player ban lists.</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3 font-retro">
+        <button onclick="openSettingsModal()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 text-xs flex items-center gap-1.5">
+          <i class="fa-solid fa-gear text-arcadeYellow"></i>
+          <span class="hidden sm:inline">Settings</span>
+        </button>
+
+        <div class="flex items-center gap-2 pl-2 border-l border-slate-800">
+          <div class="w-8 h-8 bg-arcadeCyan text-slate-950 flex items-center justify-center text-xs font-bold font-arcade shadow-[2px_2px_0px_#0284c7]">
+            OP
+          </div>
+          <div class="hidden sm:block text-left">
+            <div class="text-xs font-bold text-white">Main Operator</div>
+            <div class="text-[10px] text-arcadeGreen font-pixel">● LIVE CONNECT</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
+      
+      <!-- Top Status Banner -->
+      <div class="p-4 bg-slate-950 border-2 border-arcadeCyan shadow-[4px_4px_0px_rgba(0,240,255,0.3)] flex flex-wrap items-center justify-between gap-3 font-retro">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-arcadeGreen animate-ping"></span>
+          <span class="text-xs font-bold uppercase text-arcadeYellow">CABINET SYSTEM STATUS:</span>
+          <span class="text-xs text-slate-200 font-sans">All 4 2D ROM engines online. bKash payment gateway ready for instant verification.</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="games.html" class="btn-arcade-cyan px-3 py-1 text-xs font-bold">
+            <i class="fa-solid fa-plus"></i> Add ROM
+          </a>
+          <a href="tournaments.html" class="btn-arcade-pink px-3 py-1 text-xs font-bold">
+            <i class="fa-solid fa-trophy"></i> Create League
+          </a>
+        </div>
+      </div>
+
+      <!-- KPI Metrics Grid -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-retro">
+        
+        <!-- Total Players -->
+        <div class="arcade-card p-5 border-2 border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-slate-400 uppercase">Total Players</div>
+            <div class="text-2xl sm:text-3xl font-extrabold text-white mt-1" id="kpiTotalPlayers">0</div>
+            <div class="text-[10px] text-arcadeGreen mt-1">+50 Free Coins Granted</div>
+          </div>
+          <div class="w-12 h-12 bg-arcadeCyan text-slate-950 flex items-center justify-center text-xl shadow-[2px_2px_0px_#0284c7]">
+            <i class="fa-solid fa-users"></i>
+          </div>
+        </div>
+
+        <!-- Active Paid Subscriptions -->
+        <div class="arcade-card p-5 border-2 border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-slate-400 uppercase">Active Pass Holders</div>
+            <div class="text-2xl sm:text-3xl font-extrabold text-arcadeYellow mt-1" id="kpiActiveSubs">0</div>
+            <div class="text-[10px] text-yellow-300/80 mt-1">3 TK, 5 TK, 10 TK Passes</div>
+          </div>
+          <div class="w-12 h-12 bg-arcadeYellow text-slate-950 flex items-center justify-center text-xl shadow-[2px_2px_0px_#a16207]">
+            <i class="fa-solid fa-crown"></i>
+          </div>
+        </div>
+
+        <!-- Total Revenue -->
+        <div class="arcade-card p-5 border-2 border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-slate-400 uppercase">Cash Revenue</div>
+            <div class="text-2xl sm:text-3xl font-extrabold text-arcadeGreen mt-1" id="kpiTotalRevenue">0 TK</div>
+            <div class="text-[10px] text-slate-400 mt-1 font-mono">bKash + Nagad</div>
+          </div>
+          <div class="w-12 h-12 bg-arcadeGreen text-slate-950 flex items-center justify-center text-xl shadow-[2px_2px_0px_#059669]">
+            <i class="fa-solid fa-coins"></i>
+          </div>
+        </div>
+
+        <!-- Active Tournaments -->
+        <div class="arcade-card p-5 border-2 border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-slate-400 uppercase">Tournaments</div>
+            <div class="text-2xl sm:text-3xl font-extrabold text-white mt-1" id="kpiTournaments">0</div>
+            <div class="text-[10px] text-arcadePink mt-1">Cash Prize Seasons</div>
+          </div>
+          <div class="w-12 h-12 bg-arcadePink text-white flex items-center justify-center text-xl shadow-[2px_2px_0px_#9f1239]">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Center & Tournaments Highlight -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Live Tournaments Overview (2 Cols) -->
+        <div class="lg:col-span-2 arcade-card p-5 flex flex-col justify-between font-retro">
+          <div>
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-trophy text-arcadeYellow"></i>
+                <h3 class="font-bold text-sm text-white">Active Tournament Seasons</h3>
+              </div>
+              <a href="tournaments.html" class="text-xs text-arcadeCyan hover:underline font-bold">Manage All →</a>
+            </div>
+
+            <div class="space-y-3" id="dashTournamentsList">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400 font-sans">
+            <span>Automatic Cash Distribution via bKash</span>
+            <span class="text-arcadeYellow font-retro">HIGH SCORE LADDER</span>
+          </div>
+        </div>
+
+        <!-- Quick Terminal Shortcuts (1 Col) -->
+        <div class="arcade-card p-5 space-y-3 font-retro">
+          <div class="flex items-center gap-2 pb-3 border-b border-slate-800">
+            <i class="fa-solid fa-bolt text-arcadeCyan"></i>
+            <h3 class="font-bold text-sm text-white">Operator Shortcuts</h3>
+          </div>
+
+          <a href="games.html" class="w-full flex items-center justify-between p-3 bg-slate-950 border border-slate-800 hover:border-arcadeCyan transition">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-arcadeCyan/20 text-arcadeCyan flex items-center justify-center text-sm">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-white">Add 2D ROM</div>
+                <div class="text-[10px] text-slate-400 font-sans">Upload new game / edit rules</div>
+              </div>
+            </div>
+            <i class="fa-solid fa-angle-right text-slate-400 text-xs"></i>
+          </a>
+
+          <a href="players.html" class="w-full flex items-center justify-between p-3 bg-slate-950 border border-slate-800 hover:border-arcadePink transition">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-arcadePink/20 text-arcadePink flex items-center justify-center text-sm">
+                <i class="fa-solid fa-user-slash"></i>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-white">Ban & Direct Message</div>
+                <div class="text-[10px] text-slate-400 font-sans">Manage cheats & alerts</div>
+              </div>
+            </div>
+            <i class="fa-solid fa-angle-right text-slate-400 text-xs"></i>
+          </a>
+
+          <a href="sms.html" class="w-full flex items-center justify-between p-3 bg-slate-950 border border-slate-800 hover:border-arcadeYellow transition">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-arcadeYellow/20 text-arcadeYellow flex items-center justify-center text-sm">
+                <i class="fa-solid fa-bullhorn"></i>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-white">Promo SMS Broadcaster</div>
+                <div class="text-[10px] text-slate-400 font-sans">Bulk SMS offers to players</div>
+              </div>
+            </div>
+            <i class="fa-solid fa-angle-right text-slate-400 text-xs"></i>
+          </a>
+
+          <button onclick="openSettingsModal()" class="w-full flex items-center justify-between p-3 bg-slate-950 border border-slate-800 hover:border-arcadeGreen transition text-left">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-arcadeGreen/20 text-arcadeGreen flex items-center justify-center text-sm">
+                <i class="fa-solid fa-sliders"></i>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-white">Operator Numbers</div>
+                <div class="text-[10px] text-slate-400 font-sans">Set bKash & WhatsApp</div>
+              </div>
+            </div>
+            <i class="fa-solid fa-angle-right text-slate-400 text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Recent Transactions Table -->
+      <div class="arcade-card overflow-hidden">
+        <div class="p-4 border-b border-slate-800 flex items-center justify-between font-retro">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-receipt text-pink-400"></i>
+            <h3 class="font-bold text-sm text-white">Recent Pass Purchases & Tokens</h3>
+          </div>
+          <a href="subscriptions.html" class="text-xs text-arcadeCyan hover:underline font-bold">View All Audits →</a>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-950 text-slate-400 uppercase text-[10px] font-retro">
+              <tr>
+                <th class="py-3 px-4">Player</th>
+                <th class="py-3 px-4">Plan / Pass</th>
+                <th class="py-3 px-4">Method</th>
+                <th class="py-3 px-4">TrxID / Token</th>
+                <th class="py-3 px-4">Amount</th>
+                <th class="py-3 px-4">Date</th>
+                <th class="py-3 px-4">Status</th>
+              </tr>
+            </thead>
+            <tbody id="dashTxTbody" class="divide-y divide-slate-800 font-sans">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-4 text-center text-xs text-slate-500 font-sans border-t border-slate-900 mt-auto">
+      © 2026 PIXEL WAP 2D BD (Theme 3 Operator Terminal).
+    </footer>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-lg arcade-card p-6 border-2 border-arcadeCyan relative font-retro">
+      <button onclick="closeSettingsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-sliders text-arcadeYellow"></i> OPERATOR SETTINGS
+      </h3>
+
+      <form onsubmit="savePortalSettings(event)" class="space-y-4 font-sans text-xs">
+        <div>
+          <label class="block text-xs font-bold font-retro text-slate-300 mb-1">WhatsApp Quick Support Number</label>
+          <input type="text" id="settingWhatsapp" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 text-xs text-white" placeholder="8801700000000">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold font-retro text-slate-300 mb-1">bKash Merchant Number</label>
+            <input type="text" id="settingBkash" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 text-xs text-white" placeholder="01700000000">
+          </div>
+          <div>
+            <label class="block text-xs font-bold font-retro text-slate-300 mb-1">Nagad Merchant Number</label>
+            <input type="text" id="settingNagad" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 text-xs text-white" placeholder="01800000000">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold font-retro text-slate-300 mb-1">Signup Bonus Coins</label>
+            <input type="number" id="settingSignupBonus" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 text-xs text-white" value="50">
+          </div>
+          <div>
+            <label class="block text-xs font-bold font-retro text-slate-300 mb-1">Referral Reward Coins</label>
+            <input type="number" id="settingRefBonus" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 text-xs text-white" value="25">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold font-retro text-slate-300 mb-1">Marquee Announcement Notice</label>
+          <input type="text" id="settingNotice" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 text-xs text-white" placeholder="⚡ Live 2D Retro Arcade Tournaments!">
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2 font-retro">
+          <button type="button" onclick="closeSettingsModal()" class="px-4 py-2 bg-slate-800 text-slate-300">
+            Cancel
+          </button>
+          <button type="submit" class="btn-arcade-cyan px-5 py-2 text-xs font-bold">
+            SAVE SETTINGS
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Shared Unified Database -->
+  <script src="../../assets/js/db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadDashboardKPIs();
+      loadTournamentsPreview();
+      loadRecentTransactions();
+    });
+
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('mobileSidebar');
+      const overlay = document.getElementById('mobileSidebarOverlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
+
+    function loadDashboardKPIs() {
+      const players = window.wapDB.getPlayers();
+      const tournaments = window.wapDB.getTournaments();
+      const transactions = window.wapDB.getSubscriptionHistory();
+
+      document.getElementById('kpiTotalPlayers').innerText = players.length;
+
+      const activeSubs = players.filter(p => window.wapDB.hasActiveSubscription(p));
+      document.getElementById('kpiActiveSubs').innerText = activeSubs.length;
+
+      let totalRevenue = 0;
+      transactions.forEach(t => {
+        if (t.amount && t.amount.includes('TK')) {
+          const num = parseInt(t.amount.replace('TK', '').trim()) || 0;
+          totalRevenue += num;
+        }
+      });
+      document.getElementById('kpiTotalRevenue').innerText = `${totalRevenue} TK`;
+      document.getElementById('kpiTournaments').innerText = tournaments.length;
+    }
+
+    function loadTournamentsPreview() {
+      const list = window.wapDB.getTournaments();
+      const container = document.getElementById('dashTournamentsList');
+      
+      if (!list || list.length === 0) {
+        container.innerHTML = `<div class="text-xs text-slate-400 py-4 text-center">No active tournaments.</div>`;
+        return;
+      }
+
+      container.innerHTML = list.slice(0, 3).map(t => {
+        return `
+          <div class="p-3.5 bg-slate-950 border border-slate-800 flex items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 text-[9px] font-bold font-retro ${t.status === 'Active' ? 'bg-arcadePink text-white' : 'bg-slate-800 text-arcadeYellow'}">
+                  ● ${t.status}
+                </span>
+                <span class="text-xs font-bold text-white font-retro">${t.title}</span>
+              </div>
+              <div class="text-[11px] text-slate-400 mt-1 font-sans">
+                Game: <strong class="text-arcadeCyan font-retro">${t.gameTitle}</strong> • Joined: <strong>${t.participantsCount}</strong>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs font-bold font-retro text-arcadeYellow">${t.prizePool}</div>
+              <div class="text-[10px] text-slate-400 font-sans">Fee: ${t.entryFee} ${t.entryFeeType === 'token' ? 'Coins' : 'TK'}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function loadRecentTransactions() {
+      const history = window.wapDB.getSubscriptionHistory();
+      const tbody = document.getElementById('dashTxTbody');
+
+      if (!history || history.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-4 text-center text-slate-400">No transactions yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = history.slice(0, 5).map(tx => {
+        return `
+          <tr class="hover:bg-slate-900/60 transition">
+            <td class="py-3 px-4 font-medium text-white flex items-center gap-2">
+              <span class="w-6 h-6 bg-arcadeCyan/20 text-arcadeCyan flex items-center justify-center text-[10px] font-bold font-arcade">
+                ${tx.playerName.charAt(0)}
+              </span>
+              <span>${tx.playerName}</span>
+            </td>
+            <td class="py-3 px-4 text-slate-300 font-retro font-bold">${tx.planName}</td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 text-[10px] font-bold font-retro ${tx.method === 'bKash' ? 'bg-pink-600/20 text-pink-400' : tx.method === 'Nagad' ? 'bg-amber-600/20 text-amber-400' : 'bg-arcadeYellow/20 text-arcadeYellow'}">
+                ${tx.method}
+              </span>
+            </td>
+            <td class="py-3 px-4 font-mono text-slate-400 text-[11px]">${tx.trxId || 'N/A'}</td>
+            <td class="py-3 px-4 font-bold text-arcadeYellow font-retro">${tx.amount}</td>
+            <td class="py-3 px-4 text-slate-400 text-[11px] font-mono">${tx.date}</td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 text-[10px] font-bold font-retro bg-emerald-500/20 text-arcadeGreen">
+                ${tx.status}
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function openSettingsModal() {
+      const s = window.wapDB.getSettings();
+      document.getElementById('settingWhatsapp').value = s.whatsappNumber || '';
+      document.getElementById('settingBkash').value = s.bkashNumber || '';
+      document.getElementById('settingNagad').value = s.nagadNumber || '';
+      document.getElementById('settingSignupBonus').value = s.signupBonusTokens || 50;
+      document.getElementById('settingRefBonus').value = s.referralBonusTokens || 25;
+      document.getElementById('settingNotice').value = s.bannerNotice || '';
+      document.getElementById('settingsModal').classList.remove('hidden');
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.add('hidden');
+    }
+
+    function savePortalSettings(e) {
+      e.preventDefault();
+      const updated = {
+        whatsappNumber: document.getElementById('settingWhatsapp').value.trim(),
+        bkashNumber: document.getElementById('settingBkash').value.trim(),
+        nagadNumber: document.getElementById('settingNagad').value.trim(),
+        signupBonusTokens: parseInt(document.getElementById('settingSignupBonus').value) || 50,
+        referralBonusTokens: parseInt(document.getElementById('settingRefBonus').value) || 25,
+        bannerNotice: document.getElementById('settingNotice').value.trim()
+      };
+      window.wapDB.saveSettings(updated);
+      alert('Operator settings saved successfully!');
+      closeSettingsModal();
+    }
+  </script>
+</body>
+</html>

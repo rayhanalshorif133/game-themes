@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Feedback & Reviews - WAP Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyberDark: '#090d16',
+            cyberCard: '#111827',
+            cyberPurple: '#6366f1',
+            cyberGreen: '#10b981'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="bg-cyberDark text-slate-100 min-h-screen flex selection:bg-purple-500">
+
+  <!-- Desktop Left Sidebar -->
+  <aside class="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-64 bg-slate-950 border-r border-slate-800 z-40">
+    <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white text-lg shadow-lg shadow-purple-600/30">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div>
+          <span class="font-gaming font-bold text-lg text-white tracking-wider">WAP ADMIN</span>
+          <span class="text-[10px] block text-purple-400 font-mono -mt-1">PORTAL CONTROLLER</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <div class="px-3 pb-2 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Core Management</div>
+      
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-gauge-high w-4 text-center"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-gamepad w-4 text-center text-indigo-400"></i>
+        <span>2D Games Manage</span>
+      </a>
+
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
+        <span>Tournaments Setup</span>
+      </a>
+
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-users w-4 text-emerald-400"></i>
+        <span>Players & Ban Control</span>
+      </a>
+
+      <div class="pt-4 px-3 pb-2 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Marketing & Finance</div>
+
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-bullhorn w-4 text-center text-purple-400"></i>
+        <span>Promo SMS Center</span>
+      </a>
+
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-credit-card w-4 text-pink-400"></i>
+        <span>Subscriptions & bKash</span>
+      </a>
+
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold bg-purple-600 text-white shadow-lg shadow-purple-600/30 transition">
+        <i class="fa-solid fa-star w-4 text-center"></i>
+        <span>Player Reviews</span>
+      </a>
+    </div>
+
+    <div class="p-4 border-t border-slate-800 space-y-2">
+      <a href="../index.html" target="_blank" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold bg-indigo-600/20 text-indigo-300 hover:bg-indigo-600/30 border border-indigo-500/30 transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Portal Site
+        </span>
+        <i class="fa-solid fa-external-link text-[10px]"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div id="mobileSidebarOverlay" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm md:hidden"></div>
+
+  <!-- Mobile Drawer Sidebar -->
+  <div id="mobileSidebar" class="fixed top-0 bottom-0 left-0 w-64 bg-slate-950 border-r border-slate-800 z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <span class="font-gaming font-bold text-white">WAP ADMIN</span>
+      </div>
+      <button onclick="toggleMobileSidebar()" class="text-slate-400 hover:text-white p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+    <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-gauge-high w-4"></i> Dashboard
+      </a>
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-gamepad w-4 text-indigo-400"></i> Games Manage
+      </a>
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-trophy w-4 text-amber-400"></i> Tournaments
+      </a>
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-users w-4 text-emerald-400"></i> Players & Ban
+      </a>
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-bullhorn w-4 text-purple-400"></i> Promo SMS
+      </a>
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-credit-card w-4 text-pink-400"></i> Subscriptions
+      </a>
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold bg-purple-600 text-white">
+        <i class="fa-solid fa-star w-4"></i> Reviews
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="md:pl-64 flex-1 flex flex-col min-h-screen">
+    
+    <!-- Top Header Bar -->
+    <header class="sticky top-0 z-30 bg-slate-950/95 backdrop-blur-md border-b border-slate-800 px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="md:hidden p-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 text-xs">
+          <i class="fa-solid fa-bars text-sm"></i>
+        </button>
+        <h1 class="text-base sm:text-lg font-bold font-gaming text-white">REVIEWS & FEEDBACK MODERATION</h1>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono font-bold">
+          <i class="fa-solid fa-star"></i> Player Reviews
+        </span>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1">
+      
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-xl font-bold font-gaming text-white">All Game Feedback & Ratings</h2>
+          <p class="text-xs text-slate-400">See what players are saying about controls, gameplay difficulty, and features.</p>
+        </div>
+
+        <!-- Filter by Game -->
+        <div class="w-full sm:w-64">
+          <select id="gameFilterSelect" onchange="renderFeedbackList()" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white">
+            <option value="all">All 2D Games</option>
+            <!-- Options populated by JS -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Feedback Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="feedbackGrid">
+        <!-- Injected by JS -->
+      </div>
+    </main>
+
+    <footer class="p-4 text-center text-xs text-slate-500 border-t border-slate-900 mt-auto">
+      © 2026 WAP Games 2D Admin Panel.
+    </footer>
+  </div>
+
+  <!-- WhatsApp Floating Button -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <a href="https://wa.me/8801700000000?text=Feedback%20Query" target="_blank" 
+       class="w-12 h-12 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center text-xl shadow-xl whatsapp-pulse">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <script src="../assets/js/db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      populateGameFilter();
+      renderFeedbackList();
+    });
+
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('mobileSidebar');
+      const overlay = document.getElementById('mobileSidebarOverlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
+
+    function populateGameFilter() {
+      const games = window.wapDB.getGames();
+      const select = document.getElementById('gameFilterSelect');
+      games.forEach(g => {
+        const opt = document.createElement('option');
+        opt.value = g.id;
+        opt.innerText = g.title;
+        select.appendChild(opt);
+      });
+    }
+
+    function renderFeedbackList() {
+      const filter = document.getElementById('gameFilterSelect').value;
+      const reviews = filter === 'all' ? window.wapDB.getReviews() : window.wapDB.getReviews(filter);
+      const grid = document.getElementById('feedbackGrid');
+
+      if (reviews.length === 0) {
+        grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500 text-xs">No feedback found for this selection.</div>`;
+        return;
+      }
+
+      grid.innerHTML = reviews.map(r => {
+        const game = window.wapDB.getGameById(r.gameId);
+        const gameTitle = game ? game.title : '2D Game';
+        return `
+          <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-white">${r.playerName}</span>
+                <span class="text-amber-400 text-xs font-mono">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+              </div>
+              <div class="text-[11px] text-indigo-400 font-semibold mb-2">Game: ${gameTitle}</div>
+              <p class="text-xs text-slate-300 leading-relaxed bg-slate-950 p-3 rounded-xl border border-slate-800/80 mb-3">
+                "${r.comment}"
+              </p>
+            </div>
+
+            <div class="flex items-center justify-between text-[10px] text-slate-500 font-mono pt-2 border-t border-slate-800/60">
+              <span>Date: ${r.date}</span>
+              <span class="text-emerald-400">Verified Player</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+  </script>
+</body>
+</html>

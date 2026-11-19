@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promotional SMS Broadcast - WAP Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyberDark: '#090d16',
+            cyberCard: '#111827',
+            cyberPurple: '#6366f1',
+            cyberGreen: '#10b981'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="bg-cyberDark text-slate-100 min-h-screen flex selection:bg-purple-500">
+
+  <!-- Desktop Left Sidebar -->
+  <aside class="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-64 bg-slate-950 border-r border-slate-800 z-40">
+    <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white text-lg shadow-lg shadow-purple-600/30">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div>
+          <span class="font-gaming font-bold text-lg text-white tracking-wider">WAP ADMIN</span>
+          <span class="text-[10px] block text-purple-400 font-mono -mt-1">PORTAL CONTROLLER</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <div class="px-3 pb-2 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Core Management</div>
+      
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-gauge-high w-4 text-center"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-gamepad w-4 text-center text-indigo-400"></i>
+        <span>2D Games Manage</span>
+      </a>
+
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
+        <span>Tournaments Setup</span>
+      </a>
+
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-users w-4 text-center text-emerald-400"></i>
+        <span>Players & Ban Control</span>
+      </a>
+
+      <div class="pt-4 px-3 pb-2 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Marketing & Finance</div>
+
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold bg-purple-600 text-white shadow-lg shadow-purple-600/30 transition">
+        <i class="fa-solid fa-bullhorn w-4 text-center"></i>
+        <span>Promo SMS Center</span>
+      </a>
+
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-credit-card w-4 text-pink-400"></i>
+        <span>Subscriptions & bKash</span>
+      </a>
+
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white transition">
+        <i class="fa-solid fa-star w-4 text-yellow-400"></i>
+        <span>Player Reviews</span>
+      </a>
+    </div>
+
+    <div class="p-4 border-t border-slate-800 space-y-2">
+      <a href="../index.html" target="_blank" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold bg-indigo-600/20 text-indigo-300 hover:bg-indigo-600/30 border border-indigo-500/30 transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Portal Site
+        </span>
+        <i class="fa-solid fa-external-link text-[10px]"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div id="mobileSidebarOverlay" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm md:hidden"></div>
+
+  <!-- Mobile Drawer Sidebar -->
+  <div id="mobileSidebar" class="fixed top-0 bottom-0 left-0 w-64 bg-slate-950 border-r border-slate-800 z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <span class="font-gaming font-bold text-white">WAP ADMIN</span>
+      </div>
+      <button onclick="toggleMobileSidebar()" class="text-slate-400 hover:text-white p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+    <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-gauge-high w-4"></i> Dashboard
+      </a>
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-gamepad w-4 text-indigo-400"></i> Games Manage
+      </a>
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-trophy w-4 text-amber-400"></i> Tournaments
+      </a>
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-users w-4 text-emerald-400"></i> Players & Ban
+      </a>
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold bg-purple-600 text-white">
+        <i class="fa-solid fa-bullhorn w-4"></i> Promo SMS
+      </a>
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-credit-card w-4 text-pink-400"></i> Subscriptions
+      </a>
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-star w-4 text-yellow-400"></i> Reviews
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="md:pl-64 flex-1 flex flex-col min-h-screen">
+    
+    <!-- Top Header Bar -->
+    <header class="sticky top-0 z-30 bg-slate-950/95 backdrop-blur-md border-b border-slate-800 px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="md:hidden p-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 text-xs">
+          <i class="fa-solid fa-bars text-sm"></i>
+        </button>
+        <h1 class="text-base sm:text-lg font-bold font-gaming text-white">PROMOTIONAL SMS CENTER</h1>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="px-3 py-1.5 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono font-bold">
+          <i class="fa-solid fa-tower-broadcast"></i> Bulk SMS Gate
+        </span>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        
+        <!-- SMS Broadcast Form -->
+        <div class="lg:col-span-2 p-6 rounded-2xl cyber-card border border-slate-800 shadow-xl">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center text-xl">
+              <i class="fa-solid fa-bullhorn"></i>
+            </div>
+            <div>
+              <h2 class="text-lg font-bold font-gaming text-white">Create Promotional SMS Campaign</h2>
+              <p class="text-xs text-slate-400">Send instant marketing SMS and notifications to all or targeted gaming users.</p>
+            </div>
+          </div>
+
+          <form onsubmit="handleSendSmsCampaign(event)" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Campaign Title</label>
+                <input type="text" id="smsTitleInput" required placeholder="e.g. Weekend Mega Tournament bKash Prize"
+                       class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500">
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Target Audience</label>
+                <select id="smsAudienceSelect" onchange="updateEstimatedRecipients()"
+                        class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-purple-500">
+                  <option value="All Players">All Players (Active + Inactive)</option>
+                  <option value="Active Subscribers">Active Subscribers Only</option>
+                  <option value="Inactive Players">Inactive / Expired Players Only</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Audience estimate preview badge -->
+            <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800/80 flex items-center justify-between text-xs">
+              <span class="text-slate-400 flex items-center gap-2">
+                <i class="fa-solid fa-users text-indigo-400"></i> Estimated Target Reach:
+              </span>
+              <span class="font-bold font-mono text-emerald-400" id="estimatedRecipientsText">Calculating...</span>
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="block text-xs font-semibold text-slate-300">SMS Body / Message</label>
+                <span class="text-[11px] font-mono text-slate-400" id="smsCharCounter">0 / 160 chars (1 SMS)</span>
+              </div>
+              <textarea id="smsBodyInput" rows="4" required oninput="handleCharCount()"
+                        placeholder="e.g. WAP Games: 2D Space Blaster League e top scorer holei paben 1,500 TK bKash! Khelte login korun: wapgames.com"
+                        class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"></textarea>
+            </div>
+
+            <!-- Quick Templates -->
+            <div>
+              <div class="text-[11px] text-slate-400 font-semibold mb-1.5">Quick Campaign Templates:</div>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" onclick="applyTemplate(1)" class="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-[11px] text-slate-300 border border-slate-800">
+                  ⚡ 50 Free Tokens Promo
+                </button>
+                <button type="button" onclick="applyTemplate(2)" class="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-[11px] text-slate-300 border border-slate-800">
+                  🏆 1,500 TK bKash Tournament
+                </button>
+                <button type="button" onclick="applyTemplate(3)" class="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-[11px] text-slate-300 border border-slate-800">
+                  💎 3 TK Subscription Reminder
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="neon-btn w-full py-3 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-2">
+              <i class="fa-solid fa-paper-plane"></i> Broadcast Promotional SMS to Audience
+            </button>
+          </form>
+        </div>
+
+        <!-- SMS Gateway Info & Phone Simulator -->
+        <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-bold font-gaming text-white flex items-center gap-2">
+                <i class="fa-solid fa-mobile text-emerald-400"></i> SMS Preview
+              </span>
+              <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-mono">Live</span>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 shadow-inner">
+              <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-900">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span class="text-[10px] text-slate-400 font-mono">SMS Notification • WAP GAMES</span>
+              </div>
+              <div class="p-3 rounded-xl bg-purple-950/30 border border-purple-500/20 text-xs text-slate-200" id="smsPreviewBox">
+                Your promotional SMS message preview will appear here in real time...
+              </div>
+              <div class="text-[10px] text-slate-500 mt-2 text-right">Delivered via BD Telco Gate</div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-800 text-xs text-slate-400">
+            <div class="flex items-center justify-between mb-1">
+              <span>Telco Gateway:</span>
+              <span class="text-white font-mono">Masking BD (WAP_GAME)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>Status:</span>
+              <span class="text-emerald-400 font-bold">● Active 24/7</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Promotional SMS Campaign History Table -->
+      <div class="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden shadow-xl">
+        <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+          <h3 class="font-bold text-xs sm:text-sm text-white flex items-center gap-2">
+            <i class="fa-solid fa-clock-rotate-left text-purple-400"></i> Broadcast Campaign History Logs
+          </h3>
+          <span class="text-[11px] text-slate-400" id="totalSmsCountText">0 Campaigns Sent</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-950/80 text-slate-400 uppercase text-[10px]">
+              <tr>
+                <th class="py-3 px-4">Date & Time</th>
+                <th class="py-3 px-4">Campaign Title</th>
+                <th class="py-3 px-4">Audience</th>
+                <th class="py-3 px-4">Recipients</th>
+                <th class="py-3 px-4">Message Preview</th>
+                <th class="py-3 px-4">Status</th>
+              </tr>
+            </thead>
+            <tbody id="smsHistoryTbody" class="divide-y divide-slate-800/60">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <footer class="p-4 text-center text-xs text-slate-500 border-t border-slate-900 mt-auto">
+      © 2026 WAP Games 2D Admin Panel. Bulk SMS System.
+    </footer>
+  </div>
+
+  <!-- WhatsApp Floating Button -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <a href="https://wa.me/8801700000000?text=Admin%20SMS%20Query" target="_blank" 
+       class="w-12 h-12 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center text-xl shadow-xl whatsapp-pulse">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <script src="../assets/js/db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      updateEstimatedRecipients();
+      renderSmsHistory();
+    });
+
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('mobileSidebar');
+      const overlay = document.getElementById('mobileSidebarOverlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
+
+    function updateEstimatedRecipients() {
+      const audience = document.getElementById('smsAudienceSelect').value;
+      const players = window.wapDB.getPlayers();
+      let count = 0;
+
+      if (audience === 'Active Subscribers') {
+        count = players.filter(p => window.wapDB.hasActiveSubscription(p)).length;
+      } else if (audience === 'Inactive Players') {
+        count = players.filter(p => !window.wapDB.hasActiveSubscription(p)).length;
+      } else {
+        count = players.length;
+      }
+
+      document.getElementById('estimatedRecipientsText').innerText = `${count} Players (${count} Phone Numbers)`;
+    }
+
+    function handleCharCount() {
+      const text = document.getElementById('smsBodyInput').value;
+      const count = text.length;
+      const parts = Math.ceil(count / 160) || 1;
+      document.getElementById('smsCharCounter').innerText = `${count} / 160 chars (${parts} SMS)`;
+      document.getElementById('smsPreviewBox').innerText = text || 'Your promotional SMS message preview will appear here in real time...';
+    }
+
+    function applyTemplate(type) {
+      const titleInput = document.getElementById('smsTitleInput');
+      const bodyInput = document.getElementById('smsBodyInput');
+
+      if (type === 1) {
+        titleInput.value = '50 Free Tokens Welcome Bonus';
+        bodyInput.value = 'WAP Games Alert: Sign up or login now to claim 50 free gaming tokens! Exchange tokens for 1-day free game pass. Play now!';
+      } else if (type === 2) {
+        titleInput.value = '1,500 TK Space Blaster Tournament';
+        bodyInput.value = 'Mega League Alert: Play Space Blaster 2D today. Highest score wins 1,500 TK bKash prize directly! Valid until Sunday.';
+      } else {
+        titleInput.value = '3 TK Daily Subscription Pass';
+        bodyInput.value = 'WAP Games: Get 24-hours unlimited access to all single & multiplayer 2D games for just 3 TK via bKash! Subscribe now.';
+      }
+
+      handleCharCount();
+    }
+
+    function handleSendSmsCampaign(e) {
+      e.preventDefault();
+      const title = document.getElementById('smsTitleInput').value.trim();
+      const audience = document.getElementById('smsAudienceSelect').value;
+      const body = document.getElementById('smsBodyInput').value.trim();
+
+      const log = window.wapDB.sendPromotionalSms(title, audience, body);
+      alert(`🎉 Promotional SMS Broadcast Sent!\nDelivered to ${log.recipientCount} players.`);
+      
+      document.getElementById('smsTitleInput').value = '';
+      document.getElementById('smsBodyInput').value = '';
+      handleCharCount();
+      renderSmsHistory();
+    }
+
+    function renderSmsHistory() {
+      const logs = window.wapDB.getSmsLogs();
+      const tbody = document.getElementById('smsHistoryTbody');
+      document.getElementById('totalSmsCountText').innerText = `${logs.length} Campaigns Sent`;
+
+      if (logs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-slate-500">No promotional SMS campaigns sent yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = logs.map(l => {
+        return `
+          <tr class="hover:bg-slate-900/50">
+            <td class="py-3 px-4 font-mono text-slate-400 whitespace-nowrap">${l.date}</td>
+            <td class="py-3 px-4 font-bold text-white">${l.title}</td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-indigo-500/20 text-indigo-300">
+                ${l.audience}
+              </span>
+            </td>
+            <td class="py-3 px-4 font-mono font-bold text-emerald-400">${l.recipientCount} Players</td>
+            <td class="py-3 px-4 text-slate-300 max-w-xs truncate">${l.message}</td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400">
+                ${l.status}
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+  </script>
+</body>
+</html>

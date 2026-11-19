@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Lobby - WAP Games 2D</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyberDark: '#090d16',
+            cyberCard: '#111827',
+            cyberPurple: '#6366f1',
+            cyberGreen: '#10b981',
+            bkash: '#e2136e'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="bg-cyberDark text-slate-100 min-h-screen flex flex-col pb-20 md:pb-8 selection:bg-indigo-500">
+
+  <!-- Top Player Navbar -->
+  <header class="sticky top-0 z-40 bg-cyberDark/95 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      
+      <!-- Brand & Home link -->
+      <a href="../index.html" class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-white text-lg shadow-md shadow-indigo-500/30">
+          <i class="fa-solid fa-gamepad"></i>
+        </div>
+        <div>
+          <span class="font-gaming font-bold text-lg text-white">WAP GAMES</span>
+          <span class="text-[10px] block text-indigo-400 font-mono -mt-1">PLAYER ARENA</span>
+        </div>
+      </a>
+
+      <!-- User Stats & Quick Badges -->
+      <div class="flex items-center gap-2 sm:gap-4">
+        <!-- Tokens Pill -->
+        <a href="wallet.html" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 transition text-amber-300 text-xs font-bold font-mono">
+          <i class="fa-solid fa-coins text-amber-400"></i>
+          <span id="playerTokensBadge">0</span>
+          <span class="hidden sm:inline text-[10px] uppercase font-sans text-amber-200">Tokens</span>
+        </a>
+
+        <!-- Subscription Status Badge -->
+        <a href="subscription.html" id="subStatusBadge" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition">
+          <!-- Injected by JS -->
+        </a>
+
+        <!-- Profile / Inbox -->
+        <a href="profile.html" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold relative transition" title="Profile & Messages">
+          <span class="w-5 h-5 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 text-white flex items-center justify-center text-[10px] font-bold" id="topAvatarLetter">
+            P
+          </span>
+          <span class="hidden sm:inline">Profile</span>
+          <span id="unreadMsgDot" class="hidden w-2 h-2 bg-rose-500 rounded-full animate-ping"></span>
+        </a>
+
+        <!-- Logout -->
+        <button onclick="handleLogout()" class="p-2 rounded-xl bg-slate-800 hover:bg-rose-950 text-slate-400 hover:text-rose-300 border border-slate-700 transition" title="Logout">
+          <i class="fa-solid fa-power-off text-sm"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Player Welcome Banner -->
+  <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-1">
+    
+    <!-- User Overview & Subscription Warning Card -->
+    <div id="subscriptionWarning" class="hidden mb-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-pink-950/80 to-slate-900 border border-pink-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-pink-600/20 text-pink-400 flex items-center justify-center text-2xl flex-shrink-0">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-white text-sm sm:text-base">সাবস্ক্রিপশন প্রয়োজন! (৩ টাকা / ৫০ টোকেন)</h3>
+          <p class="text-xs text-slate-300 mt-0.5">যে কোনো 2D গেম বা টুর্নামেন্ট খেলতে ডেইলি পাস নিন অথবা আপনার ফ্রি ৫০ টোকেন এক্সচেঞ্জ করুন।</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 w-full sm:w-auto">
+        <a href="subscription.html" class="neon-btn w-full sm:w-auto text-center px-4 py-2 rounded-xl text-xs font-bold text-white whitespace-nowrap">
+          <i class="fa-solid fa-bolt"></i> ৩ টাকায় কিনুন (bKash)
+        </a>
+        <a href="wallet.html" class="w-full sm:w-auto text-center px-4 py-2 rounded-xl text-xs font-bold bg-amber-600/30 text-amber-300 border border-amber-500/30 hover:bg-amber-600/50 whitespace-nowrap">
+          🪙 ৫০ টোকেন এক্সচেঞ্জ
+        </a>
+      </div>
+    </div>
+
+    <!-- Quick Stats & Actions Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
+      <a href="wallet.html" class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/40 transition group">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs text-slate-400 font-medium">Token Balance</span>
+          <i class="fa-solid fa-coins text-amber-400 group-hover:scale-110 transition"></i>
+        </div>
+        <div class="text-2xl font-bold font-mono text-amber-300" id="statTokens">0</div>
+        <div class="text-[10px] text-emerald-400 mt-1 flex items-center gap-1">
+          <i class="fa-solid fa-gift"></i> Exchange for Subs
+        </div>
+      </a>
+
+      <a href="subscription.html" class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/40 transition group">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs text-slate-400 font-medium">Subscription</span>
+          <i class="fa-solid fa-crown text-indigo-400 group-hover:scale-110 transition"></i>
+        </div>
+        <div class="text-base sm:text-lg font-bold text-white truncate" id="statSubsName">Loading...</div>
+        <div class="text-[10px] text-slate-400 mt-1 truncate" id="statSubsExpiry">3 TK / 5 TK Plans</div>
+      </a>
+
+      <a href="wallet.html#referral" class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-emerald-500/40 transition group">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs text-slate-400 font-medium">Refer Friends</span>
+          <i class="fa-solid fa-share-nodes text-emerald-400 group-hover:scale-110 transition"></i>
+        </div>
+        <div class="text-2xl font-bold font-gaming text-emerald-400" id="statReferrals">0</div>
+        <div class="text-[10px] text-slate-400 mt-1">+25 Tokens / Friend</div>
+      </a>
+
+      <a href="profile.html" class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-purple-500/40 transition group">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs text-slate-400 font-medium">Admin Messages</span>
+          <i class="fa-solid fa-envelope text-purple-400 group-hover:scale-110 transition"></i>
+        </div>
+        <div class="text-2xl font-bold font-gaming text-purple-300" id="statMessages">0</div>
+        <div class="text-[10px] text-slate-400 mt-1">Official SMS & Alerts</div>
+      </a>
+    </div>
+
+    <!-- 2D Games Lobby Section -->
+    <div class="mb-10">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-3">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold font-gaming text-white flex items-center gap-2">
+            <i class="fa-solid fa-gamepad text-indigo-400"></i> All 2D Retro Games
+          </h2>
+          <p class="text-xs text-slate-400">Play instant in-browser 2D games, score high & submit to leaderboard.</p>
+        </div>
+
+        <!-- Filter Tags -->
+        <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1" id="lobbyFilters">
+          <button onclick="filterLobby('all')" class="cat-pill active px-3 py-1 rounded-xl text-xs font-semibold bg-indigo-600 text-white">All</button>
+          <button onclick="filterLobby('Action')" class="cat-pill px-3 py-1 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Action</button>
+          <button onclick="filterLobby('Arcade')" class="cat-pill px-3 py-1 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Arcade</button>
+          <button onclick="filterLobby('Multiplayer')" class="cat-pill px-3 py-1 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Multiplayer</button>
+        </div>
+      </div>
+
+      <!-- Games Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" id="lobbyGamesGrid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Live Tournaments Arena -->
+    <div class="mb-10">
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold font-gaming text-white flex items-center gap-2">
+            <i class="fa-solid fa-trophy text-amber-400"></i> Active Tournaments
+          </h2>
+          <p class="text-xs text-slate-400">Compete against other players for bKash cash prize pools!</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5" id="lobbyTournamentsGrid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 px-4 py-2 flex items-center justify-around text-center">
+    <a href="index.html" class="flex flex-col items-center text-indigo-400 text-[11px] font-medium">
+      <i class="fa-solid fa-gamepad text-base mb-0.5"></i>
+      <span>Games</span>
+    </a>
+    <a href="subscription.html" class="flex flex-col items-center text-slate-400 hover:text-white text-[11px] font-medium">
+      <i class="fa-solid fa-bolt text-base mb-0.5"></i>
+      <span>Subscribe</span>
+    </a>
+    <a href="wallet.html" class="flex flex-col items-center text-slate-400 hover:text-white text-[11px] font-medium">
+      <i class="fa-solid fa-coins text-base mb-0.5"></i>
+      <span>Wallet</span>
+    </a>
+    <a href="profile.html" class="flex flex-col items-center text-slate-400 hover:text-white text-[11px] font-medium">
+      <i class="fa-solid fa-user text-base mb-0.5"></i>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <!-- Floating WhatsApp Quick Support Button -->
+  <div class="fixed bottom-16 md:bottom-6 right-5 z-50">
+    <a href="https://wa.me/8801700000000?text=Hello%20WAP%20Games%20Support!%20I%20have%20a%20question." 
+       target="_blank" 
+       class="w-13 h-13 p-3.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center text-xl shadow-xl whatsapp-pulse transition transform hover:scale-110"
+       title="Quick WhatsApp Support">
+      <i class="fa-brands fa-whatsapp text-2xl"></i>
+    </a>
+  </div>
+
+  <script src="../assets/js/db.js"></script>
+  <script>
+    let currentUser = null;
+    let currentFilter = 'all';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      currentUser = window.wapDB.getCurrentUser();
+      if (!currentUser) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Check if player is banned
+      if (currentUser.banned) {
+        alert(`Your account has been banned by Admin!\nReason: ${currentUser.banReason || 'Fair play violation'}`);
+        window.wapDB.logout();
+        window.location.href = 'login.html';
+        return;
+      }
+
+      refreshUserData();
+      renderLobbyGames();
+      renderLobbyTournaments();
+    });
+
+    function refreshUserData() {
+      // Refresh from DB in case admin updated scores/messages/subs
+      currentUser = window.wapDB.getPlayerById(currentUser.id) || currentUser;
+      
+      const hasSubs = window.wapDB.hasActiveSubscription(currentUser);
+      document.getElementById('playerTokensBadge').innerText = currentUser.tokens || 0;
+      document.getElementById('statTokens').innerText = currentUser.tokens || 0;
+      document.getElementById('statReferrals').innerText = currentUser.referralCount || 0;
+      document.getElementById('statMessages').innerText = (currentUser.messages || []).length;
+
+      // Unread messages indicator
+      if ((currentUser.messages || []).length > 0) {
+        document.getElementById('unreadMsgDot').classList.remove('hidden');
+      }
+
+      const topAvatar = document.getElementById('topAvatarLetter');
+      if (topAvatar) {
+        topAvatar.innerText = currentUser.avatar || currentUser.name.charAt(0).toUpperCase();
+      }
+
+      const subBadge = document.getElementById('subStatusBadge');
+      const warningCard = document.getElementById('subscriptionWarning');
+      const statSubsName = document.getElementById('statSubsName');
+      const statSubsExpiry = document.getElementById('statSubsExpiry');
+
+      if (hasSubs) {
+        subBadge.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold';
+        subBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span class="hidden sm:inline">Active Subs</span><span class="sm:hidden">Active</span>`;
+        warningCard.classList.add('hidden');
+        statSubsName.innerText = currentUser.subscription.planName || 'Active Pass';
+        statSubsExpiry.innerText = 'Expires: ' + new Date(currentUser.subscription.expiresAt).toLocaleDateString();
+      } else {
+        subBadge.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-pink-500/20 text-pink-300 border border-pink-500/30 text-xs font-bold animate-pulse';
+        subBadge.innerHTML = `<i class="fa-solid fa-lock text-pink-400"></i> <span>Get Subs (3 TK)</span>`;
+        warningCard.classList.remove('hidden');
+        statSubsName.innerText = 'No Active Plan';
+        statSubsExpiry.innerText = 'Tap to activate for 3 TK';
+      }
+    }
+
+    function filterLobby(cat) {
+      currentFilter = cat;
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        btn.classList.remove('bg-indigo-600', 'text-white');
+        btn.classList.add('bg-slate-800', 'text-slate-300');
+      });
+      event.target.classList.add('bg-indigo-600', 'text-white');
+      event.target.classList.remove('bg-slate-800', 'text-slate-300');
+      renderLobbyGames();
+    }
+
+    function renderLobbyGames() {
+      const allGames = window.wapDB.getGames();
+      const filtered = currentFilter === 'all' 
+        ? allGames 
+        : currentFilter === 'Multiplayer'
+          ? allGames.filter(g => g.type === 'Multiplayer')
+          : allGames.filter(g => g.category.toLowerCase() === currentFilter.toLowerCase());
+
+      const grid = document.getElementById('lobbyGamesGrid');
+      grid.innerHTML = filtered.map(game => {
+        const myScore = (currentUser.scores && currentUser.scores[game.id]) || 0;
+        return `
+          <div class="cyber-card rounded-2xl overflow-hidden flex flex-col group">
+            <div class="relative h-44 overflow-hidden bg-slate-900">
+              <img src="${game.thumbnail}" alt="${game.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+              
+              <div class="absolute top-3 left-3 flex gap-1.5">
+                ${game.isNew ? '<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-pink-600 text-white uppercase tracking-wider">NEW</span>' : ''}
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-slate-900/80 backdrop-blur-md text-indigo-300 border border-indigo-500/30">
+                  ${game.type}
+                </span>
+              </div>
+
+              <div class="absolute bottom-2 left-3 right-3 flex items-center justify-between text-xs font-mono">
+                <span class="text-emerald-400 font-bold"><i class="fa-solid fa-trophy text-amber-400"></i> Best: ${myScore}</span>
+                <span class="text-slate-400"><i class="fa-solid fa-fire text-orange-400"></i> ${game.playsCount || 0}</span>
+              </div>
+            </div>
+
+            <div class="p-4 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="text-[11px] text-indigo-400 font-semibold mb-1">${game.category}</div>
+                <h3 class="text-base font-bold font-gaming text-white">${game.title}</h3>
+                <p class="text-slate-400 text-xs mt-1 line-clamp-2">${game.description}</p>
+              </div>
+
+              <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2">
+                <a href="play.html?id=${game.id}" class="neon-btn flex-1 text-center py-2 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-play"></i> Play Now
+                </a>
+                <a href="play.html?id=${game.id}&view=rules" class="px-3 py-2 rounded-xl text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-semibold" title="Rules & Leaderboard">
+                  <i class="fa-solid fa-circle-info"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderLobbyTournaments() {
+      const tournaments = window.wapDB.getTournaments();
+      const grid = document.getElementById('lobbyTournamentsGrid');
+      grid.innerHTML = tournaments.map(t => {
+        return `
+          <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 transition flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold ${t.status === 'Active' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-400'}">
+                  ● ${t.status}
+                </span>
+                <span class="text-xs text-slate-400 font-mono"><i class="fa-solid fa-users text-indigo-400"></i> ${t.participantsCount} Players</span>
+              </div>
+
+              <h3 class="text-base font-bold font-gaming text-white">${t.title}</h3>
+              <p class="text-xs text-indigo-400 font-medium mt-0.5">Game: ${t.gameTitle}</p>
+              
+              <div class="my-3 p-3 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center justify-between">
+                <div>
+                  <div class="text-[10px] text-slate-400 uppercase">Prize Pool</div>
+                  <div class="text-base font-bold text-emerald-400 font-gaming">${t.prizePool}</div>
+                </div>
+                <div class="text-right">
+                  <div class="text-[10px] text-slate-400 uppercase">Entry Fee</div>
+                  <div class="text-xs font-bold text-slate-200">
+                    ${t.entryFeeType === 'token' ? `${t.entryFee} Tokens` : `${t.entryFee} TK`}
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-xs text-slate-400 mb-4">${t.rules}</p>
+            </div>
+
+            <a href="play.html?id=${t.gameId}&tournament=${t.id}" class="neon-btn-green w-full py-2.5 rounded-xl text-xs font-bold text-center text-white flex items-center justify-center gap-2">
+              <i class="fa-solid fa-trophy"></i> Join Tournament
+            </a>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function handleLogout() {
+      if (confirm('Are you sure you want to log out?')) {
+        window.wapDB.logout();
+        window.location.href = 'login.html';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WAP Games Esports Arena - Theme 2</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            esportsDark: '#0c0d12',
+            esportsCard: '#151720',
+            esportsRed: '#ef4444',
+            esportsGold: '#f59e0b',
+            esportsBorder: '#262a3b'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/theme2.css">
+</head>
+<body class="bg-esportsDark text-slate-100 min-h-screen flex flex-col selection:bg-red-500 selection:text-white">
+
+  <!-- Theme Switcher Top Banner -->
+  <div class="bg-gradient-to-r from-red-950 via-slate-900 to-amber-950 py-2 px-4 border-b border-red-500/20 text-xs flex flex-wrap items-center justify-between gap-2 max-w-7xl mx-auto w-full">
+    <div class="flex items-center gap-2">
+      <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-bold font-esports text-[10px]">THEME 2</span>
+      <span class="text-slate-300 font-medium">Esports Fire & Gold Arena UI</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-slate-400 hidden sm:inline">Try other styles:</span>
+      <a href="../index.html" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[11px] flex items-center gap-1.5 transition shadow">
+        <i class="fa-solid fa-palette"></i> Theme 1 (Cyber)
+      </a>
+      <a href="../theme3/index.html" class="px-2.5 py-1 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-extrabold text-[11px] flex items-center gap-1.5 transition shadow">
+        🕹️ Theme 3 (Pixel Arcade)
+      </a>
+    </div>
+  </div>
+
+  <!-- Esports Main Navigation -->
+  <header class="sticky top-0 z-40 bg-esportsDark/95 backdrop-blur-md border-b border-esportsBorder">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between py-3">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-600 to-amber-500 flex items-center justify-center text-white text-xl shadow-lg shadow-red-600/30">
+          <i class="fa-solid fa-fire"></i>
+        </div>
+        <div>
+          <span class="font-esports font-extrabold text-2xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-amber-400 to-white">
+            WAP ARENA
+          </span>
+          <span class="text-[10px] block text-amber-400 font-mono tracking-widest -mt-1 font-bold">PRO 2D TOURNAMENT</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8 font-esports text-sm font-bold text-slate-300 tracking-wider">
+        <a href="#games" class="hover:text-red-400 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-gamepad text-xs text-red-500"></i> Games Catalog
+        </a>
+        <a href="#tournaments" class="hover:text-amber-400 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-trophy text-xs text-amber-400"></i> Tournaments
+        </a>
+        <a href="#pricing" class="hover:text-red-400 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-bolt text-xs text-red-500"></i> Subscriptions
+        </a>
+        <a href="#rules" class="hover:text-amber-400 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-shield text-xs text-amber-400"></i> Rules & Fair Play
+        </a>
+      </nav>
+
+      <!-- Right Action Area -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Admin Switcher -->
+        <a href="admin/index.html" class="px-3 py-1.5 rounded-lg text-xs font-esports font-bold bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 flex items-center gap-1.5">
+          <i class="fa-solid fa-shield-halved text-red-400"></i>
+          <span>Admin</span>
+        </a>
+
+        <!-- Dynamic Auth Button -->
+        <div id="navAuthArea">
+          <a href="player/login.html" class="btn-fire px-4 py-2 rounded-xl text-xs sm:text-sm flex items-center gap-1.5">
+            <i class="fa-solid fa-user"></i> Player Login
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Live Esports Ticker -->
+  <div class="bg-red-950/60 border-b border-red-900/40 py-1.5 px-4 overflow-hidden text-xs text-red-200">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4 font-mono">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+        <span class="font-bold uppercase tracking-wider text-amber-400">LIVE ARENA:</span>
+        <span id="tickerText">Space Blaster 1,500 TK Cash Tournament Live! Signup and get 50 Free Tokens instantly.</span>
+      </div>
+      <span class="hidden md:inline text-slate-400 text-[11px]">Daily 3 TK bKash Pass Available</span>
+    </div>
+  </div>
+
+  <!-- Esports Hero Banner Section -->
+  <section class="relative pt-12 pb-16 px-4 overflow-hidden">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      
+      <!-- Left Hero Text -->
+      <div class="lg:col-span-7 text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/80 border border-red-500/30 text-amber-400 text-xs font-bold font-esports mb-4">
+          <i class="fa-solid fa-fire text-red-500"></i>
+          <span>THE ULTIMATE 2D GAMING CHAMPIONSHIP BD</span>
+        </div>
+
+        <h1 class="font-esports text-4xl sm:text-6xl font-extrabold text-white leading-none tracking-tight mb-4">
+          BATTLE. SURVIVE. <br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-amber-400 to-yellow-300">
+            CLAIM BKASH CASH.
+          </span>
+        </h1>
+
+        <p class="text-slate-300 text-sm sm:text-base max-w-xl mb-8 leading-relaxed">
+          বাংলাদেশের প্রিমিয়ার 2D এস্পোর্টস গেমিং পোর্টাল! মাত্র <strong>৩ টাকায় ১ দিন</strong> অথবা <strong>৫ টাকায় ২ দিনের</strong> পাস নিয়ে একক ও মাল্টিপ্লেয়ার টুর্নামেন্টে যোগ দিন। সাইনআপ করলেই ৫০ ফ্রি টোকেন বোনাস!
+        </p>
+
+        <!-- CTA Action Buttons -->
+        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+          <a href="player/index.html" class="btn-fire px-6 py-3.5 rounded-xl text-sm sm:text-base flex items-center gap-2">
+            <i class="fa-solid fa-play"></i> Enter Arena (Play 2D)
+          </a>
+          <a href="#pricing" class="btn-gold px-6 py-3.5 rounded-xl text-sm sm:text-base flex items-center gap-2">
+            <i class="fa-solid fa-bolt"></i> 3 TK Pass (bKash)
+          </a>
+        </div>
+
+        <!-- Metric Badges -->
+        <div class="grid grid-cols-3 gap-3 mt-10 max-w-lg mx-auto lg:mx-0">
+          <div class="p-3 rounded-xl bg-esportsCard border border-esportsBorder text-center">
+            <div class="text-2xl font-esports font-bold text-amber-400" id="heroGamesCount">4+</div>
+            <div class="text-[11px] text-slate-400 uppercase font-esports">2D Games</div>
+          </div>
+          <div class="p-3 rounded-xl bg-esportsCard border border-esportsBorder text-center">
+            <div class="text-2xl font-esports font-bold text-red-400">50 🪙</div>
+            <div class="text-[11px] text-slate-400 uppercase font-esports">Free Signup Tokens</div>
+          </div>
+          <div class="p-3 rounded-xl bg-esportsCard border border-esportsBorder text-center">
+            <div class="text-2xl font-esports font-bold text-emerald-400">Instant</div>
+            <div class="text-[11px] text-slate-400 uppercase font-esports">bKash Payout</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Featured Tournament Showcase Card -->
+      <div class="lg:col-span-5">
+        <div class="esports-card rounded-3xl p-6 border-2 border-red-500/50 shadow-2xl relative overflow-hidden">
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-2.5 py-1 rounded bg-red-600 text-white font-esports font-bold text-xs uppercase tracking-wider">
+              FEATURED TOURNAMENT
+            </span>
+            <span class="text-amber-400 text-xs font-mono font-bold flex items-center gap-1">
+              <i class="fa-solid fa-trophy"></i> 1,500 TK Pool
+            </span>
+          </div>
+
+          <div class="relative h-48 rounded-2xl overflow-hidden mb-4 bg-slate-900 border border-slate-800">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=60" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+            <div class="absolute bottom-3 left-3">
+              <div class="text-[11px] text-red-400 font-bold font-esports">ACTION ARENA</div>
+              <h3 class="text-xl font-bold font-esports text-white">Space Blaster Mega League</h3>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center justify-between text-xs mb-4">
+            <div>
+              <div class="text-[10px] text-slate-400 uppercase font-esports">Entry Fee</div>
+              <div class="font-bold text-white font-mono">10 TK or 20 Tokens</div>
+            </div>
+            <div class="text-right">
+              <div class="text-[10px] text-slate-400 uppercase font-esports">Top Prize</div>
+              <div class="font-bold text-amber-400 font-esports text-base">bKash Cash Pool</div>
+            </div>
+          </div>
+
+          <a href="player/play.html?id=game-1" class="btn-fire w-full py-2.5 rounded-xl text-center block text-xs">
+            Join & Set High Score →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2D Games Catalog Section -->
+  <section id="games" class="py-12 px-4 max-w-7xl mx-auto w-full">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+      <div>
+        <span class="text-xs font-bold text-red-500 uppercase font-esports tracking-wider">Playable 2D Arena</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold font-esports text-white mt-0.5">Games Catalog & Challengers</h2>
+      </div>
+
+      <!-- Categories Filter -->
+      <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1" id="categoryFilters">
+        <button onclick="filterGames('all')" class="cat-pill active px-3.5 py-1.5 rounded-lg text-xs font-bold font-esports bg-red-600 text-white">ALL GAMES</button>
+        <button onclick="filterGames('Action')" class="cat-pill px-3.5 py-1.5 rounded-lg text-xs font-bold font-esports bg-slate-900 text-slate-300 hover:bg-slate-800">ACTION</button>
+        <button onclick="filterGames('Arcade')" class="cat-pill px-3.5 py-1.5 rounded-lg text-xs font-bold font-esports bg-slate-900 text-slate-300 hover:bg-slate-800">ARCADE</button>
+        <button onclick="filterGames('Multiplayer')" class="cat-pill px-3.5 py-1.5 rounded-lg text-xs font-bold font-esports bg-slate-900 text-slate-300 hover:bg-slate-800">MULTIPLAYER</button>
+      </div>
+    </div>
+
+    <!-- Games Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="gamesGrid">
+      <!-- Injected by JS -->
+    </div>
+  </section>
+
+  <!-- Active Tournaments Arena Section -->
+  <section id="tournaments" class="py-14 px-4 bg-slate-950/80 border-y border-esportsBorder">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <span class="text-xs font-bold text-amber-400 uppercase font-esports tracking-wider">Compete for glory</span>
+        <h2 class="text-3xl font-extrabold font-esports text-white mt-1">Live & Upcoming Tournaments</h2>
+        <p class="text-slate-400 text-xs sm:text-sm mt-1">বিকাশ নগদ ক্যাশ প্রাইজ জিততে অংশ নিন। প্রতিটি টুর্নামেন্টের সেরা স্কোরার সরাসরি প্রাইজ পাবে।</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="tournamentsGrid">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Subscriptions & Token Exchange Pricing Section -->
+  <section id="pricing" class="py-16 px-4 max-w-7xl mx-auto w-full">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-xs font-bold text-red-500 uppercase font-esports tracking-wider">Passes & Token Store</span>
+      <h2 class="text-3xl font-extrabold font-esports text-white mt-1">Choose Your Daily Pass</h2>
+      <p class="text-slate-400 text-xs sm:text-sm mt-1">
+        সবগুলো 2D গেম খেলতে সাবস্ক্রিপশন প্রয়োজন। বিকাশ দিয়ে ৩ টাকা ১ দিন পাস নিন, অথবা জমানো ৫০ টোকেন দিয়ে একদম ফ্রিতে পাস নিন!
+      </p>
+    </div>
+
+    <!-- Pricing Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="plansContainer">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- Supported Payments -->
+    <div class="mt-12 p-6 rounded-2xl bg-esportsCard border border-esportsBorder flex flex-col md:flex-row items-center justify-between gap-6 max-w-4xl mx-auto">
+      <div class="text-center md:text-left">
+        <h4 class="font-bold text-white text-base font-esports">Supported Instant Payment Methods</h4>
+        <p class="text-xs text-slate-400 mt-0.5">Automatic activation via bKash, Nagad, Rocket or Free Token Exchange</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="px-3 py-1.5 rounded-lg bg-[#e2136e] text-white font-bold text-xs">bKash</span>
+        <span class="px-3 py-1.5 rounded-lg bg-orange-600 text-white font-bold text-xs">Nagad</span>
+        <span class="px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">🪙 Tokens</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rules Modal / Accordion -->
+  <section id="rules" class="py-10 px-4 max-w-5xl mx-auto">
+    <div class="p-6 sm:p-8 rounded-3xl esports-card border border-esportsBorder">
+      <h3 class="text-xl font-bold font-esports text-white flex items-center gap-2 mb-4">
+        <i class="fa-solid fa-scroll text-amber-400"></i> WAP Games Rules & Code of Fair Play
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
+        <div class="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+          <strong class="text-white block mb-1">1. Active Pass Required:</strong>
+          গেম খেলা এবং লিডারবোর্ডে স্কোর সাবমিট করতে ৩ টাকা/১ দিন বা টোকেন সাবস্ক্রিপশন থাকতে হবে।
+        </div>
+        <div class="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+          <strong class="text-white block mb-1">2. 50 Tokens Welcome Gift:</strong>
+          নতুন সাইনআপ করলেই ৫০ ফ্রি টোকেন দেওয়া হয় যা দিয়ে প্রথম ১ দিন বিনামূল্যে খেলা সম্ভব।
+        </div>
+        <div class="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+          <strong class="text-white block mb-1">3. Tournament Cash:</strong>
+          টুর্নামেন্ট সমাপ্ত হওয়ার পর সেরা ৩ জন বিজয়ী সরাসরি বিকাশ বা নগদ একাউন্টে ক্যাশ প্রাইজ পাবে।
+        </div>
+        <div class="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+          <strong class="text-white block mb-1">4. Zero Tolerance Ban:</strong>
+          চিটিং, বট বা ফেক স্কোর ধরা পড়লে অ্যাডমিন স্থায়ীভাবে একাউন্ট ব্যান করবে।
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-auto bg-slate-950 border-t border-slate-900 py-10 px-4 text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white">
+            <i class="fa-solid fa-fire"></i>
+          </div>
+          <span class="font-esports font-bold text-lg text-white">WAP ARENA 2D</span>
+        </div>
+        <p class="max-w-md text-slate-400">
+          বাংলাদেশের দ্রুতগতির 2D টুর্নামেন্ট পোর্টাল। গেম খেলুন, বন্ধুদের রেফার করে টোকেন আয় করুন ও প্রাইজমানি জিতুন।
+        </p>
+      </div>
+      <div>
+        <h5 class="font-bold text-white mb-3 font-esports">Navigation</h5>
+        <ul class="space-y-2">
+          <li><a href="player/profile.html" class="hover:text-red-400">Player Profile</a></li>
+          <li><a href="player/index.html" class="hover:text-red-400">Games Arena</a></li>
+          <li><a href="player/subscription.html" class="hover:text-red-400">Subscription Plans</a></li>
+          <li><a href="player/wallet.html" class="hover:text-red-400">Token & Wallet</a></li>
+          <li><a href="admin/index.html" class="hover:text-red-400">Admin Control Panel</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="font-bold text-white mb-3 font-esports">WhatsApp Support</h5>
+        <p class="mb-2">Need quick help? Reach us on WhatsApp 24/7:</p>
+        <a href="https://wa.me/8801700000000?text=Hello%20Theme2%20Support" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold font-mono">
+          <i class="fa-brands fa-whatsapp text-base"></i> +880 1700-000000
+        </a>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto pt-6 border-t border-slate-900 text-center flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>© 2026 WAP Games (Theme 2 Esports Edition). All rights reserved.</p>
+      <a href="../index.html" class="text-indigo-400 hover:underline">View Theme 1 (Cyber Neon) →</a>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Quick Support Button -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <a href="https://wa.me/8801700000000?text=Hello%20WAP%20Games%20Support" target="_blank" 
+       class="w-13 h-13 p-3.5 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center justify-center text-xl shadow-2xl wa-gold-pulse transition transform hover:scale-110"
+       title="Quick WhatsApp Help">
+      <i class="fa-brands fa-whatsapp text-2xl font-bold"></i>
+    </a>
+  </div>
+
+  <!-- Unified Shared Database -->
+  <script src="../assets/js/db.js"></script>
+  <script>
+    let currentCategory = 'all';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNavUser();
+      renderGames();
+      renderTournaments();
+      renderPlans();
+      updateStats();
+    });
+
+    function renderNavUser() {
+      const user = window.wapDB.getCurrentUser();
+      const container = document.getElementById('navAuthArea');
+      if (user) {
+        container.innerHTML = `
+          <div class="flex items-center gap-2">
+            <a href="player/profile.html" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:border-amber-500 flex items-center gap-2 transition" title="Go to Profile">
+              <span class="w-6 h-6 rounded-full bg-gradient-to-tr from-red-600 to-amber-500 text-white flex items-center justify-center text-[10px] font-bold">
+                ${user.avatar || user.name.charAt(0).toUpperCase()}
+              </span>
+              <span class="font-esports font-bold">${user.name.split(' ')[0]}</span>
+              <span class="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.5 rounded font-mono">${user.tokens || 0}🪙</span>
+            </a>
+            <a href="player/index.html" class="btn-fire px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1">
+              <i class="fa-solid fa-gamepad"></i> Play
+            </a>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <a href="player/login.html" class="btn-fire px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5">
+            <i class="fa-solid fa-user"></i> Player Login
+          </a>
+        `;
+      }
+    }
+
+    function filterGames(category) {
+      currentCategory = category;
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        btn.classList.remove('bg-red-600', 'text-white');
+        btn.classList.add('bg-slate-900', 'text-slate-300');
+      });
+      event.target.classList.add('bg-red-600', 'text-white');
+      event.target.classList.remove('bg-slate-900', 'text-slate-300');
+      renderGames();
+    }
+
+    function renderGames() {
+      const allGames = window.wapDB.getGames();
+      const filtered = currentCategory === 'all' 
+        ? allGames 
+        : currentCategory === 'Multiplayer'
+          ? allGames.filter(g => g.type === 'Multiplayer')
+          : allGames.filter(g => g.category.toLowerCase() === currentCategory.toLowerCase());
+
+      const grid = document.getElementById('gamesGrid');
+      grid.innerHTML = filtered.map(game => {
+        return `
+          <div class="esports-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+            <div class="relative h-44 overflow-hidden bg-slate-900">
+              <img src="${game.thumbnail}" alt="${game.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+              
+              <div class="absolute top-3 left-3 flex gap-1.5">
+                ${game.isNew ? '<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-red-600 text-white font-esports uppercase">NEW</span>' : ''}
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-950/80 text-amber-400 border border-amber-500/30 font-esports">
+                  ${game.type}
+                </span>
+              </div>
+              <div class="absolute bottom-2 left-3 text-xs text-slate-300 font-mono">
+                <i class="fa-solid fa-bolt text-amber-400"></i> ${game.playsCount || 0} plays
+              </div>
+            </div>
+
+            <div class="p-4 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="text-[11px] text-red-400 font-bold font-esports">${game.category}</div>
+                <h3 class="text-base font-bold font-esports text-white">${game.title}</h3>
+                <p class="text-slate-400 text-xs mt-1 line-clamp-2">${game.description}</p>
+              </div>
+
+              <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between gap-2">
+                <a href="player/play.html?id=${game.id}" class="btn-fire flex-1 text-center py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-play"></i> Play Arena
+                </a>
+                <a href="player/play.html?id=${game.id}&view=rules" class="px-3 py-2 rounded-xl text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800" title="Rules">
+                  <i class="fa-solid fa-circle-info"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTournaments() {
+      const tournaments = window.wapDB.getTournaments();
+      const grid = document.getElementById('tournamentsGrid');
+      grid.innerHTML = tournaments.map(t => {
+        return `
+          <div class="p-5 rounded-2xl esports-card border border-esportsBorder hover:border-amber-500 transition flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2.5 py-0.5 rounded text-[10px] font-bold font-esports ${t.status === 'Active' ? 'bg-red-600 text-white' : 'bg-slate-800 text-amber-400'}">
+                  ● ${t.status}
+                </span>
+                <span class="text-xs text-slate-400 font-mono"><i class="fa-solid fa-users text-amber-400"></i> ${t.participantsCount} Joined</span>
+              </div>
+
+              <h3 class="text-lg font-bold font-esports text-white">${t.title}</h3>
+              <p class="text-xs text-amber-400 font-medium mt-0.5">Game: ${t.gameTitle}</p>
+              
+              <div class="my-4 p-3 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center justify-between">
+                <div>
+                  <div class="text-[10px] text-slate-400 uppercase font-esports">Prize Pool</div>
+                  <div class="text-base font-bold text-amber-400 font-esports">${t.prizePool}</div>
+                </div>
+                <div class="text-right">
+                  <div class="text-[10px] text-slate-400 uppercase font-esports">Entry Fee</div>
+                  <div class="text-xs font-bold text-slate-200">
+                    ${t.entryFeeType === 'token' ? `${t.entryFee} Tokens` : `${t.entryFee} TK (bKash)`}
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-xs text-slate-400 mb-4">${t.rules}</p>
+            </div>
+
+            <a href="player/play.html?id=${t.gameId}&tournament=${t.id}" class="btn-gold w-full py-2.5 rounded-xl text-xs font-bold text-center block">
+              <i class="fa-solid fa-trophy"></i> Join Tournament
+            </a>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderPlans() {
+      const plans = window.wapDB.getPlans();
+      const container = document.getElementById('plansContainer');
+      container.innerHTML = plans.map(p => {
+        return `
+          <div class="relative p-6 rounded-2xl ${p.popular ? 'bg-gradient-to-b from-red-950/60 to-esportsCard border-2 border-red-500 shadow-xl shadow-red-500/20' : 'bg-esportsCard border border-esportsBorder'} flex flex-col justify-between">
+            ${p.popular ? '<div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-red-600 text-white text-[10px] font-bold font-esports uppercase tracking-wider">Top Value</div>' : ''}
+            <div>
+              <div class="text-xs font-bold font-esports text-slate-400">${p.name}</div>
+              <div class="mt-2 flex items-baseline gap-1">
+                <span class="text-3xl font-extrabold font-esports text-white">${p.price} TK</span>
+                <span class="text-xs text-slate-400">/ ${p.durationDays} Day${p.durationDays > 1 ? 's' : ''}</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-2 mb-4">${p.desc}</p>
+              
+              <div class="py-2.5 px-3 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-amber-400 flex items-center justify-between mb-4">
+                <span>Or Free Tokens:</span>
+                <span class="font-bold font-mono">🪙 ${p.tokenEquivalent}</span>
+              </div>
+            </div>
+
+            <a href="player/subscription.html?plan=${p.id}" class="${p.popular ? 'btn-fire' : 'bg-slate-900 hover:bg-slate-800 text-white border border-slate-700'} w-full py-2.5 rounded-xl text-xs font-bold text-center block font-esports tracking-wider transition">
+              Get Pass (bKash)
+            </a>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateStats() {
+      const games = window.wapDB.getGames();
+      document.getElementById('heroGamesCount').innerText = `${games.length}+`;
+    }
+  </script>
+</body>
+</html>

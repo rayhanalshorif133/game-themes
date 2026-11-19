@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Login - WAP Arena Theme 2</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            esportsDark: '#0c0d12',
+            esportsCard: '#151720',
+            esportsRed: '#ef4444',
+            esportsGold: '#f59e0b',
+            esportsBorder: '#262a3b'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme2.css">
+</head>
+<body class="bg-esportsDark text-slate-100 min-h-screen flex flex-col justify-between selection:bg-red-500">
+
+  <!-- Header -->
+  <header class="p-4 border-b border-esportsBorder flex items-center justify-between max-w-6xl mx-auto w-full">
+    <a href="../index.html" class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white">
+        <i class="fa-solid fa-fire"></i>
+      </div>
+      <span class="font-esports font-bold text-xl text-white">WAP ARENA</span>
+    </a>
+    <div class="flex items-center gap-3 text-xs">
+      <a href="../../player/login.html" class="text-indigo-400 hover:underline">Theme 1 Login →</a>
+      <a href="../index.html" class="text-slate-400 hover:text-white flex items-center gap-1">
+        <i class="fa-solid fa-arrow-left"></i> Home
+      </a>
+    </div>
+  </header>
+
+  <!-- Login Main -->
+  <main class="flex-1 flex items-center justify-center px-4 py-8">
+    <div class="w-full max-w-md esports-card p-6 sm:p-8 rounded-3xl border border-esportsBorder shadow-2xl">
+      
+      <div class="text-center mb-6">
+        <div class="inline-flex w-12 h-12 rounded-xl bg-gradient-to-tr from-red-600 to-amber-500 items-center justify-center text-2xl text-white shadow-lg shadow-red-600/30 mb-3">
+          <i class="fa-solid fa-trophy"></i>
+        </div>
+        <h2 class="text-2xl font-bold font-esports text-white">ARENA PLAYER ACCESS</h2>
+        <p class="text-xs text-slate-400 mt-1">লগইন করুন অথবা ফ্রি ৫০ টোকেন বোনাস সহ যোগ দিন!</p>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="flex rounded-xl bg-slate-950 p-1 mb-6 border border-slate-800">
+        <button id="tabLoginBtn" onclick="switchTab('login')" class="flex-1 py-2 text-xs font-bold font-esports rounded-lg transition bg-red-600 text-white">
+          SIGN IN
+        </button>
+        <button id="tabSignupBtn" onclick="switchTab('signup')" class="flex-1 py-2 text-xs font-bold font-esports rounded-lg transition text-slate-400 hover:text-white">
+          JOIN ARENA (+50 🪙)
+        </button>
+      </div>
+
+      <div id="authAlert" class="hidden mb-4 p-3 rounded-xl text-xs font-medium"></div>
+
+      <!-- Login Form -->
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Phone Number or Email</label>
+          <input type="text" id="loginIdentifier" required placeholder="e.g. 01711002233" 
+                 class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500 font-mono">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+          <input type="password" id="loginPassword" required placeholder="Enter password (default: 123)" 
+                 class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500">
+        </div>
+
+        <button type="submit" class="btn-fire w-full py-2.5 rounded-xl text-xs">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Login to Play
+        </button>
+
+        <!-- Quick 1-Click Demo Accounts -->
+        <div class="pt-4 border-t border-slate-800">
+          <div class="text-[11px] text-slate-400 mb-2 font-medium">⚡ 1-Click Demo Accounts (Pass: 123):</div>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" onclick="fillDemo('01711002233', '123')" class="p-2 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800 text-[11px] text-left text-slate-300">
+              <span class="font-bold text-amber-400 block font-esports">Tanvir (Active Subs)</span>
+              <span class="text-slate-500 text-[10px]">75 Tokens</span>
+            </button>
+            <button type="button" onclick="fillDemo('01933445566', '123')" class="p-2 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800 text-[11px] text-left text-slate-300">
+              <span class="font-bold text-red-400 block font-esports">Rakibul (No Subs)</span>
+              <span class="text-slate-500 text-[10px]">Needs 3 TK Pass</span>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Signup Form -->
+      <form id="signupForm" onsubmit="handleSignup(event)" class="space-y-3.5 hidden">
+        <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-center gap-2">
+          <i class="fa-solid fa-gift text-base"></i>
+          <span>Welcome Bonus: Sign up & claim <strong>50 Free Tokens</strong> immediately!</span>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name</label>
+          <input type="text" id="signupName" required placeholder="Gamer Name" 
+                 class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-red-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Phone Number</label>
+          <input type="tel" id="signupPhone" required placeholder="017XXXXXXXX" 
+                 class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-red-500 font-mono">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+          <input type="password" id="signupPassword" required placeholder="Password" 
+                 class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-red-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Referral Code (Optional)</label>
+          <input type="text" id="signupReferral" placeholder="e.g. WAP-TANVIR" 
+                 class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white uppercase focus:outline-none focus:border-red-500 font-mono">
+        </div>
+
+        <button type="submit" class="btn-gold w-full py-2.5 rounded-xl text-xs">
+          Claim 50 Tokens & Register
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <footer class="p-4 text-center text-xs text-slate-500 border-t border-esportsBorder">
+    © 2026 WAP Arena Theme 2. Fast & Competitive Gaming.
+  </footer>
+
+  <script src="../../assets/js/db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref) {
+        switchTab('signup');
+        document.getElementById('signupReferral').value = ref;
+      }
+    });
+
+    function switchTab(tab) {
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      const tabLoginBtn = document.getElementById('tabLoginBtn');
+      const tabSignupBtn = document.getElementById('tabSignupBtn');
+      const alert = document.getElementById('authAlert');
+      alert.classList.add('hidden');
+
+      if (tab === 'login') {
+        loginForm.classList.remove('hidden');
+        signupForm.classList.add('hidden');
+        tabLoginBtn.className = 'flex-1 py-2 text-xs font-bold font-esports rounded-lg transition bg-red-600 text-white';
+        tabSignupBtn.className = 'flex-1 py-2 text-xs font-bold font-esports rounded-lg transition text-slate-400 hover:text-white';
+      } else {
+        signupForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+        tabSignupBtn.className = 'flex-1 py-2 text-xs font-bold font-esports rounded-lg transition bg-amber-500 text-slate-950 font-bold';
+        tabLoginBtn.className = 'flex-1 py-2 text-xs font-bold font-esports rounded-lg transition text-slate-400 hover:text-white';
+      }
+    }
+
+    function fillDemo(identifier, password) {
+      document.getElementById('loginIdentifier').value = identifier;
+      document.getElementById('loginPassword').value = password;
+      handleLogin(new Event('submit'));
+    }
+
+    function showAlert(msg, isError = true) {
+      const el = document.getElementById('authAlert');
+      el.className = isError 
+        ? 'mb-4 p-3 rounded-xl text-xs font-medium bg-rose-500/20 border border-rose-500/30 text-rose-300' 
+        : 'mb-4 p-3 rounded-xl text-xs font-medium bg-emerald-500/20 border border-emerald-500/30 text-emerald-300';
+      el.innerText = msg;
+      el.classList.remove('hidden');
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const id = document.getElementById('loginIdentifier').value.trim();
+      const pass = document.getElementById('loginPassword').value;
+
+      const res = window.wapDB.login(id, pass);
+      if (res.success) {
+        showAlert('Login Successful! Entering Arena...', false);
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 500);
+      } else {
+        showAlert(res.message, true);
+      }
+    }
+
+    function handleSignup(e) {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value.trim();
+      const phone = document.getElementById('signupPhone').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const referralCode = document.getElementById('signupReferral').value.trim();
+
+      const res = window.wapDB.register({ name, phone, password, referralCode });
+      if (res.success) {
+        showAlert('Registered! 50 Free tokens added. Entering Arena...', false);
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 600);
+      } else {
+        showAlert(res.message, true);
+      }
+    }
+  </script>
+</body>
+</html>

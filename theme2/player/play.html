@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Battle Arena 2D - WAP Games Theme 2</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            esportsDark: '#0c0d12',
+            esportsCard: '#151720',
+            esportsRed: '#ef4444',
+            esportsGold: '#f59e0b',
+            esportsBorder: '#262a3b'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme2.css">
+  <style>
+    canvas { touch-action: none; }
+  </style>
+</head>
+<body class="bg-esportsDark text-slate-100 min-h-screen flex flex-col justify-between selection:bg-red-500">
+
+  <!-- Header -->
+  <header class="bg-esportsDark/95 border-b border-esportsBorder px-4 py-3 sticky top-0 z-30 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs flex items-center gap-1.5 transition">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span class="hidden sm:inline font-esports">Lobby</span>
+      </a>
+      <div>
+        <h1 id="gameHeaderTitle" class="text-base sm:text-lg font-bold font-esports text-white leading-tight">Loading Game...</h1>
+        <div class="flex items-center gap-2 text-[11px] text-slate-400">
+          <span id="gameCategoryBadge" class="text-red-400 font-bold font-esports">2D Action</span>
+          <span>•</span>
+          <span id="gameTypeBadge" class="text-amber-400 font-esports">Single Player</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <div id="playerTokenPill" class="px-2.5 py-1 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-mono font-bold flex items-center gap-1">
+        <i class="fa-solid fa-coins"></i>
+        <span id="headerTokens">0</span>
+      </div>
+      <a href="subscription.html" id="headerSubsPill" class="px-2.5 py-1 rounded-xl text-xs font-bold transition font-esports">
+        <!-- Injected by JS -->
+      </a>
+      <a href="profile.html" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 text-xs font-semibold" title="Profile">
+        <i class="fa-solid fa-user"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Game Arena -->
+  <main class="max-w-4xl mx-auto px-4 py-4 w-full flex-1">
+    
+    <!-- Viewport Box -->
+    <div class="relative rounded-3xl overflow-hidden bg-slate-950 border-2 border-esportsBorder shadow-2xl flex flex-col items-center justify-center min-h-[380px] sm:min-h-[460px]">
+      
+      <!-- Subscription Lock Overlay -->
+      <div id="subscriptionLockOverlay" class="hidden absolute inset-0 z-20 bg-slate-950/95 backdrop-blur-md p-6 flex flex-col items-center justify-center text-center">
+        <div class="w-16 h-16 rounded-2xl bg-red-600/20 text-red-500 flex items-center justify-center text-3xl mb-4 border border-red-500/40">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold font-esports text-white mb-2">ARENA PASS REQUIRED!</h2>
+        <p class="text-xs sm:text-sm text-slate-300 max-w-md mb-6">
+          WAP Arena এর যে কোনো 2D গেম বা টুর্নামেন্ট আনলক করতে পাস প্রয়োজন। ৩ টাকা দিয়ে ১ দিন পাস নিন অথবা ফ্রি ৫০ টোকেন দিয়ে সরাসরি আনলক করুন!
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-md mb-4">
+          <button onclick="quickBuyPlan('plan-1')" class="p-3.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs flex items-center justify-between transition">
+            <div class="text-left">
+              <div class="text-[10px] text-red-200 uppercase font-esports">bKash Instant</div>
+              <div class="text-sm font-bold">১ দিন পাস (৩ টাকা)</div>
+            </div>
+            <i class="fa-solid fa-bolt text-lg text-amber-400"></i>
+          </button>
+
+          <button onclick="quickExchangeTokens('plan-1')" class="p-3.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold text-xs flex items-center justify-between transition">
+            <div class="text-left">
+              <div class="text-[10px] text-amber-200 uppercase font-esports">Token Exchange</div>
+              <div class="text-sm font-bold">৫০ টোকেন দিয়ে ১ দিন</div>
+            </div>
+            <i class="fa-solid fa-coins text-lg text-amber-400"></i>
+          </button>
+        </div>
+
+        <a href="subscription.html" class="text-xs text-amber-400 hover:text-amber-300 underline font-esports">
+          অন্যান্য পাস দেখুন (৫ টাকা ২ দিন, ১০ টাকা ৫ দিন) →
+        </a>
+      </div>
+
+      <!-- Login Required Overlay -->
+      <div id="loginLockOverlay" class="hidden absolute inset-0 z-20 bg-slate-950/95 backdrop-blur-md p-6 flex flex-col items-center justify-center text-center">
+        <div class="w-16 h-16 rounded-2xl bg-red-600/20 text-red-400 flex items-center justify-center text-3xl mb-4 border border-red-500/30">
+          <i class="fa-solid fa-user-lock"></i>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold font-esports text-white mb-2">PLEASE LOGIN TO PLAY</h2>
+        <p class="text-xs text-slate-300 max-w-sm mb-6">
+          স্কোর লিডারবোর্ডে সাবমিট করতে আপনার প্লেয়ার একাউন্টে লগইন করুন।
+        </p>
+        <a href="login.html" class="btn-fire px-6 py-2.5 rounded-xl text-xs sm:text-sm">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Login / Claim 50 Tokens
+        </a>
+      </div>
+
+      <canvas id="gameCanvas" class="w-full max-w-[600px] h-[340px] sm:h-[400px] bg-slate-950"></canvas>
+
+      <!-- Start Overlay -->
+      <div id="startOverlay" class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-slate-950/70 backdrop-blur-sm">
+        <button id="startGameBtn" onclick="launchGame()" class="btn-fire px-8 py-3.5 rounded-2xl text-base tracking-wider flex items-center gap-2 transform hover:scale-105 transition shadow-2xl">
+          <i class="fa-solid fa-play"></i> START BATTLE
+        </button>
+        <p class="text-[11px] text-slate-400 mt-3 font-mono">Use Keyboard or Touch Buttons Below</p>
+      </div>
+    </div>
+
+    <!-- Mobile Virtual Game Controls -->
+    <div id="mobileControls" class="mt-3 p-3 rounded-2xl bg-esportsCard border border-esportsBorder flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <button onmousedown="handleVirtualControl('ArrowLeft', true)" onmouseup="handleVirtualControl('ArrowLeft', false)"
+                ontouchstart="handleVirtualControl('ArrowLeft', true)" ontouchend="handleVirtualControl('ArrowLeft', false)"
+                class="w-12 h-12 rounded-xl bg-slate-900 active:bg-red-600 text-slate-200 text-base border border-slate-800 shadow select-none">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button onmousedown="handleVirtualControl('ArrowRight', true)" onmouseup="handleVirtualControl('ArrowRight', false)"
+                ontouchstart="handleVirtualControl('ArrowRight', true)" ontouchend="handleVirtualControl('ArrowRight', false)"
+                class="w-12 h-12 rounded-xl bg-slate-900 active:bg-red-600 text-slate-200 text-base border border-slate-800 shadow select-none">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <button onmousedown="handleVirtualControl('ArrowUp', true)" onmouseup="handleVirtualControl('ArrowUp', false)"
+                ontouchstart="handleVirtualControl('ArrowUp', true)" ontouchend="handleVirtualControl('ArrowUp', false)"
+                class="w-12 h-12 rounded-xl bg-slate-900 active:bg-red-600 text-slate-200 text-base border border-slate-800 shadow select-none">
+          <i class="fa-solid fa-chevron-up"></i>
+        </button>
+        <button onmousedown="handleVirtualControl('ArrowDown', true)" onmouseup="handleVirtualControl('ArrowDown', false)"
+                ontouchstart="handleVirtualControl('ArrowDown', true)" ontouchend="handleVirtualControl('ArrowDown', false)"
+                class="w-12 h-12 rounded-xl bg-slate-900 active:bg-red-600 text-slate-200 text-base border border-slate-800 shadow select-none">
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+      </div>
+
+      <button onmousedown="handleVirtualControl('Space', true)" onmouseup="handleVirtualControl('Space', false)"
+              ontouchstart="handleVirtualControl('Space', true)" ontouchend="handleVirtualControl('Space', false)"
+              class="btn-fire px-6 py-3.5 rounded-xl text-xs flex items-center gap-1.5 select-none">
+        <i class="fa-solid fa-crosshairs"></i> Fire / Jump
+      </button>
+    </div>
+
+    <!-- Tournament Banner if active -->
+    <div id="tournamentBanner" class="hidden mt-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-xs">
+      <div class="flex items-center gap-2 text-amber-300 font-esports font-bold">
+        <i class="fa-solid fa-trophy text-amber-400"></i>
+        <span>Tournament: <strong id="trnTitle">League</strong> (Prize: <strong id="trnPrize">0 TK</strong>)</span>
+      </div>
+      <span class="text-slate-400 text-[11px]">Score auto-submits</span>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="mt-6 border-b border-esportsBorder flex items-center gap-2 overflow-x-auto">
+      <button onclick="switchTab('rules')" id="tabBtnRules" class="tab-btn px-4 py-2.5 text-xs font-bold font-esports border-b-2 border-red-500 text-white flex items-center gap-1.5 whitespace-nowrap">
+        <i class="fa-solid fa-book-open text-red-500"></i> Rules & Guidelines
+      </button>
+      <button onclick="switchTab('leaderboard')" id="tabBtnLeaderboard" class="tab-btn px-4 py-2.5 text-xs font-bold font-esports border-b-2 border-transparent text-slate-400 hover:text-white flex items-center gap-1.5 whitespace-nowrap">
+        <i class="fa-solid fa-ranking-star text-amber-400"></i> Arena Leaderboard
+      </button>
+      <button onclick="switchTab('reviews')" id="tabBtnReviews" class="tab-btn px-4 py-2.5 text-xs font-bold font-esports border-b-2 border-transparent text-slate-400 hover:text-white flex items-center gap-1.5 whitespace-nowrap">
+        <i class="fa-solid fa-star text-yellow-400"></i> Ratings & Feedback
+      </button>
+    </div>
+
+    <!-- Tab 1: Rules -->
+    <div id="tabRules" class="tab-content py-5">
+      <div class="p-5 rounded-2xl esports-card border border-esportsBorder">
+        <h3 class="text-sm font-bold font-esports text-white mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-gamepad text-red-500"></i> How to Play & Controls
+        </h3>
+        <ul id="gameRulesList" class="space-y-2 text-xs text-slate-300">
+          <!-- Injected by JS -->
+        </ul>
+      </div>
+    </div>
+
+    <!-- Tab 2: Leaderboard -->
+    <div id="tabLeaderboard" class="tab-content py-5 hidden">
+      <div class="rounded-2xl esports-card border border-esportsBorder overflow-hidden">
+        <div class="p-4 border-b border-esportsBorder flex items-center justify-between">
+          <span class="font-bold text-xs sm:text-sm text-white font-esports">Top High Scores</span>
+          <span class="text-[11px] text-slate-400">Updated Real-Time</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-950 text-slate-400 uppercase text-[10px]">
+              <tr>
+                <th class="py-2.5 px-4">Rank</th>
+                <th class="py-2.5 px-4">Player</th>
+                <th class="py-2.5 px-4">Status</th>
+                <th class="py-2.5 px-4 text-right">Score</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardTbody" class="divide-y divide-slate-800">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Ratings & Reviews -->
+    <div id="tabReviews" class="tab-content py-5 hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-5 rounded-2xl esports-card border border-esportsBorder">
+          <h3 class="text-sm font-bold font-esports text-white mb-3">Rate & Review Game</h3>
+          <form onsubmit="handleReviewSubmit(event)" class="space-y-3">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Your Rating</label>
+              <div class="flex items-center gap-2 text-lg text-amber-400" id="starSelector">
+                <button type="button" onclick="setRating(1)" class="star"><i class="fa-solid fa-star"></i></button>
+                <button type="button" onclick="setRating(2)" class="star"><i class="fa-solid fa-star"></i></button>
+                <button type="button" onclick="setRating(3)" class="star"><i class="fa-solid fa-star"></i></button>
+                <button type="button" onclick="setRating(4)" class="star"><i class="fa-solid fa-star"></i></button>
+                <button type="button" onclick="setRating(5)" class="star"><i class="fa-solid fa-star"></i></button>
+                <span id="selectedRatingText" class="text-xs text-slate-300 ml-2 font-mono">5 Stars</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Feedback Comment</label>
+              <textarea id="reviewComment" rows="3" required placeholder="Write your gameplay feedback..."
+                        class="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500"></textarea>
+            </div>
+
+            <button type="submit" class="btn-fire w-full py-2 rounded-xl text-xs">
+              Submit Review
+            </button>
+          </form>
+        </div>
+
+        <div class="p-5 rounded-2xl esports-card border border-esportsBorder">
+          <h3 class="text-sm font-bold font-esports text-white mb-3">Player Reviews</h3>
+          <div id="reviewsList" class="space-y-3 max-h-[260px] overflow-y-auto pr-1">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- WhatsApp Floating Button -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <a href="https://wa.me/8801700000000?text=Game%20Help" target="_blank" 
+       class="w-12 h-12 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center justify-center text-xl shadow-xl wa-gold-pulse">
+      <i class="fa-brands fa-whatsapp font-bold"></i>
+    </a>
+  </div>
+
+  <script src="../../assets/js/db.js"></script>
+  <script src="../../assets/js/games-engine.js"></script>
+  <script>
+    let currentGame = null;
+    let currentUser = null;
+    let engine = null;
+    let currentRating = 5;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const gameId = urlParams.get('id') || 'game-1';
+      const trnId = urlParams.get('tournament');
+      const view = urlParams.get('view');
+
+      currentGame = window.wapDB.getGameById(gameId);
+      currentUser = window.wapDB.getCurrentUser();
+
+      if (!currentGame) {
+        alert('Game not found!');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      if (trnId) {
+        const t = window.wapDB.getTournamentById(trnId);
+        if (t) {
+          document.getElementById('tournamentBanner').classList.remove('hidden');
+          document.getElementById('trnTitle').innerText = t.title;
+          document.getElementById('trnPrize').innerText = t.prizePool;
+        }
+      }
+
+      setupGameHeader();
+      checkAuthAndSubscription();
+      renderLeaderboard();
+      renderReviews();
+      renderRules();
+
+      if (view === 'rules') switchTab('rules');
+    });
+
+    function setupGameHeader() {
+      document.getElementById('gameHeaderTitle').innerText = currentGame.title;
+      document.getElementById('gameCategoryBadge').innerText = currentGame.category;
+      document.getElementById('gameTypeBadge').innerText = currentGame.type;
+    }
+
+    function checkAuthAndSubscription() {
+      const headerTokens = document.getElementById('headerTokens');
+      const headerSubsPill = document.getElementById('headerSubsPill');
+      const subLock = document.getElementById('subscriptionLockOverlay');
+      const loginLock = document.getElementById('loginLockOverlay');
+      const startOverlay = document.getElementById('startOverlay');
+
+      if (!currentUser) {
+        loginLock.classList.remove('hidden');
+        startOverlay.classList.add('hidden');
+        headerTokens.innerText = '0';
+        headerSubsPill.className = 'px-2.5 py-1 rounded-xl bg-red-600 text-white text-xs font-bold';
+        headerSubsPill.innerText = 'Login Required';
+        return;
+      }
+
+      headerTokens.innerText = currentUser.tokens || 0;
+      const hasSubs = window.wapDB.hasActiveSubscription(currentUser);
+
+      if (hasSubs) {
+        headerSubsPill.className = 'px-2.5 py-1 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold';
+        headerSubsPill.innerHTML = '<i class="fa-solid fa-check"></i> PASS ACTIVE';
+        subLock.classList.add('hidden');
+        loginLock.classList.add('hidden');
+        startOverlay.classList.remove('hidden');
+      } else {
+        headerSubsPill.className = 'px-2.5 py-1 rounded-xl bg-red-600/20 text-red-400 border border-red-500/30 text-xs font-bold';
+        headerSubsPill.innerHTML = '<i class="fa-solid fa-lock"></i> 3 TK PASS';
+        subLock.classList.remove('hidden');
+        startOverlay.classList.add('hidden');
+      }
+    }
+
+    function launchGame() {
+      document.getElementById('startOverlay').classList.add('hidden');
+      window.wapDB.incrementGamePlay(currentGame.id);
+
+      engine = new WAPGamesEngine(
+        'gameCanvas',
+        currentGame.engineKey,
+        (finalScore) => handleGameOver(finalScore),
+        (score) => {}
+      );
+      engine.start();
+    }
+
+    function handleGameOver(finalScore) {
+      if (currentUser) {
+        window.wapDB.recordScore(currentUser.id, currentGame.id, finalScore);
+        renderLeaderboard();
+      }
+      const overlay = document.getElementById('startOverlay');
+      const btn = document.getElementById('startGameBtn');
+      btn.innerHTML = `<i class="fa-solid fa-rotate-right"></i> PLAY AGAIN (Score: ${finalScore})`;
+      overlay.classList.remove('hidden');
+    }
+
+    function quickBuyPlan(planId) {
+      if (!currentUser) return;
+      const res = window.wapDB.purchaseSubscription(currentUser.id, planId, 'bKash');
+      if (res.success) {
+        alert('🎉 Subscription activated via bKash! Unlocked!');
+        currentUser = window.wapDB.getCurrentUser();
+        checkAuthAndSubscription();
+        launchGame();
+      }
+    }
+
+    function quickExchangeTokens(planId) {
+      if (!currentUser) return;
+      const res = window.wapDB.exchangeTokensForSubscription(currentUser.id, planId);
+      if (res.success) {
+        alert('🎉 Exchanged 50 Tokens for 1 Day Pass! Unlocked!');
+        currentUser = window.wapDB.getCurrentUser();
+        checkAuthAndSubscription();
+        launchGame();
+      } else {
+        alert(res.message);
+      }
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('border-red-500', 'text-white');
+        btn.classList.add('border-transparent', 'text-slate-400');
+      });
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+
+      if (tab === 'rules') {
+        document.getElementById('tabRules').classList.remove('hidden');
+        document.getElementById('tabBtnRules').classList.add('border-red-500', 'text-white');
+      } else if (tab === 'leaderboard') {
+        document.getElementById('tabLeaderboard').classList.remove('hidden');
+        document.getElementById('tabBtnLeaderboard').classList.add('border-red-500', 'text-white');
+        renderLeaderboard();
+      } else if (tab === 'reviews') {
+        document.getElementById('tabReviews').classList.remove('hidden');
+        document.getElementById('tabBtnReviews').classList.add('border-red-500', 'text-white');
+        renderReviews();
+      }
+    }
+
+    function renderRules() {
+      const list = document.getElementById('gameRulesList');
+      list.innerHTML = (currentGame.rules || []).map(r => `
+        <li class="flex items-start gap-2">
+          <i class="fa-solid fa-check text-amber-400 mt-1"></i>
+          <span>${r}</span>
+        </li>
+      `).join('');
+    }
+
+    function renderLeaderboard() {
+      const scores = window.wapDB.getLeaderboard(currentGame.id);
+      const tbody = document.getElementById('leaderboardTbody');
+      if (scores.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-slate-500">No scores yet.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = scores.map((s, idx) => {
+        const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${idx + 1}`;
+        const isMe = currentUser && s.playerId === currentUser.id;
+        return `
+          <tr class="${isMe ? 'bg-red-950/40 text-red-300 font-bold' : 'hover:bg-slate-900'}">
+            <td class="py-2.5 px-4 font-mono font-bold">${medal}</td>
+            <td class="py-2.5 px-4">${s.playerName} ${isMe ? '(You)' : ''}</td>
+            <td class="py-2.5 px-4 text-slate-400">${s.subscriptionActive ? 'Active' : 'Free'}</td>
+            <td class="py-2.5 px-4 text-right font-mono font-bold text-amber-400">${s.score}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function setRating(r) {
+      currentRating = r;
+      document.getElementById('selectedRatingText').innerText = `${r} Star${r > 1 ? 's' : ''}`;
+    }
+
+    function handleReviewSubmit(e) {
+      e.preventDefault();
+      const comment = document.getElementById('reviewComment').value.trim();
+      const playerName = currentUser ? currentUser.name : 'Gamer';
+      window.wapDB.addReview(currentGame.id, playerName, currentRating, comment);
+      document.getElementById('reviewComment').value = '';
+      alert('Thank you for your rating & feedback!');
+      renderReviews();
+    }
+
+    function renderReviews() {
+      const reviews = window.wapDB.getReviews(currentGame.id);
+      const container = document.getElementById('reviewsList');
+      if (reviews.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-500">No reviews yet.</p>`;
+        return;
+      }
+      container.innerHTML = reviews.map(r => `
+        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-bold text-xs text-white">${r.playerName}</span>
+            <span class="text-amber-400 text-xs">${'★'.repeat(r.rating)}</span>
+          </div>
+          <p class="text-xs text-slate-300">${r.comment}</p>
+        </div>
+      `).join('');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promotional SMS Broadcast - Esports Admin HQ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            esportsDark: '#0c0d12',
+            esportsCard: '#151720',
+            esportsRed: '#ef4444',
+            esportsGold: '#f59e0b',
+            esportsBorder: '#262a3b'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme2.css">
+</head>
+<body class="bg-esportsDark text-slate-100 min-h-screen flex selection:bg-red-500 selection:text-white">
+
+  <!-- Desktop Left Sidebar -->
+  <aside class="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-64 bg-slate-950 border-r border-esportsBorder z-40">
+    <div class="p-5 border-b border-esportsBorder flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-600 to-amber-500 flex items-center justify-center text-white text-lg shadow-lg shadow-red-600/30">
+          <i class="fa-solid fa-fire"></i>
+        </div>
+        <div>
+          <span class="font-esports font-extrabold text-lg text-white tracking-wider flex items-center gap-1.5">
+            WAP ARENA <span class="text-[9px] px-1.5 py-0.2 rounded bg-red-600 text-white font-mono">T2</span>
+          </span>
+          <span class="text-[10px] block text-amber-400 font-mono -mt-1 font-bold">ESPORTS COMMAND</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <div class="px-3 pb-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider font-esports">Arena Management</div>
+      
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-amber-400 transition">
+        <i class="fa-solid fa-gauge-high w-4 text-center"></i>
+        <span>Arena Dashboard</span>
+      </a>
+
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-amber-400 transition">
+        <i class="fa-solid fa-gamepad w-4 text-center text-red-400"></i>
+        <span>2D Games Catalog</span>
+      </a>
+
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-amber-400 transition">
+        <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
+        <span>Tournaments Setup</span>
+      </a>
+
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-amber-400 transition">
+        <i class="fa-solid fa-users w-4 text-center text-emerald-400"></i>
+        <span>Players & Ban Control</span>
+      </a>
+
+      <div class="pt-4 px-3 pb-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider font-esports">Monetization & Comms</div>
+
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold btn-fire text-white shadow-lg shadow-red-600/30 transition">
+        <i class="fa-solid fa-bullhorn w-4 text-center"></i>
+        <span>Promo SMS Center</span>
+      </a>
+
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-amber-400 transition">
+        <i class="fa-solid fa-credit-card w-4 text-pink-400"></i>
+        <span>bKash Subscriptions</span>
+      </a>
+
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-amber-400 transition">
+        <i class="fa-solid fa-star w-4 text-amber-400"></i>
+        <span>Player Reviews</span>
+      </a>
+
+      <div class="pt-4 px-3 pb-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider font-esports">Theme Switching</div>
+      
+      <a href="../../Theme1/admin/sms.html" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold bg-indigo-950/60 hover:bg-indigo-900 text-indigo-300 border border-indigo-700/40 transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-palette text-indigo-400"></i>
+          <span>Theme 1 SMS</span>
+        </span>
+        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+      </a>
+    </div>
+
+    <div class="p-4 border-t border-esportsBorder space-y-2">
+      <a href="../index.html" target="_blank" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold bg-red-950/60 text-red-300 hover:bg-red-900/60 border border-red-500/30 transition">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Esports Arena
+        </span>
+        <i class="fa-solid fa-external-link text-[10px]"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div id="mobileSidebarOverlay" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm md:hidden"></div>
+
+  <!-- Mobile Drawer Sidebar -->
+  <div id="mobileSidebar" class="fixed top-0 bottom-0 left-0 w-64 bg-slate-950 border-r border-esportsBorder z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col">
+    <div class="p-4 border-b border-esportsBorder flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white">
+          <i class="fa-solid fa-fire"></i>
+        </div>
+        <span class="font-esports font-bold text-white tracking-wider">WAP ARENA HQ</span>
+      </div>
+      <button onclick="toggleMobileSidebar()" class="text-slate-400 hover:text-white p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+    <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-gauge-high w-4"></i> Dashboard
+      </a>
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-gamepad w-4 text-red-400"></i> Games Catalog
+      </a>
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-trophy w-4 text-amber-400"></i> Tournaments
+      </a>
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-users w-4 text-emerald-400"></i> Players & Ban
+      </a>
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold btn-fire text-white">
+        <i class="fa-solid fa-bullhorn w-4"></i> Promo SMS
+      </a>
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-credit-card w-4 text-pink-400"></i> Subscriptions
+      </a>
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300">
+        <i class="fa-solid fa-star w-4 text-amber-400"></i> Reviews
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="md:pl-64 flex-1 flex flex-col min-h-screen">
+    
+    <!-- Top Header Bar -->
+    <header class="sticky top-0 z-30 bg-esportsDark/95 backdrop-blur-md border-b border-esportsBorder px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="md:hidden p-2 rounded-xl bg-slate-900 text-slate-300 border border-esportsBorder text-xs">
+          <i class="fa-solid fa-bars text-sm"></i>
+        </button>
+        <h1 class="text-base sm:text-lg font-bold font-esports text-white">PROMOTIONAL SMS BROADCAST CENTER</h1>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs text-amber-400 font-mono font-bold">
+          <i class="fa-solid fa-tower-broadcast text-red-500"></i> BD Telco Gateway Online
+        </span>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
+      
+      <!-- Composer & Preview Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Broadcast Composer (2 Cols) -->
+        <div class="lg:col-span-2 esports-card rounded-2xl p-6 border border-esportsBorder shadow-xl">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-esportsBorder">
+            <div>
+              <h2 class="text-base font-bold font-esports text-white flex items-center gap-2">
+                <i class="fa-solid fa-paper-plane text-red-500"></i> Compose Promo SMS Campaign
+              </h2>
+              <p class="text-xs text-slate-400">Broadcast updates, tournament invitations, or token bonus codes to registered players.</p>
+            </div>
+          </div>
+
+          <form onsubmit="handleSendSms(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Campaign Reference Title</label>
+              <input type="text" id="smsTitleInput" required placeholder="e.g. Weekend Flash Tournament Alert"
+                     class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Target Audience</label>
+                <select id="smsAudienceSelect" onchange="updateEstimatedRecipients()" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white">
+                  <option value="All Players">All Registered Players</option>
+                  <option value="Active Subscribers">Active Pass Holders Only</option>
+                  <option value="Inactive Players">Inactive / Expired Pass Players</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Estimated Audience Reach</label>
+                <div class="px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-amber-400 font-mono font-bold" id="estimatedRecipientsText">
+                  0 Players (0 Phone Numbers)
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Templates -->
+            <div>
+              <div class="text-[11px] font-bold text-slate-400 uppercase font-esports mb-2">Quick Message Templates:</div>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" onclick="applyTemplate(1)" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-900 hover:bg-slate-800 text-amber-400 border border-slate-800">
+                  ⚡ 50 Free Tokens Promo
+                </button>
+                <button type="button" onclick="applyTemplate(2)" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-900 hover:bg-slate-800 text-amber-400 border border-slate-800">
+                  🏆 1,500 TK Cash Tournament
+                </button>
+                <button type="button" onclick="applyTemplate(3)" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-900 hover:bg-slate-800 text-amber-400 border border-slate-800">
+                  🔥 3 TK 1-Day Pass Special
+                </button>
+              </div>
+            </div>
+
+            <!-- Message Body -->
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="text-xs font-semibold text-slate-300">SMS Body (Supports English & Banglish)</label>
+                <span class="text-[10px] text-slate-400 font-mono" id="smsCharCounter">0 / 160 chars (1 SMS)</span>
+              </div>
+              <textarea id="smsBodyInput" rows="4" required oninput="handleCharCount()"
+                        placeholder="Type promotional SMS text here..."
+                        class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"></textarea>
+            </div>
+
+            <div class="pt-2 flex justify-end">
+              <button type="submit" class="btn-fire px-6 py-2.5 rounded-xl text-xs font-bold text-white flex items-center gap-2 shadow-lg shadow-red-600/30">
+                <i class="fa-solid fa-tower-broadcast"></i> Send Broadcast Now
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Phone Preview Mockup (1 Col) -->
+        <div class="esports-card rounded-2xl p-6 border border-esportsBorder shadow-xl flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-esportsBorder">
+              <h3 class="text-xs font-bold font-esports uppercase text-amber-400">Smartphone Live Preview</h3>
+              <i class="fa-solid fa-mobile-screen text-slate-500"></i>
+            </div>
+
+            <!-- Phone Screen Simulation -->
+            <div class="p-4 rounded-2xl bg-slate-950 border-2 border-slate-800 shadow-inner">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-900 mb-3 text-[10px] text-slate-500 font-mono">
+                <span>9:41 AM</span>
+                <span class="text-amber-400">WAP_ARENA</span>
+                <span>📶 100%</span>
+              </div>
+              
+              <div class="p-3.5 rounded-2xl bg-red-950/40 border border-red-500/20 text-xs text-slate-200" id="smsPreviewBox">
+                Your promotional SMS preview will update here in real time...
+              </div>
+
+              <div class="text-[9px] text-slate-600 text-right mt-2 font-mono">Delivery via Telco BD</div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-esportsBorder text-xs text-slate-400 space-y-1">
+            <div class="flex items-center justify-between">
+              <span>Telco Masking:</span>
+              <span class="text-white font-mono font-bold">WAP_ARENA</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>Delivery Status:</span>
+              <span class="text-emerald-400 font-bold">● High Speed Queue</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SMS Broadcast History Table -->
+      <div class="esports-card rounded-2xl border border-esportsBorder overflow-hidden shadow-xl">
+        <div class="p-4 border-b border-esportsBorder flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-clock-rotate-left text-amber-400"></i>
+            <h3 class="font-bold font-esports text-sm text-white">Broadcast Campaign History Logs</h3>
+          </div>
+          <span class="text-xs text-slate-400 font-mono" id="totalSmsCountText">0 Campaigns Sent</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-950/80 text-slate-400 uppercase text-[10px] font-esports tracking-wider">
+              <tr>
+                <th class="py-3 px-4">Date & Time</th>
+                <th class="py-3 px-4">Campaign Title</th>
+                <th class="py-3 px-4">Audience</th>
+                <th class="py-3 px-4">Recipients</th>
+                <th class="py-3 px-4">Message Preview</th>
+                <th class="py-3 px-4">Status</th>
+              </tr>
+            </thead>
+            <tbody id="smsHistoryTbody" class="divide-y divide-esportsBorder">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <footer class="p-4 text-center text-xs text-slate-400 border-t border-esportsBorder mt-auto">
+      © 2026 WAP Games 2D (Theme 2 Esports Arena Edition).
+    </footer>
+  </div>
+
+  <!-- Shared Database -->
+  <script src="../../assets/js/db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      updateEstimatedRecipients();
+      renderSmsHistory();
+    });
+
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('mobileSidebar');
+      const overlay = document.getElementById('mobileSidebarOverlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
+
+    function updateEstimatedRecipients() {
+      const audience = document.getElementById('smsAudienceSelect').value;
+      const players = window.wapDB.getPlayers();
+      let count = 0;
+
+      if (audience === 'Active Subscribers') {
+        count = players.filter(p => window.wapDB.hasActiveSubscription(p)).length;
+      } else if (audience === 'Inactive Players') {
+        count = players.filter(p => !window.wapDB.hasActiveSubscription(p)).length;
+      } else {
+        count = players.length;
+      }
+
+      document.getElementById('estimatedRecipientsText').innerText = `${count} Players (${count} Phone Numbers)`;
+    }
+
+    function handleCharCount() {
+      const text = document.getElementById('smsBodyInput').value;
+      const count = text.length;
+      const parts = Math.ceil(count / 160) || 1;
+      document.getElementById('smsCharCounter').innerText = `${count} / 160 chars (${parts} SMS)`;
+      document.getElementById('smsPreviewBox').innerText = text || 'Your promotional SMS preview will update here in real time...';
+    }
+
+    function applyTemplate(type) {
+      const titleInput = document.getElementById('smsTitleInput');
+      const bodyInput = document.getElementById('smsBodyInput');
+
+      if (type === 1) {
+        titleInput.value = '50 Free Tokens Welcome Bonus';
+        bodyInput.value = 'WAP Arena Alert: Sign up or login now to claim 50 free gaming tokens! Exchange tokens for 1-day free game pass. Play 2D games now!';
+      } else if (type === 2) {
+        titleInput.value = '1,500 TK Cash Tournament Live';
+        bodyInput.value = 'WAP Arena Tournament: Space Blaster 2D championship is now live! 1,500 TK Cash prize pool via bKash. Join now and reach top rank!';
+      } else if (type === 3) {
+        titleInput.value = '3 TK 1-Day Pass Special';
+        bodyInput.value = 'Flash Offer: Get unlimited access to all 2D games for only 3 TK/day via bKash. Instant activation! Visit wapgames.bd now!';
+      }
+
+      handleCharCount();
+    }
+
+    function renderSmsHistory() {
+      const history = window.wapDB.getSmsCampaigns();
+      const tbody = document.getElementById('smsHistoryTbody');
+      document.getElementById('totalSmsCountText').innerText = `${history.length} Campaigns Sent`;
+
+      if (!history || history.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400 text-xs">No SMS campaigns sent yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = history.map(item => {
+        return `
+          <tr class="hover:bg-slate-900/60 transition">
+            <td class="py-3 px-4 font-mono text-slate-400 text-[11px]">${item.sentAt}</td>
+            <td class="py-3 px-4 font-bold text-white font-esports">${item.title}</td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-amber-400">
+                ${item.audience}
+              </span>
+            </td>
+            <td class="py-3 px-4 font-mono font-bold text-slate-300">${item.recipientsCount} Numbers</td>
+            <td class="py-3 px-4 text-slate-400 text-[11px] max-w-xs truncate">${item.message}</td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400">
+                ● ${item.status || 'Delivered'}
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function handleSendSms(e) {
+      e.preventDefault();
+      const title = document.getElementById('smsTitleInput').value.trim();
+      const audience = document.getElementById('smsAudienceSelect').value;
+      const message = document.getElementById('smsBodyInput').value.trim();
+
+      const players = window.wapDB.getPlayers();
+      let count = players.length;
+      if (audience === 'Active Subscribers') {
+        count = players.filter(p => window.wapDB.hasActiveSubscription(p)).length;
+      } else if (audience === 'Inactive Players') {
+        count = players.filter(p => !window.wapDB.hasActiveSubscription(p)).length;
+      }
+
+      const campaign = {
+        title,
+        audience,
+        recipientsCount: count,
+        message,
+        status: 'Delivered'
+      };
+
+      window.wapDB.saveSmsCampaign(campaign);
+      alert(`Promotional SMS campaign "${title}" dispatched to ${count} recipients via BD Telco Gateway!`);
+
+      document.getElementById('smsTitleInput').value = '';
+      document.getElementById('smsBodyInput').value = '';
+      handleCharCount();
+      renderSmsHistory();
+    }
+  </script>
+</body>
+</html>

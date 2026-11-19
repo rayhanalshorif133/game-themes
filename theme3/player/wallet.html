@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Token Coin Vault & Referrals - Pixel WAP Theme 3</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            arcadeBg: '#070913',
+            arcadeSurface: '#0e1322',
+            arcadeCyan: '#00f0ff',
+            arcadePink: '#ff007f',
+            arcadeYellow: '#ffe600',
+            arcadeGreen: '#00ff66',
+            arcadeBorder: '#1e2942'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme3.css">
+</head>
+<body class="bg-arcadeBg text-slate-100 min-h-screen flex flex-col justify-between selection:bg-arcadeCyan selection:text-black">
+
+  <!-- Header -->
+  <header class="bg-arcadeBg/95 border-b-2 border-arcadeCyan px-4 py-3 sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="p-2 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs flex items-center gap-1.5 border border-slate-700 font-retro">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span>Lobby</span>
+        </a>
+        <h1 class="text-base sm:text-lg font-bold font-retro text-white">COIN VAULT & REFERRAL</h1>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a href="profile.html" class="p-2 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-semibold" title="Profile">
+          <i class="fa-solid fa-user"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-5xl mx-auto px-4 py-8 w-full flex-1 space-y-6">
+    
+    <!-- Balance Hero Card -->
+    <div class="arcade-card p-6 sm:p-8 bg-slate-950 border-2 border-arcadeYellow shadow-[6px_6px_0px_#a16207] flex flex-col sm:flex-row items-center justify-between gap-6 font-retro">
+      <div class="flex items-center gap-4 text-center sm:text-left">
+        <div class="w-16 h-16 bg-arcadeYellow text-slate-950 flex items-center justify-center text-3xl shadow-[3px_3px_0px_#ca8a04]">
+          🪙
+        </div>
+        <div>
+          <div class="text-xs text-arcadeYellow font-bold">TOTAL TOKEN COINS</div>
+          <div class="text-4xl sm:text-5xl font-extrabold text-white mt-1">
+            <span id="walletTokenBalance">0</span> <span class="text-xs text-slate-400">COINS</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1 font-sans">৫০ টোকেন কয়েন এক্সচেঞ্জ করলেই পাবেন ১ দিনের ফুল গেম পাস।</p>
+        </div>
+      </div>
+
+      <a href="subscription.html" class="btn-arcade-cyan px-5 py-3 text-xs font-bold whitespace-nowrap">
+        <i class="fa-solid fa-bolt mr-1"></i> EXCHANGE FOR PASS
+      </a>
+    </div>
+
+    <!-- Referral Program Card -->
+    <div class="arcade-card p-6 sm:p-8 border-2 border-arcadeCyan">
+      <div class="flex items-center gap-2 text-arcadePink font-retro font-bold text-xs uppercase mb-2">
+        <i class="fa-solid fa-user-plus"></i> REFER & EARN BONUS COINS
+      </div>
+      <h2 class="text-2xl font-bold font-retro text-white">Invite Friends & Get 25 Coins Each!</h2>
+      <p class="text-xs text-slate-400 mt-1 font-sans max-w-xl">
+        আপনার বন্ধুদের সাথে রেফারেল কোড বা লিংক শেয়ার করুন। তারা সাইন-আপ করলে সাথে সাথে আপনার ওয়ালেটে জমা হবে <strong class="text-arcadeYellow font-retro">২৫ টোকেন কয়েন</strong>!
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6 font-retro">
+        <div class="p-4 bg-slate-950 border border-slate-800">
+          <div class="text-[10px] text-slate-400 uppercase">YOUR REFERRAL CODE</div>
+          <div class="text-2xl font-bold text-arcadeCyan tracking-widest my-1 font-mono" id="myRefCode">
+            WAP0000
+          </div>
+          <button onclick="copyRefCode()" class="text-xs text-arcadeYellow hover:underline">
+            <i class="fa-solid fa-copy"></i> Click to Copy Code
+          </button>
+        </div>
+
+        <div class="p-4 bg-slate-950 border border-slate-800">
+          <div class="text-[10px] text-slate-400 uppercase">INVITED PLAYERS</div>
+          <div class="text-2xl font-bold text-arcadeGreen my-1 font-mono">
+            <span id="myRefCount">0</span> PLAYERS
+          </div>
+          <div class="text-xs text-slate-400 font-sans">Total Earned: <span id="myRefCoinsEarned" class="text-arcadeYellow font-retro">0</span> Coins</div>
+        </div>
+      </div>
+
+      <!-- Share Buttons -->
+      <div class="flex flex-wrap items-center gap-3 font-retro">
+        <button onclick="copyRefLink()" class="btn-arcade-dark px-4 py-2.5 text-xs font-bold flex items-center gap-1.5">
+          <i class="fa-solid fa-link"></i> COPY INVITE LINK
+        </button>
+        <a id="whatsappShareBtn" href="#" target="_blank" class="btn-arcade-cyan px-4 py-2.5 text-xs font-bold flex items-center gap-1.5">
+          <i class="fa-brands fa-whatsapp text-sm"></i> SHARE VIA WHATSAPP
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="p-4 text-center text-xs text-slate-500 font-sans border-t border-slate-900 mt-auto">
+    © 2026 PIXEL WAP 2D BD.
+  </footer>
+
+  <!-- Shared Unified Database -->
+  <script src="../../assets/js/db.js"></script>
+  <script>
+    let currentUser = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      currentUser = window.wapDB.getCurrentUser();
+      if (!currentUser) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      document.getElementById('walletTokenBalance').innerText = currentUser.tokens || 0;
+      document.getElementById('myRefCode').innerText = currentUser.referralCode || 'WAP2026';
+      document.getElementById('myRefCount').innerText = currentUser.referralCount || 0;
+      document.getElementById('myRefCoinsEarned').innerText = (currentUser.referralCount || 0) * 25;
+
+      const shareText = encodeURIComponent(`Play 2D Arcade Games on WAP Games and win daily bKash cash prizes! Use my referral code: ${currentUser.referralCode || ''} to get 50 Free Coins!`);
+      document.getElementById('whatsappShareBtn').href = `https://wa.me/?text=${shareText}`;
+    });
+
+    function copyRefCode() {
+      if (!currentUser) return;
+      navigator.clipboard.writeText(currentUser.referralCode || '');
+      alert('Referral Code copied to clipboard!');
+    }
+
+    function copyRefLink() {
+      if (!currentUser) return;
+      const link = `${window.location.origin}/theme3/player/login.html?ref=${currentUser.referralCode || ''}`;
+      navigator.clipboard.writeText(link);
+      alert('Referral Invite Link copied to clipboard!');
+    }
+  </script>
+</body>
+</html>

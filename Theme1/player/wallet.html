@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wallet & Referral Center - WAP Games 2D</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyberDark: '#090d16',
+            cyberCard: '#111827',
+            cyberPurple: '#6366f1',
+            cyberGreen: '#10b981'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="bg-cyberDark text-slate-100 min-h-screen flex flex-col justify-between selection:bg-indigo-500">
+
+  <!-- Header -->
+  <header class="bg-cyberDark/95 border-b border-slate-800 px-4 py-3 sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span>Lobby</span>
+        </a>
+        <h1 class="text-base sm:text-lg font-bold font-gaming text-white">TOKENS & REFERRAL HUB</h1>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a href="subscription.html" class="neon-btn px-3 py-1.5 rounded-xl text-xs font-bold text-white flex items-center gap-1">
+          <i class="fa-solid fa-bolt"></i> Subs
+        </a>
+        <a href="profile.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold" title="Profile">
+          <i class="fa-solid fa-user"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-4 py-6 w-full flex-1">
+    
+    <!-- Token Hero Banner -->
+    <div class="p-6 rounded-2xl bg-gradient-to-r from-amber-950/70 via-slate-900 to-indigo-950/70 border border-amber-500/30 mb-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-4 text-center sm:text-left flex-col sm:flex-row">
+        <div class="w-16 h-16 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-3xl shadow-lg shadow-amber-500/20 border border-amber-500/30">
+          <i class="fa-solid fa-coins"></i>
+        </div>
+        <div>
+          <div class="text-xs text-amber-300 font-semibold uppercase tracking-wider">Available Gaming Tokens</div>
+          <div class="text-3xl sm:text-4xl font-extrabold font-mono text-white mt-1 flex items-center gap-2 justify-center sm:justify-start">
+            <span id="walletTokenCount">0</span>
+            <span class="text-xs font-sans text-amber-400 font-normal">Tokens</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">৫০ টোকেন এক্সচেঞ্জ করে যেকোনো সময় ১ দিনের সাবস্ক্রিপশন নিন!</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 w-full sm:w-auto">
+        <a href="#exchangeSection" class="w-full sm:w-auto text-center px-5 py-2.5 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition font-gaming">
+          <i class="fa-solid fa-arrows-rotate"></i> Exchange for Subs
+        </a>
+      </div>
+    </div>
+
+    <!-- Referral Program Showcase -->
+    <section id="referral" class="mb-10">
+      <div class="p-6 sm:p-8 rounded-2xl cyber-card border border-slate-800">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-6">
+          <div>
+            <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 uppercase">
+              Refer & Earn Unlimited
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold font-gaming text-white mt-2">Invite Friends, Earn 25 Tokens Each!</h2>
+            <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">
+              আপনার রেফারেল কোড বা লিংক শেয়ার করুন। বন্ধু সাইন আপ করলে সে পাবে ৫০ টোকেন, আর আপনি পাবেন ২৫ ফ্রি টোকেন!
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 text-center min-w-[150px]">
+            <div class="text-[10px] text-slate-400 uppercase">Total Friends Joined</div>
+            <div class="text-2xl font-bold font-gaming text-emerald-400 mt-1" id="referralCountText">0</div>
+            <div class="text-[10px] text-slate-500">Refers Successful</div>
+          </div>
+        </div>
+
+        <!-- Referral Link & Code Copy Box -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Code Card -->
+          <div class="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
+            <label class="block text-xs text-slate-400 mb-1">Your Unique Referral Code</label>
+            <div class="flex items-center gap-2">
+              <input type="text" id="myRefCode" readonly 
+                     class="flex-1 px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-sm font-mono font-bold text-amber-300 focus:outline-none">
+              <button onclick="copyRefCode()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition">
+                <i class="fa-solid fa-copy"></i> Copy
+              </button>
+            </div>
+          </div>
+
+          <!-- Share Link Card -->
+          <div class="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
+            <label class="block text-xs text-slate-400 mb-1">Direct Shareable Link</label>
+            <div class="flex items-center gap-2">
+              <input type="text" id="myRefLink" readonly 
+                     class="flex-1 px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300 truncate focus:outline-none">
+              <button onclick="shareWhatsApp()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap">
+                <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Token Exchange Center Section -->
+    <section id="exchangeSection" class="mb-10">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-lg sm:text-xl font-bold font-gaming text-white flex items-center gap-2">
+            <i class="fa-solid fa-repeat text-amber-400"></i> Token Exchange Store
+          </h2>
+          <p class="text-xs text-slate-400">টাকা না দিয়ে জমানো টোকেন দিয়ে গেম খেলার পাস নিন।</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5" id="exchangeGrid">
+        <!-- Injected by JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="p-4 text-center text-xs text-slate-500 border-t border-slate-900">
+    © 2026 WAP Games 2D. Tokens are virtual gaming points and redeemable for subscription passes.
+  </footer>
+
+  <!-- WhatsApp Floating Button -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <a href="https://wa.me/8801700000000?text=Token%20Support" target="_blank" 
+       class="w-12 h-12 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center text-xl shadow-xl whatsapp-pulse">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <script src="../assets/js/db.js"></script>
+  <script>
+    let currentUser = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      currentUser = window.wapDB.getCurrentUser();
+      if (!currentUser) {
+        window.location.href = 'login.html';
+        return;
+      }
+      refreshData();
+      renderExchangeCards();
+    });
+
+    function refreshData() {
+      currentUser = window.wapDB.getPlayerById(currentUser.id) || currentUser;
+      document.getElementById('walletTokenCount').innerText = currentUser.tokens || 0;
+      document.getElementById('referralCountText').innerText = currentUser.referralCount || 0;
+
+      const code = currentUser.referralCode || 'WAP-VIP';
+      document.getElementById('myRefCode').value = code;
+
+      const origin = window.location.origin + window.location.pathname.replace('wallet.html', 'login.html');
+      const shareUrl = `${origin}?ref=${code}`;
+      document.getElementById('myRefLink').value = shareUrl;
+    }
+
+    function copyRefCode() {
+      const code = document.getElementById('myRefCode').value;
+      navigator.clipboard.writeText(code);
+      alert(`Copied Referral Code: ${code}`);
+    }
+
+    function shareWhatsApp() {
+      const link = document.getElementById('myRefLink').value;
+      const text = encodeURIComponent(`🎮 Play fun 2D Games & Win Daily bKash Tournaments on WAP Games! Use my link to get 50 FREE Tokens on signup: ${link}`);
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+    }
+
+    function renderExchangeCards() {
+      const plans = window.wapDB.getPlans();
+      const container = document.getElementById('exchangeGrid');
+
+      container.innerHTML = plans.map(p => {
+        const canAfford = (currentUser.tokens || 0) >= p.tokenEquivalent;
+        return `
+          <div class="p-5 rounded-2xl bg-slate-900 border ${canAfford ? 'border-amber-500/30' : 'border-slate-800'} flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-amber-400 font-mono">🪙 ${p.tokenEquivalent} Tokens</span>
+                <span class="text-[10px] text-slate-400">${p.durationDays} Day Pass</span>
+              </div>
+              <h3 class="text-base font-bold font-gaming text-white">${p.name}</h3>
+              <p class="text-xs text-slate-400 mt-1 mb-4">${p.desc}</p>
+            </div>
+
+            <button onclick="handleExchange('${p.id}')" 
+                    ${!canAfford ? 'disabled' : ''} 
+                    class="w-full py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition ${canAfford ? 'bg-amber-500 hover:bg-amber-400 text-slate-950 font-gaming' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}">
+              <i class="fa-solid fa-arrows-rotate"></i>
+              ${canAfford ? `Exchange ${p.tokenEquivalent} Tokens` : `Need ${p.tokenEquivalent - (currentUser.tokens || 0)} More Tokens`}
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function handleExchange(planId) {
+      const res = window.wapDB.exchangeTokensForSubscription(currentUser.id, planId);
+      if (res.success) {
+        alert(`🎉 Success!\nYour subscription has been extended until ${res.expiry}.`);
+        refreshData();
+        renderExchangeCards();
+      } else {
+        alert(res.message);
+      }
+    }
+  </script>
+</body>
+</html>

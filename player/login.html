@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Login & Signup - WAP Games 2D</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyberDark: '#090d16',
+            cyberCard: '#111827',
+            cyberPurple: '#6366f1',
+            bkash: '#e2136e'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="bg-cyberDark text-slate-100 min-h-screen flex flex-col justify-between selection:bg-indigo-500">
+
+  <!-- Top Bar -->
+  <header class="p-4 border-b border-slate-800 flex items-center justify-between max-w-7xl mx-auto w-full">
+    <a href="../index.html" class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
+        <i class="fa-solid fa-gamepad"></i>
+      </div>
+      <span class="font-gaming font-bold text-lg text-white">WAP GAMES 2D</span>
+    </a>
+    <a href="../index.html" class="text-xs text-slate-400 hover:text-white flex items-center gap-1">
+      <i class="fa-solid fa-arrow-left"></i> Back to Home
+    </a>
+  </header>
+
+  <!-- Main Auth Card -->
+  <main class="flex-1 flex items-center justify-center px-4 py-8">
+    <div class="w-full max-w-md cyber-card p-6 sm:p-8 rounded-2xl border border-slate-800 shadow-2xl">
+      
+      <!-- Logo / Title -->
+      <div class="text-center mb-6">
+        <div class="inline-flex w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-500 to-pink-500 items-center justify-center text-xl text-white shadow-lg shadow-indigo-500/30 mb-3">
+          <i class="fa-solid fa-user-astronaut"></i>
+        </div>
+        <h2 class="text-2xl font-bold font-gaming text-white">PLAYER PORTAL</h2>
+        <p class="text-xs text-slate-400 mt-1">লগইন করুন অথবা ফ্রি ৫০ টোকেন বোনাস সহ সাইন আপ করুন!</p>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="flex rounded-xl bg-slate-900/90 p-1 mb-6 border border-slate-800">
+        <button id="tabLoginBtn" onclick="switchTab('login')" class="flex-1 py-2 text-xs font-bold rounded-lg transition bg-indigo-600 text-white">
+          Login
+        </button>
+        <button id="tabSignupBtn" onclick="switchTab('signup')" class="flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white">
+          Signup (+50 🪙 Free)
+        </button>
+      </div>
+
+      <!-- Alert Box -->
+      <div id="authAlert" class="hidden mb-4 p-3 rounded-xl text-xs font-medium"></div>
+
+      <!-- Login Form -->
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Phone Number or Email</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 text-xs">
+              <i class="fa-solid fa-phone"></i>
+            </span>
+            <input type="text" id="loginIdentifier" required placeholder="e.g. 01711002233" 
+                   class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 text-xs">
+              <i class="fa-solid fa-lock"></i>
+            </span>
+            <input type="password" id="loginPassword" required placeholder="Enter password (default: 123)" 
+                   class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+          </div>
+        </div>
+
+        <button type="submit" class="neon-btn w-full py-2.5 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-2">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Login to Play
+        </button>
+
+        <!-- Quick 1-Click Demo Accounts -->
+        <div class="pt-4 border-t border-slate-800">
+          <div class="text-[11px] text-slate-400 mb-2 font-medium">⚡ Quick Demo Test Accounts (Password: 123):</div>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" onclick="fillDemo('01711002233', '123')" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[11px] text-left text-slate-300">
+              <span class="font-bold text-emerald-400 block">Tanvir (Active Subs)</span>
+              <span class="text-slate-500 text-[10px]">75 Tokens</span>
+            </button>
+            <button type="button" onclick="fillDemo('01933445566', '123')" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[11px] text-left text-slate-300">
+              <span class="font-bold text-amber-400 block">Rakibul (No Subs)</span>
+              <span class="text-slate-500 text-[10px]">Needs 3 TK Subs</span>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Signup Form -->
+      <form id="signupForm" onsubmit="handleSignup(event)" class="space-y-3.5 hidden">
+        <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 flex items-center gap-2">
+          <i class="fa-solid fa-gift text-base"></i>
+          <span>Welcome Bonus: Sign up and get <strong>50 Free Tokens</strong> immediately!</span>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Your Full Name</label>
+          <input type="text" id="signupName" required placeholder="e.g. Rayhan Mahmud" 
+                 class="w-full px-3 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Phone Number (For bKash & SMS)</label>
+          <input type="tel" id="signupPhone" required placeholder="017XXXXXXXX" 
+                 class="w-full px-3 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+          <input type="password" id="signupPassword" required placeholder="Create a password" 
+                 class="w-full px-3 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Referral Code (Optional)</label>
+          <input type="text" id="signupReferral" placeholder="e.g. WAP-TANVIR" 
+                 class="w-full px-3 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-white placeholder-slate-500 uppercase focus:outline-none focus:border-indigo-500">
+          <span class="text-[10px] text-slate-500 block mt-0.5">Use friend's code to give them 25 bonus tokens!</span>
+        </div>
+
+        <button type="submit" class="neon-btn-green w-full py-2.5 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-2">
+          <i class="fa-solid fa-coins"></i> Create Account & Claim 50 Tokens
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="p-4 text-center text-xs text-slate-500 border-t border-slate-900">
+    © 2026 WAP Games 2D. Safe & Secure 2D Gaming Arena.
+  </footer>
+
+  <!-- WhatsApp Floating Button -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <a href="https://wa.me/8801700000000?text=Login%20Support%20Needed" target="_blank" 
+       class="w-12 h-12 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center text-xl shadow-xl whatsapp-pulse">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <script src="../assets/js/db.js"></script>
+  <script>
+    // Check if referral code is in URL (e.g., ?ref=WAP-TANVIR)
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref) {
+        switchTab('signup');
+        document.getElementById('signupReferral').value = ref;
+      }
+    });
+
+    function switchTab(tab) {
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      const tabLoginBtn = document.getElementById('tabLoginBtn');
+      const tabSignupBtn = document.getElementById('tabSignupBtn');
+      const alert = document.getElementById('authAlert');
+      alert.classList.add('hidden');
+
+      if (tab === 'login') {
+        loginForm.classList.remove('hidden');
+        signupForm.classList.add('hidden');
+        tabLoginBtn.className = 'flex-1 py-2 text-xs font-bold rounded-lg transition bg-indigo-600 text-white';
+        tabSignupBtn.className = 'flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white';
+      } else {
+        signupForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+        tabSignupBtn.className = 'flex-1 py-2 text-xs font-bold rounded-lg transition bg-emerald-600 text-white';
+        tabLoginBtn.className = 'flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white';
+      }
+    }
+
+    function fillDemo(identifier, password) {
+      document.getElementById('loginIdentifier').value = identifier;
+      document.getElementById('loginPassword').value = password;
+      handleLogin(new Event('submit'));
+    }
+
+    function showAlert(msg, isError = true) {
+      const el = document.getElementById('authAlert');
+      el.className = isError 
+        ? 'mb-4 p-3 rounded-xl text-xs font-medium bg-rose-500/20 border border-rose-500/30 text-rose-300' 
+        : 'mb-4 p-3 rounded-xl text-xs font-medium bg-emerald-500/20 border border-emerald-500/30 text-emerald-300';
+      el.innerText = msg;
+      el.classList.remove('hidden');
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const id = document.getElementById('loginIdentifier').value.trim();
+      const pass = document.getElementById('loginPassword').value;
+
+      const res = window.wapDB.login(id, pass);
+      if (res.success) {
+        showAlert('Login Successful! Redirecting...', false);
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 600);
+      } else {
+        showAlert(res.message, true);
+      }
+    }
+
+    function handleSignup(e) {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value.trim();
+      const phone = document.getElementById('signupPhone').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const referralCode = document.getElementById('signupReferral').value.trim();
+
+      const res = window.wapDB.register({
+        name,
+        phone,
+        password,
+        referralCode
+      });
+
+      if (res.success) {
+        showAlert('Registration successful! +50 Free tokens added. Redirecting...', false);
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 800);
+      } else {
+        showAlert(res.message, true);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gaming Passes & Subscriptions - PRO ARENA 2D</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            proDark: '#08090C',
+            proSurface: '#10131A',
+            proElevated: '#161B26',
+            proAccent: '#6366F1',
+            proViolet: '#8B5CF6',
+            bkash: '#E2136E'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme4.css">
+</head>
+<body class="bg-proDark text-slate-100 min-h-screen flex flex-col justify-between selection:bg-proAccent selection:text-white">
+
+  <!-- Header -->
+  <header class="bg-proDark/90 border-b border-white/[0.08] px-4 py-3 sticky top-0 z-30 flex items-center justify-between backdrop-blur-md">
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="p-2 rounded-lg bg-proElevated hover:bg-proSurface text-slate-300 text-xs flex items-center gap-1.5 border border-white/[0.1] font-mono-stat">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span class="hidden sm:inline">Lobby</span>
+      </a>
+      <div>
+        <h1 class="text-sm sm:text-base font-bold font-heading text-white leading-tight">Pro Gaming Passes</h1>
+        <div class="text-[10px] text-slate-400 font-mono-stat">bKash 3 BDT/Day & Token Exchange</div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a href="wallet.html" class="px-2.5 py-1.5 rounded-lg bg-proElevated border border-white/[0.1] text-amber-400 text-xs font-mono-stat font-bold flex items-center gap-1">
+        <i class="fa-solid fa-coins"></i>
+        <span id="headerTokens">0</span>
+        <span class="text-[10px] text-slate-400 hidden sm:inline">TOKENS</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-5xl mx-auto px-4 py-10 w-full flex-1 space-y-10">
+    
+    <!-- Active Pass Banner -->
+    <div id="activeSubCard" class="pro-card p-6 bg-proSurface border-white/[0.1] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <span class="badge-pro badge-pro-live mb-2">CURRENT PASS STATUS</span>
+        <h2 id="currentPlanTitle" class="text-xl font-bold text-white font-heading">5 Days Pro Pass Active</h2>
+        <p id="currentPlanExpiry" class="text-xs text-slate-400 font-mono-stat mt-1">Expires: 2026-12-05 23:59</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-mono-stat font-bold">
+          <i class="fa-solid fa-circle-check mr-1"></i> TOURNAMENT ELIGIBLE
+        </span>
+      </div>
+    </div>
+
+    <!-- Pass Selection Cards (3 BDT, 5 BDT, 10 BDT) -->
+    <div>
+      <div class="text-center max-w-xl mx-auto mb-8">
+        <span class="badge-pro badge-pro-bracket mb-2">OFFICIAL PRICING</span>
+        <h2 class="text-2xl font-bold text-white font-heading">Select Your Gaming Pass</h2>
+        <p class="text-xs text-slate-400 font-mono-stat mt-1">Activate instantly via bKash or exchange your signup tokens</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="subsGrid">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+
+    <!-- Payment Simulation Modal -->
+    <div id="paymentModal" class="hidden fixed inset-0 bg-black/85 flex items-center justify-center p-4 z-50">
+      <div class="pro-card p-6 bg-proSurface border-white/[0.15] w-full max-w-md relative">
+        <div class="flex items-center justify-between pb-3 mb-4 border-b border-white/[0.08]">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded bg-bkash flex items-center justify-center text-white text-xs font-bold">b</span>
+            <h3 class="font-bold text-white text-sm font-heading" id="modalPlanName">Pass Checkout</h3>
+          </div>
+          <button onclick="closeModal()" class="text-slate-400 hover:text-white text-sm">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="bg-black/50 p-4 rounded-xl border border-white/[0.06] mb-4 space-y-2 text-xs font-mono-stat">
+          <div class="flex justify-between">
+            <span class="text-slate-400">AMOUNT DUE:</span>
+            <span class="text-emerald-400 font-bold" id="modalPlanPrice">3 BDT</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">PAYMENT GATEWAY:</span>
+            <span class="text-bkash font-bold">bKash Merchant Sandbox</span>
+          </div>
+        </div>
+
+        <form onsubmit="confirmPayment(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-mono-stat text-slate-300 mb-1">bKash Account Number</label>
+            <input type="tel" id="bkashPhone" required placeholder="017XXXXXXXX" maxlength="11"
+                   class="w-full px-3 py-2 bg-black/60 border border-white/[0.1] rounded-lg text-xs text-white font-mono-stat focus:outline-none focus:border-bkash">
+          </div>
+
+          <div>
+            <label class="block text-xs font-mono-stat text-slate-300 mb-1">Enter PIN (Demo: 1234)</label>
+            <input type="password" id="bkashPin" required placeholder="••••" maxlength="4"
+                   class="w-full px-3 py-2 bg-black/60 border border-white/[0.1] rounded-lg text-xs text-white font-mono-stat tracking-widest focus:outline-none focus:border-bkash">
+          </div>
+
+          <button type="submit" class="btn-pro-bkash w-full py-2.5 text-xs font-bold uppercase tracking-wider font-mono-stat">
+            Confirm & Activate Pass
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="py-4 text-center text-[11px] text-slate-600 border-t border-white/[0.06] font-mono-stat">
+    PRO ARENA 2D • INSTANT BKASH BILLING GATEWAY
+  </footer>
+
+  <script src="../assets/js/db.js"></script>
+  <script>
+    let selectedPlanId = null;
+
+    function initSubsPage() {
+      WapDB.init();
+      const user = WapDB.getCurrentUser();
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      document.getElementById('headerTokens').innerText = user.tokens || 0;
+
+      // Active status
+      const titleEl = document.getElementById('currentPlanTitle');
+      const expEl = document.getElementById('currentPlanExpiry');
+      if (user.activeSubscription && user.activeSubscription.active) {
+        titleEl.innerText = `${user.activeSubscription.planName} Active`;
+        expEl.innerText = `Expires: ${new Date(user.activeSubscription.expiresAt).toLocaleDateString()} via ${user.activeSubscription.method}`;
+      } else {
+        titleEl.innerText = 'No Active Subscription';
+        expEl.innerText = 'Purchase a daily pass to enter tournament cash matches.';
+      }
+
+      renderPlans();
+    }
+
+    function renderPlans() {
+      const container = document.getElementById('subsGrid');
+      container.innerHTML = DEFAULT_PLANS.map(p => `
+        <div class="pro-card p-6 flex flex-col justify-between ${p.id === 'plan-2' ? 'border-proAccent ring-1 ring-proAccent/30' : ''}">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="badge-pro ${p.id === 'plan-2' ? 'badge-pro-bracket' : 'badge-pro-tier'}">${p.badge}</span>
+              <span class="text-xs text-slate-400 font-mono-stat">${p.days} Days Validity</span>
+            </div>
+
+            <h3 class="text-xl font-bold text-white font-heading mb-2">${p.name}</h3>
+            
+            <div class="flex items-baseline gap-1 mb-4">
+              <span class="text-3xl font-black text-white font-heading">${p.price}</span>
+              <span class="text-xs text-slate-400 font-mono-stat">BDT</span>
+            </div>
+
+            <ul class="space-y-2 text-xs text-slate-300 mb-6">
+              ${p.features.map(f => `
+                <li class="flex items-center gap-2">
+                  <i class="fa-solid fa-check text-emerald-400 text-[10px]"></i>
+                  <span>${f}</span>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+
+          <div class="space-y-2">
+            <button onclick="openPaymentModal('${p.id}')" class="btn-pro-bkash w-full py-2.5 text-xs font-bold font-mono-stat">
+              Pay ${p.price} BDT with bKash
+            </button>
+            <button onclick="exchangeTokens('${p.id}')" class="btn-pro-secondary w-full py-2 text-xs font-mono-stat text-amber-300">
+              🪙 Exchange ${p.tokensRequired} Tokens
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openPaymentModal(planId) {
+      selectedPlanId = planId;
+      const plan = DEFAULT_PLANS.find(p => p.id === planId);
+      document.getElementById('modalPlanName').innerText = `${plan.name} Checkout`;
+      document.getElementById('modalPlanPrice').innerText = `${plan.price} BDT`;
+      document.getElementById('paymentModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('paymentModal').classList.add('hidden');
+    }
+
+    function confirmPayment(e) {
+      e.preventDefault();
+      const phone = document.getElementById('bkashPhone').value;
+      const res = WapDB.subscribe(selectedPlanId, 'bKash');
+      if (res.success) {
+        alert('bKash Payment Verified! Pass has been activated successfully.');
+        closeModal();
+        initSubsPage();
+      } else {
+        alert(res.message);
+      }
+    }
+
+    function exchangeTokens(planId) {
+      if (confirm('Exchange tokens for this gaming pass?')) {
+        const res = WapDB.exchangeTokensForSub(planId);
+        if (res.success) {
+          alert('Tokens exchanged successfully! Pass is now active.');
+          initSubsPage();
+        } else {
+          alert(res.message);
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initSubsPage);
+  </script>
+</body>
+</html>

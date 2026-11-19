@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Token Wallet & Referral - PRO ARENA 2D</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            proDark: '#08090C',
+            proSurface: '#10131A',
+            proElevated: '#161B26',
+            proAccent: '#6366F1',
+            proViolet: '#8B5CF6'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme4.css">
+</head>
+<body class="bg-proDark text-slate-100 min-h-screen flex flex-col justify-between selection:bg-proAccent selection:text-white">
+
+  <!-- Header -->
+  <header class="bg-proDark/90 border-b border-white/[0.08] px-4 py-3 sticky top-0 z-30 flex items-center justify-between backdrop-blur-md">
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="p-2 rounded-lg bg-proElevated hover:bg-proSurface text-slate-300 text-xs flex items-center gap-1.5 border border-white/[0.1] font-mono-stat">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span class="hidden sm:inline">Lobby</span>
+      </a>
+      <div>
+        <h1 class="text-sm sm:text-base font-bold font-heading text-white leading-tight">Token Wallet & Exchange</h1>
+        <div class="text-[10px] text-slate-400 font-mono-stat">Refer Friends & Convert Tokens to Passes</div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <a href="profile.html" class="p-2 rounded-lg bg-proElevated text-slate-200 border border-white/[0.1] text-xs">
+        <i class="fa-solid fa-user"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-4 py-10 w-full flex-1 space-y-8">
+    
+    <!-- Balance Card -->
+    <div class="pro-card p-6 bg-gradient-to-r from-proSurface via-proElevated to-proSurface border-white/[0.1] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center text-2xl shadow-sm">
+          <i class="fa-solid fa-coins"></i>
+        </div>
+        <div>
+          <span class="text-xs font-mono-stat text-slate-400 uppercase tracking-wider">AVAILABLE REWARD BALANCE</span>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="text-4xl font-black text-amber-400 font-mono-stat" id="walletTokens">150</span>
+            <span class="text-sm text-slate-400 font-mono-stat">TOKENS</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1 font-mono-stat">Each signup grants 50 free tokens automatically.</p>
+        </div>
+      </div>
+
+      <a href="subscription.html" class="btn-pro-primary px-5 py-2.5 text-xs font-bold font-mono-stat whitespace-nowrap">
+        <i class="fa-solid fa-arrow-right-arrow-left mr-1.5"></i> Exchange for Pass
+      </a>
+    </div>
+
+    <!-- Referral Program Section -->
+    <div class="pro-card p-6 bg-proSurface border-white/[0.08]">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <span class="badge-pro badge-pro-clan mb-1.5">EARN TOKENS</span>
+          <h2 class="text-xl font-bold text-white font-heading">Invite Friends & Clanmates</h2>
+        </div>
+        <span class="text-xs font-mono-stat text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/20">
+          +25 TOKENS / INVITE
+        </span>
+      </div>
+
+      <p class="text-xs text-slate-400 mb-6 leading-relaxed">
+        Share your unique referral code with friends. When they register, they get <span class="text-white font-bold">+15 extra bonus tokens</span> (total 65), and your wallet is credited with <span class="text-amber-400 font-bold">+25 tokens</span> instantly!
+      </p>
+
+      <!-- Referral Code Box -->
+      <div class="p-4 rounded-xl bg-black/50 border border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <span class="text-[11px] font-mono-stat text-slate-400 uppercase">YOUR REFERRAL CODE:</span>
+          <div class="text-xl font-black text-white font-mono-stat tracking-wider" id="refCodeText">RAYHAN_PRO</div>
+        </div>
+
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <button onclick="copyRefCode()" class="btn-pro-secondary flex-1 sm:flex-initial px-4 py-2 text-xs font-mono-stat">
+            <i class="fa-solid fa-copy mr-1"></i> Copy Code
+          </button>
+          <a id="shareWaBtn" href="#" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold font-mono-stat flex items-center gap-1.5 transition">
+            <i class="fa-brands fa-whatsapp text-sm"></i> Share
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exchange Options -->
+    <div>
+      <h3 class="text-base font-bold text-white font-heading mb-4">Token Redemption Store</h3>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        
+        <div class="pro-card p-5 bg-proSurface border-white/[0.08] flex flex-col justify-between">
+          <div>
+            <span class="badge-pro badge-pro-bracket mb-2">1 DAY PASS</span>
+            <div class="text-2xl font-bold text-white font-mono-stat mb-1">30 🪙</div>
+            <p class="text-xs text-slate-400 mb-4">Unlocks 24 hours of unlimited 2D game play & tournament eligibility.</p>
+          </div>
+          <button onclick="exchangeTokens('plan-1')" class="btn-pro-secondary w-full py-2 text-xs font-mono-stat text-amber-300">
+            Exchange 30 Tokens
+          </button>
+        </div>
+
+        <div class="pro-card p-5 bg-proSurface border-proAccent/40 flex flex-col justify-between">
+          <div>
+            <span class="badge-pro badge-pro-tier mb-2">2 DAYS PASS</span>
+            <div class="text-2xl font-bold text-white font-mono-stat mb-1">50 🪙</div>
+            <p class="text-xs text-slate-400 mb-4">Unlocks 48 hours of tournament access with zero cash payment.</p>
+          </div>
+          <button onclick="exchangeTokens('plan-2')" class="btn-pro-primary w-full py-2 text-xs font-mono-stat">
+            Exchange 50 Tokens
+          </button>
+        </div>
+
+        <div class="pro-card p-5 bg-proSurface border-white/[0.08] flex flex-col justify-between">
+          <div>
+            <span class="badge-pro badge-pro-clan mb-2">5 DAYS PRO PASS</span>
+            <div class="text-2xl font-bold text-white font-mono-stat mb-1">90 🪙</div>
+            <p class="text-xs text-slate-400 mb-4">Unlocks 120 hours of VIP pro matchmaking & priority cash pool slots.</p>
+          </div>
+          <button onclick="exchangeTokens('plan-3')" class="btn-pro-secondary w-full py-2 text-xs font-mono-stat text-amber-300">
+            Exchange 90 Tokens
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="py-4 text-center text-[11px] text-slate-600 border-t border-white/[0.06] font-mono-stat">
+    PRO ARENA 2D • REWARD WALLET & REFERRAL MATRIX
+  </footer>
+
+  <script src="../assets/js/db.js"></script>
+  <script>
+    function initWalletPage() {
+      WapDB.init();
+      const user = WapDB.getCurrentUser();
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      document.getElementById('walletTokens').innerText = user.tokens || 0;
+      const refCode = user.referralCode || 'RAYHAN_PRO';
+      document.getElementById('refCodeText').innerText = refCode;
+
+      const waMsg = encodeURIComponent(`Play 2D E-Sports Tournaments on WAP Games Pro Arena! Use my referral code ${refCode} to get 65 Free Tokens: ${window.location.origin}`);
+      document.getElementById('shareWaBtn').href = `https://wa.me/?text=${waMsg}`;
+    }
+
+    function copyRefCode() {
+      const code = document.getElementById('refCodeText').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        alert(`Referral code ${code} copied to clipboard!`);
+      });
+    }
+
+    function exchangeTokens(planId) {
+      if (confirm('Exchange tokens for this gaming pass?')) {
+        const res = WapDB.exchangeTokensForSub(planId);
+        if (res.success) {
+          alert('Success! Your pass is now active.');
+          initWalletPage();
+        } else {
+          alert(res.message);
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initWalletPage);
+  </script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Match Arena - PRO ARENA 2D</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            proDark: '#08090C',
+            proSurface: '#10131A',
+            proElevated: '#161B26',
+            proAccent: '#6366F1',
+            proViolet: '#8B5CF6',
+            proCyan: '#06B6D4'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme4.css">
+  <style>
+    canvas { touch-action: none; }
+  </style>
+</head>
+<body class="bg-proDark text-slate-100 min-h-screen flex flex-col justify-between selection:bg-proAccent selection:text-white">
+
+  <!-- Header -->
+  <header class="bg-proDark/90 border-b border-white/[0.08] px-4 py-3 sticky top-0 z-30 flex items-center justify-between backdrop-blur-md">
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="p-2 rounded-lg bg-proElevated hover:bg-proSurface text-slate-300 text-xs flex items-center gap-1.5 border border-white/[0.1] font-mono-stat">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span class="hidden sm:inline">Lobby</span>
+      </a>
+      <div>
+        <h1 id="gameHeaderTitle" class="text-sm sm:text-base font-bold font-heading text-white leading-tight">Match Arena</h1>
+        <div class="flex items-center gap-2 text-[10px] text-slate-400 font-mono-stat">
+          <span id="gameCategoryBadge" class="text-proAccent font-bold">ACTION</span>
+          <span>•</span>
+          <span id="gameTypeBadge" class="text-slate-400">TOURNAMENT</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <div class="px-2.5 py-1 rounded-lg bg-proElevated border border-white/[0.1] text-amber-400 text-xs font-mono-stat font-bold flex items-center gap-1">
+        <i class="fa-solid fa-coins"></i>
+        <span id="headerTokens">0</span>
+      </div>
+      <a href="subscription.html" id="headerSubsPill" class="px-2.5 py-1 text-xs font-semibold rounded-lg font-mono-stat">
+        <!-- Injected by JS -->
+      </a>
+      <a href="profile.html" class="p-2 rounded-lg bg-proElevated hover:bg-proSurface text-slate-200 border border-white/[0.1] text-xs" title="Profile">
+        <i class="fa-solid fa-user"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Game Stage -->
+  <main class="max-w-4xl mx-auto px-4 py-6 w-full flex-1 flex flex-col items-center justify-center">
+    
+    <!-- Game Viewport Container -->
+    <div class="w-full pro-card p-4 sm:p-6 bg-proSurface border-white/[0.1] relative">
+      
+      <!-- Top HUD Strip -->
+      <div class="flex items-center justify-between mb-3 px-1 text-xs font-mono-stat">
+        <div class="flex items-center gap-3">
+          <span class="text-slate-400">MATCH SCORE:</span>
+          <span id="liveScore" class="text-emerald-400 font-bold text-base">0</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-slate-400">BEST:</span>
+          <span id="highScoreText" class="text-white font-bold">0</span>
+        </div>
+      </div>
+
+      <!-- Canvas Frame -->
+      <div class="relative w-full flex justify-center bg-black rounded-xl overflow-hidden border border-white/[0.08]">
+        <canvas id="gameCanvas" width="600" height="420" class="w-full max-w-[600px] h-[360px] sm:h-[420px] bg-black block"></canvas>
+
+        <!-- Start Overlay -->
+        <div id="startOverlay" class="absolute inset-0 bg-black/85 flex flex-col items-center justify-center p-6 text-center z-10">
+          <div class="w-14 h-14 rounded-2xl bg-proElevated border border-white/[0.15] text-proAccent flex items-center justify-center text-2xl mb-4 shadow-sm">
+            <i class="fa-solid fa-crosshairs"></i>
+          </div>
+          <h2 id="startModalTitle" class="text-2xl font-bold text-white font-heading mb-2">Space Blaster 2D</h2>
+          <p id="startModalDesc" class="text-xs text-slate-400 max-w-sm mb-6 leading-relaxed">
+            Eliminate hostile fighter craft, dodge plasma asteroids and lock your score on the official leaderboard.
+          </p>
+
+          <button onclick="startGameSession()" class="btn-pro-primary px-8 py-3 text-xs font-bold uppercase tracking-wider font-mono-stat flex items-center gap-2">
+            <i class="fa-solid fa-play"></i> Start Match
+          </button>
+        </div>
+
+        <!-- Subscription Barrier Modal (shown if player has no active pass) -->
+        <div id="subBarrierModal" class="hidden absolute inset-0 bg-black/95 flex flex-col items-center justify-center p-6 text-center z-20">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center text-xl mb-3">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white font-heading mb-2">Pro Pass Required</h3>
+          <p class="text-xs text-slate-300 max-w-xs mb-5 leading-relaxed">
+            টুর্নামেন্ট ম্যাচ খেলতে হলে ডেইলি পাস (৩ টাকা) অথবা ৫০ ফ্রি টোকেন এক্সচেঞ্জ করে পাস অ্যাক্টিভ থাকতে হবে।
+          </p>
+
+          <div class="flex flex-col gap-2.5 w-full max-w-xs">
+            <a href="subscription.html" class="btn-pro-bkash py-2.5 text-xs text-center block">
+              <i class="fa-solid fa-bolt mr-1"></i> Buy Pass via bKash (3 BDT)
+            </a>
+            <button onclick="quickTokenExchange()" class="btn-pro-secondary py-2 text-xs font-mono-stat text-amber-300">
+              🪙 Exchange 30 Tokens for 1-Day Pass
+            </button>
+            <button onclick="closeSubModal()" class="text-xs text-slate-500 hover:text-slate-300 font-mono-stat pt-1">
+              Cancel & Return
+            </button>
+          </div>
+        </div>
+
+        <!-- Game Over Modal -->
+        <div id="gameOverModal" class="hidden absolute inset-0 bg-black/90 flex flex-col items-center justify-center p-6 text-center z-20">
+          <span class="text-xs font-mono-stat text-rose-400 font-bold uppercase tracking-widest mb-1">SESSION TERMINATED</span>
+          <h3 class="text-2xl font-bold text-white font-heading mb-3">Match Concluded</h3>
+          
+          <div class="bg-proElevated p-4 rounded-xl border border-white/[0.08] w-full max-w-xs mb-5 space-y-2 font-mono-stat text-xs">
+            <div class="flex justify-between">
+              <span class="text-slate-400">FINAL SCORE:</span>
+              <span id="finalScoreText" class="text-emerald-400 font-bold text-sm">0</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">BEST RECORD:</span>
+              <span id="recordScoreText" class="text-white font-bold">0</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">ELO GAINED:</span>
+              <span class="text-proAccent font-bold">+18 ELO</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 w-full max-w-xs">
+            <button onclick="startGameSession()" class="btn-pro-primary flex-1 py-2.5 text-xs font-bold font-mono-stat">
+              <i class="fa-solid fa-rotate-right mr-1"></i> Play Again
+            </button>
+            <a href="index.html" class="btn-pro-secondary px-4 py-2.5 text-xs font-mono-stat">
+              Lobby
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Virtual Controls -->
+      <div class="mt-4 flex sm:hidden items-center justify-between gap-2 px-2 select-none">
+        <div class="flex items-center gap-2">
+          <button onpointerdown="handleTouch('ArrowLeft', true)" onpointerup="handleTouch('ArrowLeft', false)"
+                  class="w-13 h-13 rounded-xl bg-proElevated border border-white/[0.1] text-white flex items-center justify-center text-lg active:bg-proAccent">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <button onpointerdown="handleTouch('ArrowRight', true)" onpointerup="handleTouch('ArrowRight', false)"
+                  class="w-13 h-13 rounded-xl bg-proElevated border border-white/[0.1] text-white flex items-center justify-center text-lg active:bg-proAccent">
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onpointerdown="handleTouch('Space', true)" onpointerup="handleTouch('Space', false)"
+                  class="w-20 h-13 rounded-xl bg-proAccent border border-white/[0.2] text-white font-bold text-xs uppercase font-mono-stat active:bg-indigo-600">
+            ACTION
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Details Tabs: Rules & Feedback Submission -->
+    <div class="w-full mt-6 space-y-6">
+      
+      <!-- Rules Accordion -->
+      <div class="pro-card p-5 bg-proSurface border-white/[0.08]">
+        <h3 class="font-bold text-white text-sm font-heading mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-book-open text-proAccent"></i>
+          <span>Official Match Rules</span>
+        </h3>
+        <ul id="gameRulesList" class="space-y-1.5 text-xs text-slate-300">
+          <!-- Injected by JS -->
+        </ul>
+      </div>
+
+      <!-- Player Rating & Feedback Form -->
+      <div class="pro-card p-5 bg-proSurface border-white/[0.08]">
+        <h3 class="font-bold text-white text-sm font-heading mb-1 flex items-center gap-2">
+          <i class="fa-solid fa-star text-amber-400"></i>
+          <span>Player Feedback & Rating</span>
+        </h3>
+        <p class="text-xs text-slate-400 mb-4 font-mono-stat">Rate this game title and send feedback to the tournament marshals.</p>
+
+        <form onsubmit="submitReview(event)" class="space-y-3">
+          <div class="flex items-center gap-4 text-xs">
+            <span class="text-slate-300 font-mono-stat">RATING:</span>
+            <div class="flex items-center gap-1.5 text-amber-400 text-base" id="starContainer">
+              <i class="fa-solid fa-star cursor-pointer" onclick="setRating(1)"></i>
+              <i class="fa-solid fa-star cursor-pointer" onclick="setRating(2)"></i>
+              <i class="fa-solid fa-star cursor-pointer" onclick="setRating(3)"></i>
+              <i class="fa-solid fa-star cursor-pointer" onclick="setRating(4)"></i>
+              <i class="fa-solid fa-star cursor-pointer" onclick="setRating(5)"></i>
+            </div>
+            <span id="ratingValueText" class="font-mono-stat text-slate-400 text-xs">5/5</span>
+          </div>
+
+          <div>
+            <textarea id="feedbackComment" required placeholder="Write your feedback regarding gameplay, frame rate, or controls..."
+                      class="w-full p-3 rounded-lg bg-black/40 border border-white/[0.1] text-xs text-white placeholder-slate-600 focus:outline-none focus:border-proAccent resize-none h-20"></textarea>
+          </div>
+
+          <button type="submit" class="btn-pro-primary px-4 py-2 text-xs font-semibold font-mono-stat">
+            Submit Player Review
+          </button>
+        </form>
+
+        <!-- Existing Reviews List -->
+        <div class="mt-6 pt-4 border-t border-white/[0.06] space-y-3" id="reviewsContainer">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="py-4 text-center text-[11px] text-slate-600 border-t border-white/[0.06] font-mono-stat">
+    PRO ARENA 2D • ANTI-CHEAT SCORE VERIFICATION ENGINE
+  </footer>
+
+  <script src="../assets/js/db.js"></script>
+  <script src="../assets/js/games-engine.js"></script>
+  <script>
+    let currentGame = null;
+    let engine = null;
+    let currentRating = 5;
+
+    function initPlayPage() {
+      WapDB.init();
+      const user = WapDB.getCurrentUser();
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Check URL query param for game id
+      const params = new URLSearchParams(window.location.search);
+      const gameId = params.get('id') || 'game-1';
+      currentGame = WapDB.getGameById(gameId) || WapDB.getGames()[0];
+
+      // Populate header
+      document.getElementById('headerTokens').innerText = user.tokens || 0;
+      document.getElementById('gameHeaderTitle').innerText = currentGame.title;
+      document.getElementById('gameCategoryBadge').innerText = currentGame.category.toUpperCase();
+      document.getElementById('startModalTitle').innerText = currentGame.title;
+      document.getElementById('startModalDesc').innerText = currentGame.description;
+
+      // Sub pill
+      const subPill = document.getElementById('headerSubsPill');
+      if (user.activeSubscription && user.activeSubscription.active) {
+        subPill.className = 'px-2.5 py-1 text-xs font-semibold rounded-lg font-mono-stat bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+        subPill.innerHTML = '● PASS ACTIVE';
+      } else {
+        subPill.className = 'px-2.5 py-1 text-xs font-semibold rounded-lg font-mono-stat bg-amber-500/10 text-amber-400 border border-amber-500/20';
+        subPill.innerHTML = 'GET PASS (3 BDT)';
+      }
+
+      // Scores
+      const best = (user.scores && user.scores[currentGame.id]) ? user.scores[currentGame.id] : 0;
+      document.getElementById('highScoreText').innerText = best;
+
+      // Rules
+      const rulesUl = document.getElementById('gameRulesList');
+      rulesUl.innerHTML = (currentGame.rules || []).map(r => `
+        <li class="flex items-start gap-2">
+          <i class="fa-solid fa-chevron-right text-proAccent text-[10px] mt-1"></i>
+          <span>${r}</span>
+        </li>
+      `).join('');
+
+      renderReviews();
+    }
+
+    function checkSubscriptionAccess() {
+      const user = WapDB.getCurrentUser();
+      if (!user) return false;
+      return user.activeSubscription && user.activeSubscription.active;
+    }
+
+    function startGameSession() {
+      // Check pass
+      if (!checkSubscriptionAccess()) {
+        document.getElementById('subBarrierModal').classList.remove('hidden');
+        return;
+      }
+
+      document.getElementById('startOverlay').classList.add('hidden');
+      document.getElementById('gameOverModal').classList.add('hidden');
+      document.getElementById('subBarrierModal').classList.add('hidden');
+
+      if (engine) engine.stop();
+
+      engine = new WAPGamesEngine(
+        'gameCanvas',
+        currentGame.engineKey,
+        onGameOver,
+        onScoreUpdate
+      );
+      engine.start();
+    }
+
+    function onScoreUpdate(score) {
+      document.getElementById('liveScore').innerText = score;
+    }
+
+    function onGameOver(finalScore) {
+      document.getElementById('gameOverModal').classList.remove('hidden');
+      document.getElementById('finalScoreText').innerText = finalScore;
+
+      // Update database
+      WapDB.updateScore(currentGame.id, finalScore);
+
+      const user = WapDB.getCurrentUser();
+      const best = (user.scores && user.scores[currentGame.id]) ? user.scores[currentGame.id] : finalScore;
+      document.getElementById('recordScoreText').innerText = best;
+      document.getElementById('highScoreText').innerText = best;
+    }
+
+    function closeSubModal() {
+      document.getElementById('subBarrierModal').classList.add('hidden');
+    }
+
+    function quickTokenExchange() {
+      const res = WapDB.exchangeTokensForSub('plan-1');
+      if (res.success) {
+        alert('1 Day Pass activated with 30 Tokens!');
+        initPlayPage();
+        closeSubModal();
+        startGameSession();
+      } else {
+        alert(res.message);
+      }
+    }
+
+    function handleTouch(key, isDown) {
+      if (window.handleVirtualControl) {
+        window.handleVirtualControl(key, isDown);
+      }
+    }
+
+    function setRating(val) {
+      currentRating = val;
+      document.getElementById('ratingValueText').innerText = `${val}/5`;
+      const stars = document.getElementById('starContainer').children;
+      for (let i = 0; i < 5; i++) {
+        stars[i].className = i < val ? 'fa-solid fa-star cursor-pointer' : 'fa-regular fa-star cursor-pointer text-slate-600';
+      }
+    }
+
+    function submitReview(e) {
+      e.preventDefault();
+      const comment = document.getElementById('feedbackComment').value.trim();
+      if (!comment) return;
+      WapDB.addReview(currentGame.id, currentRating, comment);
+      document.getElementById('feedbackComment').value = '';
+      alert('Review recorded! Thank you for rating this game.');
+      renderReviews();
+    }
+
+    function renderReviews() {
+      const container = document.getElementById('reviewsContainer');
+      const list = WapDB.getReviews(currentGame.id);
+      if (list.length === 0) {
+        container.innerHTML = '<p class="text-xs text-slate-500 font-mono-stat">No player reviews yet. Be the first to leave one!</p>';
+        return;
+      }
+      container.innerHTML = list.slice(0, 4).map(r => `
+        <div class="p-3 rounded-lg bg-black/30 border border-white/[0.04] text-xs">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-bold text-white">${r.playerName}</span>
+            <span class="text-amber-400 font-mono-stat">${'★'.repeat(r.rating)}</span>
+          </div>
+          <p class="text-slate-300">${r.comment}</p>
+          <span class="text-[10px] text-slate-500 block mt-1 font-mono-stat">${r.date}</span>
+        </div>
+      `).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', initPlayPage);
+  </script>
+</body>
+</html>

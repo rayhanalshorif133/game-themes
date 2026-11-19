@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tournament & Cups Control - PRO ARENA Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            proDark: '#08090C',
+            proSurface: '#10131A',
+            proElevated: '#161B26',
+            proAccent: '#6366F1',
+            proViolet: '#8B5CF6'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme4.css">
+</head>
+<body class="bg-proDark text-slate-100 min-h-screen flex selection:bg-proAccent selection:text-white">
+
+  <!-- Desktop Left Sidebar -->
+  <aside class="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-64 bg-proSurface border-r border-white/[0.08] z-40">
+    <div class="p-5 border-b border-white/[0.08] flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-proElevated border border-white/[0.1] text-proAccent flex items-center justify-center font-bold text-sm shadow-sm">
+          <i class="fa-solid fa-crosshairs"></i>
+        </div>
+        <div>
+          <span class="font-heading font-bold text-sm text-white tracking-tight flex items-center gap-1.5">
+            PRO ARENA <span class="text-[9px] px-1.5 py-0.5 rounded bg-proAccent text-white font-mono-stat">T4</span>
+          </span>
+          <span class="text-[10px] block text-slate-400 font-mono-stat -mt-0.5">MARSHAL CONTROL</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto font-mono-stat text-xs">
+      <div class="px-3 pb-2 text-[10px] font-bold text-slate-500 uppercase tracking-wider">MANAGEMENT</div>
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-proElevated transition">
+        <i class="fa-solid fa-gauge-high w-4 text-center"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="games.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-proElevated transition">
+        <i class="fa-solid fa-gamepad w-4 text-center"></i>
+        <span>2D Games Roster</span>
+      </a>
+      <a href="tournaments.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-proElevated text-white font-semibold border border-white/[0.1]">
+        <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
+        <span>Tournaments & Cups</span>
+      </a>
+      <a href="players.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-proElevated transition">
+        <i class="fa-solid fa-users w-4 text-center text-proViolet"></i>
+        <span>Players & Bans</span>
+      </a>
+      <a href="sms.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-proElevated transition">
+        <i class="fa-solid fa-comment-sms w-4 text-center text-emerald-400"></i>
+        <span>SMS Broadcast</span>
+      </a>
+      <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-proElevated transition">
+        <i class="fa-solid fa-receipt w-4 text-center text-bkash"></i>
+        <span>Passes & Revenue</span>
+      </a>
+      <a href="feedback.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-proElevated transition">
+        <i class="fa-solid fa-star w-4 text-center text-amber-400"></i>
+        <span>Player Reviews</span>
+      </a>
+    </div>
+
+    <div class="p-3 border-t border-white/[0.08] space-y-2 font-mono-stat text-[11px]">
+      <a href="../player/index.html" class="w-full py-2 px-3 rounded-lg bg-proElevated hover:bg-black text-slate-300 flex items-center justify-center gap-2 border border-white/[0.08] transition">
+        <i class="fa-solid fa-play text-proAccent text-[10px]"></i> Open Player Arena
+      </a>
+      <a href="../../index.html" class="w-full py-1.5 px-3 rounded text-slate-500 hover:text-white flex items-center justify-center gap-1.5 transition">
+        <i class="fa-solid fa-layer-group text-[10px]"></i> Theme Hub
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Work Area -->
+  <div class="flex-1 md:ml-64 flex flex-col min-h-screen">
+    
+    <header class="h-16 border-b border-white/[0.08] bg-proDark/80 px-6 flex items-center justify-between backdrop-blur-md sticky top-0 z-20">
+      <div>
+        <h1 class="font-heading font-bold text-base text-white">Tournaments & Cash Circuits</h1>
+        <span class="text-[10px] text-slate-500 font-mono-stat">CONFIGURE PRIZE POOLS & SCHEDULES</span>
+      </div>
+
+      <button onclick="openTourneyModal()" class="btn-pro-primary px-3.5 py-1.5 text-xs font-mono-stat font-semibold flex items-center gap-1.5">
+        <i class="fa-solid fa-plus text-[10px]"></i> New Tournament
+      </button>
+    </header>
+
+    <main class="p-6 space-y-6 flex-1">
+      
+      <div class="pro-card bg-proSurface border-white/[0.08] overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-mono-stat">
+            <thead class="bg-black/40 text-slate-400 border-b border-white/[0.06]">
+              <tr>
+                <th class="py-3 px-4">TOURNAMENT</th>
+                <th class="py-3 px-4">GAME</th>
+                <th class="py-3 px-4">PRIZE POOL</th>
+                <th class="py-3 px-4">STATUS</th>
+                <th class="py-3 px-4">TIER</th>
+                <th class="py-3 px-4">END DATE</th>
+                <th class="py-3 px-4">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="tourneysTableBody" class="divide-y divide-white/[0.04]">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Modal -->
+    <div id="tourneyModal" class="hidden fixed inset-0 bg-black/85 flex items-center justify-center p-4 z-50">
+      <div class="pro-card p-6 bg-proSurface border-white/[0.15] w-full max-w-md">
+        <div class="flex items-center justify-between pb-3 mb-4 border-b border-white/[0.08]">
+          <h3 class="font-bold text-white text-sm font-heading" id="tModalHeading">Setup Tournament</h3>
+          <button onclick="closeTourneyModal()" class="text-slate-400 hover:text-white text-sm">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form onsubmit="handleSaveTourney(event)" class="space-y-4 font-mono-stat text-xs">
+          <input type="hidden" id="editTourneyId">
+
+          <div>
+            <label class="block text-slate-300 mb-1">Tournament Title</label>
+            <input type="text" id="tTitle" required placeholder="e.g. Master Cup Season 5"
+                   class="w-full px-3 py-2 bg-black/50 border border-white/[0.1] rounded-lg text-white">
+          </div>
+
+          <div>
+            <label class="block text-slate-300 mb-1">Select 2D Game Title</label>
+            <select id="tGameSelect" class="w-full px-3 py-2 bg-black/50 border border-white/[0.1] rounded-lg text-white">
+              <!-- Options populated by JS -->
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-slate-300 mb-1">Prize Pool</label>
+              <input type="text" id="tPrize" required placeholder="5,000 BDT"
+                     class="w-full px-3 py-2 bg-black/50 border border-white/[0.1] rounded-lg text-white">
+            </div>
+            <div>
+              <label class="block text-slate-300 mb-1">Competitive Tier</label>
+              <select id="tTier" class="w-full px-3 py-2 bg-black/50 border border-white/[0.1] rounded-lg text-white">
+                <option value="Tier 1 Pro">Tier 1 Pro</option>
+                <option value="Challenger">Challenger</option>
+                <option value="Open Cup">Open Cup</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-slate-300 mb-1">Status</label>
+              <select id="tStatus" class="w-full px-3 py-2 bg-black/50 border border-white/[0.1] rounded-lg text-white">
+                <option value="Live">Live</option>
+                <option value="Upcoming">Upcoming</option>
+                <option value="Ended">Ended</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-300 mb-1">End Date</label>
+              <input type="date" id="tEndDate" required
+                     class="w-full px-3 py-2 bg-black/50 border border-white/[0.1] rounded-lg text-white">
+            </div>
+          </div>
+
+          <button type="submit" class="btn-pro-primary w-full py-2.5 text-xs font-bold font-mono-stat">
+            Save Tournament
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <footer class="p-4 border-t border-white/[0.06] text-center text-[11px] text-slate-600 font-mono-stat">
+      PRO ARENA 2D • TOURNAMENT CIRCUIT MANAGEMENT
+    </footer>
+  </div>
+
+  <script src="../assets/js/db.js"></script>
+  <script>
+    function initTourneyPage() {
+      WapDB.init();
+      renderTourneys();
+      populateGameSelect();
+    }
+
+    function populateGameSelect() {
+      const games = WapDB.getGames();
+      const select = document.getElementById('tGameSelect');
+      select.innerHTML = games.map(g => `<option value="${g.id}">${g.title}</option>`).join('');
+    }
+
+    function renderTourneys() {
+      const list = WapDB.getTournaments();
+      const tbody = document.getElementById('tourneysTableBody');
+      tbody.innerHTML = list.map(t => `
+        <tr class="hover:bg-white/[0.02]">
+          <td class="py-3 px-4 font-bold text-white">${t.title}</td>
+          <td class="py-3 px-4 text-slate-300">${t.gameTitle}</td>
+          <td class="py-3 px-4 text-amber-400 font-bold">${t.prizePool}</td>
+          <td class="py-3 px-4">
+            <span class="badge-pro ${t.status === 'Live' ? 'badge-pro-live' : 'badge-pro-bracket'}">${t.status}</span>
+          </td>
+          <td class="py-3 px-4 text-slate-400">${t.tier || 'PRO'}</td>
+          <td class="py-3 px-4 text-slate-400">${t.endDate}</td>
+          <td class="py-3 px-4 space-x-2">
+            <button onclick="editTourney('${t.id}')" class="text-proAccent hover:underline">Edit</button>
+            <button onclick="deleteTourney('${t.id}')" class="text-rose-400 hover:underline">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function openTourneyModal() {
+      document.getElementById('editTourneyId').value = '';
+      document.getElementById('tTitle').value = '';
+      document.getElementById('tPrize').value = '3,000 BDT';
+      document.getElementById('tEndDate').value = '2026-11-30';
+      document.getElementById('tModalHeading').innerText = 'New Tournament';
+      document.getElementById('tourneyModal').classList.remove('hidden');
+    }
+
+    function editTourney(id) {
+      const t = WapDB.getTournamentById(id);
+      if (!t) return;
+      document.getElementById('editTourneyId').value = t.id;
+      document.getElementById('tTitle').value = t.title;
+      document.getElementById('tGameSelect').value = t.gameId;
+      document.getElementById('tPrize').value = t.prizePool;
+      document.getElementById('tTier').value = t.tier || 'Tier 1 Pro';
+      document.getElementById('tStatus').value = t.status;
+      document.getElementById('tEndDate').value = t.endDate;
+      document.getElementById('tModalHeading').innerText = 'Edit Tournament';
+      document.getElementById('tourneyModal').classList.remove('hidden');
+    }
+
+    function closeTourneyModal() {
+      document.getElementById('tourneyModal').classList.add('hidden');
+    }
+
+    function handleSaveTourney(e) {
+      e.preventDefault();
+      const id = document.getElementById('editTourneyId').value;
+      const gameId = document.getElementById('tGameSelect').value;
+      const game = WapDB.getGameById(gameId);
+
+      const tData = {
+        title: document.getElementById('tTitle').value.trim(),
+        gameId: gameId,
+        gameTitle: game ? game.title : '2D Game',
+        prizePool: document.getElementById('tPrize').value.trim(),
+        tier: document.getElementById('tTier').value,
+        status: document.getElementById('tStatus').value,
+        endDate: document.getElementById('tEndDate').value
+      };
+      if (id) tData.id = id;
+      WapDB.saveTournament(tData);
+      closeTourneyModal();
+      renderTourneys();
+    }
+
+    function deleteTourney(id) {
+      if (confirm('Delete this tournament?')) {
+        WapDB.deleteTournament(id);
+        renderTourneys();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initTourneyPage);
+  </script>
+</body>
+</html>

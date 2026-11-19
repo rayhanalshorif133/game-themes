@@ -3,711 +3,429 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WAP Games 2D - Best 2D Gaming & Tournament Portal</title>
+  <title>WAP Games 2D - Multi-Theme Hub & Live Showcase</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            cyberDark: '#090d16',
-            cyberCard: '#111827',
-            cyberPurple: '#6366f1',
-            cyberGreen: '#10b981',
-            cyberPink: '#ec4899',
-            bkash: '#e2136e'
-          }
-        }
-      }
-    }
-  </script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700;800&family=Orbitron:wght@600;800;900&family=Press+Start+2P&family=Rajdhani:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/style.css">
+  
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .font-cyber {
+      font-family: 'Orbitron', sans-serif;
+    }
+    .font-esports {
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .font-pixel {
+      font-family: 'Press Start 2P', monospace;
+    }
+    .theme-card {
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .theme-card:hover {
+      transform: translateY(-8px) scale(1.01);
+    }
+    /* Ambient Glows */
+    .glow-cyber:hover {
+      box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.35), 0 0 30px rgba(236, 72, 153, 0.2);
+    }
+    .glow-esports:hover {
+      box-shadow: 0 20px 40px -15px rgba(239, 68, 68, 0.35), 0 0 30px rgba(245, 158, 11, 0.25);
+    }
+    .glow-pixel:hover {
+      box-shadow: 0 20px 40px -15px rgba(0, 240, 255, 0.35), 0 0 30px rgba(57, 255, 20, 0.25);
+    }
+    /* Pixel Button */
+    .pixel-btn-3d {
+      box-shadow: 0 5px 0 #008899, 0 8px 12px rgba(0,0,0,0.6);
+      transition: all 0.1s ease;
+    }
+    .pixel-btn-3d:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #008899, 0 2px 4px rgba(0,0,0,0.6);
+    }
+  </style>
 </head>
-<body class="bg-cyberDark text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+<body class="bg-[#060810] text-slate-100 min-h-screen flex flex-col relative overflow-x-hidden selection:bg-indigo-500 selection:text-white">
 
-  <!-- Multi-Theme Switcher Banner -->
-  <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 py-2.5 px-4 border-b border-indigo-500/30 text-xs flex flex-wrap items-center justify-between gap-3 max-w-7xl mx-auto w-full">
-    <div class="flex items-center gap-2">
-      <span class="px-2 py-0.5 rounded bg-indigo-600 text-white font-bold text-[10px] tracking-wide uppercase">Active: Theme 1</span>
-      <span class="text-slate-300 font-medium">Cyber Neon Portal</span>
-      <span class="text-slate-600 hidden sm:inline">•</span>
-      <span class="text-emerald-400 font-semibold hidden sm:inline"><i class="fa-solid fa-mobile-screen-button mr-1"></i>Mobile Responsive</span>
-    </div>
-    <div class="flex items-center gap-2 flex-wrap">
-      <span class="text-slate-400 text-xs font-medium">Live Themes:</span>
-      <a href="Theme1/index.html" class="px-2.5 py-1 rounded-md bg-indigo-600 text-white font-bold text-[11px] flex items-center gap-1 shadow-sm">
-        <i class="fa-solid fa-palette text-[10px]"></i> Theme 1 (Cyber)
-      </a>
-      <a href="theme2/index.html" class="px-2.5 py-1 rounded-md bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-500 hover:to-amber-400 text-slate-950 font-black text-[11px] flex items-center gap-1 transition shadow-sm">
-        <i class="fa-solid fa-fire text-white text-[10px]"></i> Theme 2 (Esports)
-      </a>
-      <a href="theme3/index.html" class="px-2.5 py-1 rounded-md bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-[11px] flex items-center gap-1 transition shadow-sm border border-cyan-300">
-        🕹️ Theme 3 (Pixel Arcade)
-      </a>
-    </div>
+  <!-- Background Animated Atmospheric Mesh -->
+  <div class="fixed inset-0 pointer-events-none z-0">
+    <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[140px]"></div>
+    <div class="absolute bottom-10 right-1/4 w-[500px] h-[500px] bg-red-600/10 rounded-full blur-[140px]"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-cyan-500/10 rounded-full blur-[160px]"></div>
+    <!-- Grid overlay -->
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#1f293710_1px,transparent_1px),linear-gradient(to_bottom,#1f293710_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
   </div>
 
-  <!-- Top Announcement Bar -->
-  <div class="bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 py-2 px-4 text-xs sm:text-sm text-center font-medium border-b border-indigo-500/20 flex items-center justify-center gap-2">
-    <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-    <span id="announcementText">⚡ 2D Single & Multiplayer Tournaments Live! Signup korlei 50 Free Tokens!</span>
-  </div>
-
-  <!-- Navbar -->
-  <header class="sticky top-0 z-40 bg-cyberDark/90 backdrop-blur-md border-b border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <!-- Logo -->
-      <a href="index.html" class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30 text-white text-xl">
+  <!-- Top Global Header -->
+  <header class="relative z-20 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Logo & Hub Badge -->
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white text-xl shadow-lg shadow-indigo-500/25">
           <i class="fa-solid fa-gamepad"></i>
         </div>
         <div>
-          <span class="font-gaming font-bold text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-pink-400">WAP GAMES</span>
-          <span class="text-[10px] block text-emerald-400 font-mono tracking-widest -mt-1">2D ARENA BD</span>
+          <div class="flex items-center gap-2">
+            <span class="font-cyber font-black text-xl sm:text-2xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400">
+              WAP GAMES
+            </span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase tracking-wider">
+              Theme Hub
+            </span>
+          </div>
+          <span class="text-[11px] block text-emerald-400 font-mono tracking-wider -mt-0.5">
+            2D ARENA BANGLADESH • 3 LIVE THEMES
+          </span>
         </div>
-      </a>
+      </div>
 
-      <!-- Desktop Navigation Links -->
-      <nav class="hidden lg:flex items-center gap-5 text-sm font-medium text-slate-300">
-        <a href="#themes" class="text-indigo-400 font-bold hover:text-indigo-300 flex items-center gap-1 transition">
-          <i class="fa-solid fa-layer-group text-xs"></i> 3 Live Themes
-        </a>
-        <a href="#games" class="hover:text-indigo-400 transition">Games</a>
-        <a href="#tournaments" class="hover:text-indigo-400 transition">Tournaments</a>
-        <a href="#pricing" class="hover:text-indigo-400 transition">Subscriptions</a>
-        <a href="#rules" class="hover:text-indigo-400 transition">Rules</a>
-        <span class="text-slate-700">|</span>
-        <a href="theme2/index.html" class="text-amber-400 font-bold hover:text-amber-300 flex items-center gap-1 text-xs">
-          <i class="fa-solid fa-fire text-xs"></i> Theme 2
-        </a>
-        <a href="theme3/index.html" class="text-cyan-400 font-bold hover:text-cyan-300 flex items-center gap-1 text-xs">
-          🕹️ Theme 3
-        </a>
-      </nav>
-
-      <!-- Right Action CTAs -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <!-- Admin Panel Switcher -->
-        <a href="admin/index.html" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1.5 transition">
-          <i class="fa-solid fa-shield-halved text-purple-400"></i>
-          <span>Admin</span>
-        </a>
-
-        <!-- Player Hub / Login -->
-        <div id="navAuthArea">
-          <!-- Populated by JS based on login session -->
-          <a href="player/login.html" class="neon-btn px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-white flex items-center gap-1.5">
-            <i class="fa-solid fa-user"></i>
-            <span>Player Login</span>
-          </a>
+      <!-- Quick Actions / GitHub Link -->
+      <div class="flex items-center gap-3">
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>GitHub Pages Live</span>
         </div>
+        <a href="https://github.com/rayhanalshorif133/game-themes" target="_blank" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-2 transition">
+          <i class="fa-brands fa-github text-sm"></i>
+          <span class="hidden sm:inline">Repository</span>
+        </a>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="relative overflow-hidden py-12 sm:py-20 border-b border-slate-800">
-    <!-- Glow Gradients -->
-    <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-96 h-96 bg-indigo-600/20 blur-3xl rounded-full pointer-events-none"></div>
-    <div class="absolute -bottom-32 right-10 w-80 h-80 bg-pink-600/20 blur-3xl rounded-full pointer-events-none"></div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-950/80 border border-indigo-500/40 text-indigo-300 text-xs mb-6">
-        <i class="fa-solid fa-award text-amber-400"></i>
-        <span>Bangladesh's #1 WAP 2D Gaming & Tournament Portal</span>
+  <!-- Main Hero & Theme Selection Section -->
+  <main class="relative z-10 flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 w-full flex flex-col justify-center">
+    
+    <!-- Hero Title -->
+    <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-950/70 border border-indigo-500/40 text-indigo-300 text-xs sm:text-sm font-semibold mb-4 shadow-inner">
+        <i class="fa-solid fa-layer-group text-amber-400"></i>
+        <span>Select Your Desired UI Design Theme</span>
       </div>
-
-      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight font-gaming">
-        Play Awesome 2D Games, Win Daily <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-indigo-400">Cash Prizes</span>
+      
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight font-cyber">
+        Choose a <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-pink-400 to-amber-400">Theme</span> to Enter
       </h1>
-
-      <p class="mt-4 text-base sm:text-lg text-slate-300 max-w-2xl mx-auto">
-        Join exciting single & multiplayer 2D tournaments. Subscribe starting at just <span class="text-emerald-400 font-bold font-mono">3 TK/Day</span> via bKash or exchange <span class="text-amber-400 font-bold">50 Free Signup Tokens</span>!
+      
+      <p class="mt-4 text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
+        নিচের ৩টি থিমের যেকোনো একটি কার্ডে ক্লিক করুন। প্রতিটি থিমে সম্পূর্ণ আলাদা ডিজাইন, টাইপোগ্রাফি, অ্যানিমেশন, <span class="text-indigo-400 font-bold">Player Portal</span> এবং <span class="text-pink-400 font-bold">Admin Panel</span> লাইভ রেডি করা আছে।
       </p>
-
-      <!-- Multi-Theme Launcher Badges -->
-      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <a href="player/index.html" class="neon-btn px-5 py-3 rounded-xl text-xs sm:text-sm font-bold text-white flex items-center gap-2">
-          <i class="fa-solid fa-gamepad"></i> Cyber Neon (Theme 1)
-        </a>
-        <a href="theme2/index.html" class="px-5 py-3 rounded-xl text-xs sm:text-sm font-extrabold bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-500 hover:to-amber-400 text-slate-950 flex items-center gap-2 shadow-xl shadow-red-600/30 transition transform hover:scale-105">
-          <i class="fa-solid fa-fire text-white"></i> Esports Arena (Theme 2)
-        </a>
-        <a href="theme3/index.html" class="px-5 py-3 rounded-xl text-xs sm:text-sm font-extrabold bg-cyan-400 hover:bg-cyan-300 text-slate-950 flex items-center gap-2 shadow-xl shadow-cyan-400/30 transition transform hover:scale-105 border-2 border-cyan-300">
-          🕹️ Pixel Arcade (Theme 3)
-        </a>
-        <a href="#pricing" class="px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
-          <i class="fa-solid fa-bolt text-amber-400 mr-1.5"></i> Passes (3 TK+)
-        </a>
-      </div>
-
-      <!-- Quick Metrics Ribbon -->
-      <div class="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto pt-6 border-t border-slate-800/80">
-        <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-          <div class="text-2xl font-bold font-gaming text-indigo-400" id="statGamesCount">4+</div>
-          <div class="text-xs text-slate-400">2D Games Ready</div>
-        </div>
-        <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-          <div class="text-2xl font-bold font-gaming text-pink-400">1,500 TK</div>
-          <div class="text-xs text-slate-400">Daily Cash Prizes</div>
-        </div>
-        <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-          <div class="text-2xl font-bold font-gaming text-amber-400">50 🪙</div>
-          <div class="text-xs text-slate-400">Free Signup Bonus</div>
-        </div>
-        <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-          <div class="text-2xl font-bold font-gaming text-emerald-400">3 TK</div>
-          <div class="text-xs text-slate-400">Daily Pass on bKash</div>
-        </div>
-      </div>
     </div>
-  </section>
 
-  <!-- ========================================== -->
-  <!-- 3 DISTINCT THEMES LIVE SHOWCASE SECTION    -->
-  <!-- ========================================== -->
-  <section id="themes" class="py-14 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-b border-indigo-500/20 relative overflow-hidden">
-    <!-- Ambient glow decorations -->
-    <div class="absolute -top-40 left-10 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-40 right-10 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="text-center max-w-3xl mx-auto mb-12">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 text-xs font-bold mb-3">
-          <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
-          <span>LIVE THEME SHOWCASE • ৩টি সম্পূর্ণ আলাদা ডিজাইন ও ভাইব</span>
-        </div>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-gaming tracking-tight">
-          Choose & Test All 3 Game Themes
-        </h2>
-        <p class="text-sm text-slate-400 mt-2">
-          প্রতিটি থিম সম্পূর্ণ আলাদা কালার স্কিম, টাইপোগ্রাফি, অ্যানিমেশন এবং গেমিং ভাইবে তৈরি। নিচের কার্ডগুলো থেকে সরাসরি প্রতিটি থিমের <span class="text-indigo-300 font-bold">Landing Page</span>, <span class="text-emerald-400 font-bold">Player Portal</span> এবং <span class="text-purple-400 font-bold">Admin Panel</span> লাইভ চেক করতে পারবেন।
-        </p>
-      </div>
-
-      <!-- 3 Theme Cards Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- 3 DISTINCT THEME CARDS GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-8 items-stretch">
+      
+      <!-- ============================================== -->
+      <!-- THEME 1 CARD: CYBER NEON PORTAL                -->
+      <!-- ============================================== -->
+      <div onclick="window.location.href='Theme1/index.html'" 
+           class="theme-card glow-cyber cursor-pointer flex flex-col rounded-3xl bg-slate-900/90 border-2 border-indigo-500/40 hover:border-indigo-400 overflow-hidden relative group">
         
-        <!-- ==================== THEME 1 CARD ==================== -->
-        <div class="relative flex flex-col rounded-2xl bg-slate-900/90 border-2 border-indigo-500/50 hover:border-indigo-400 transition-all duration-300 shadow-xl shadow-indigo-500/10 overflow-hidden group">
-          <!-- Top Badge Ribbon -->
-          <div class="bg-gradient-to-r from-indigo-600 to-pink-600 px-4 py-2 flex items-center justify-between text-xs font-bold text-white">
-            <span class="flex items-center gap-1.5">
-              <i class="fa-solid fa-circle-check"></i> THEME 1 • DEFAULT
+        <!-- Header Banner Image / Pattern -->
+        <div class="h-32 bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 p-6 flex items-start justify-between relative border-b border-indigo-500/30 overflow-hidden">
+          <div class="absolute -right-4 -bottom-4 w-28 h-28 bg-indigo-500/20 rounded-full blur-2xl group-hover:scale-150 transition duration-500"></div>
+          
+          <div>
+            <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-600 text-white shadow">
+              THEME 1 • DEFAULT
             </span>
-            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-black/40">CYBER NEON</span>
-          </div>
-
-          <div class="p-6 flex-1 flex flex-col">
-            <!-- Icon & Name -->
-            <div class="flex items-start justify-between gap-4 mb-4">
-              <div>
-                <h3 class="text-xl font-black text-white font-gaming flex items-center gap-2">
-                  <span class="text-indigo-400">Cyber Neon</span> Portal
-                </h3>
-                <p class="text-xs text-indigo-300 font-mono mt-0.5">Orbitron + Inter Fonts</p>
-              </div>
-              <div class="w-12 h-12 rounded-xl bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 flex items-center justify-center text-2xl shadow-inner group-hover:scale-110 transition">
-                <i class="fa-solid fa-gamepad"></i>
-              </div>
-            </div>
-
-            <p class="text-xs text-slate-300 leading-relaxed mb-4">
-              আল্ট্রা-মডার্ন সাইবারপাঙ্ক স্টাইল। গ্লাস-মরফিজম কার্ড, নিয়ন পার্পল ও পিঙ্ক গ্লো ইফেক্ট, স্মুথ অ্যানিমেশন এবং ফিউচারিস্টিক ইন্টারফেস।
-            </p>
-
-            <!-- Palette & Tags -->
-            <div class="flex items-center gap-2 mb-4 text-[11px] text-slate-400">
-              <span class="font-semibold text-slate-300">Palette:</span>
-              <span class="w-4 h-4 rounded-full bg-[#090d16] border border-slate-700" title="Cyber Dark"></span>
-              <span class="w-4 h-4 rounded-full bg-[#6366f1]" title="Neon Indigo"></span>
-              <span class="w-4 h-4 rounded-full bg-[#ec4899]" title="Cyber Pink"></span>
-              <span class="w-4 h-4 rounded-full bg-[#10b981]" title="Emerald Green"></span>
-            </div>
-
-            <!-- Features Highlights -->
-            <ul class="text-xs text-slate-300 space-y-1.5 mb-6 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-[10px]"></i> 4 টি 2D Canvas গেমস (Snake, Shooter, Flappy, Pong)</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-[10px]"></i> 3tk, 5tk, 10tk bKash Pass & 50 Token Bonus</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-[10px]"></i> Player Profile, Wallet & WhatsApp Chat</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-[10px]"></i> Admin Sidebar Dashboard (Full Management)</li>
-            </ul>
-
-            <!-- Live Action Buttons -->
-            <div class="mt-auto space-y-2 pt-2 border-t border-slate-800">
-              <a href="player/index.html" class="w-full py-2.5 px-4 rounded-xl font-bold text-xs text-white bg-indigo-600 hover:bg-indigo-500 shadow-md shadow-indigo-600/30 flex items-center justify-center gap-2 transition">
-                <i class="fa-solid fa-play"></i> Open Player Portal (Live)
-              </a>
-              <div class="grid grid-cols-2 gap-2">
-                <a href="Theme1/index.html" class="py-2 px-3 rounded-lg font-semibold text-[11px] text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center justify-center gap-1.5 transition">
-                  <i class="fa-solid fa-house text-indigo-400"></i> Landing
-                </a>
-                <a href="admin/index.html" class="py-2 px-3 rounded-lg font-semibold text-[11px] text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center justify-center gap-1.5 transition">
-                  <i class="fa-solid fa-shield-halved text-purple-400"></i> Admin Panel
-                </a>
-              </div>
+            <div class="font-mono text-xs text-indigo-300 mt-2 flex items-center gap-1.5">
+              <i class="fa-solid fa-font text-[10px]"></i> Orbitron + Inter
             </div>
           </div>
-        </div>
 
-        <!-- ==================== THEME 2 CARD ==================== -->
-        <div class="relative flex flex-col rounded-2xl bg-[#0f0909]/90 border-2 border-red-500/50 hover:border-amber-400 transition-all duration-300 shadow-xl shadow-red-500/10 overflow-hidden group">
-          <!-- Top Badge Ribbon -->
-          <div class="bg-gradient-to-r from-red-600 via-amber-600 to-red-600 px-4 py-2 flex items-center justify-between text-xs font-bold text-slate-950">
-            <span class="flex items-center gap-1.5 font-black uppercase">
-              <i class="fa-solid fa-fire text-white"></i> THEME 2 • COMPETITIVE
-            </span>
-            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-black/60 text-amber-300 font-mono">ESPORTS ARENA</span>
-          </div>
-
-          <div class="p-6 flex-1 flex flex-col">
-            <!-- Icon & Name -->
-            <div class="flex items-start justify-between gap-4 mb-4">
-              <div>
-                <h3 class="text-xl font-black text-white font-sans tracking-wide uppercase flex items-center gap-2">
-                  <span class="text-amber-400">Esports Fire</span> Arena
-                </h3>
-                <p class="text-xs text-amber-300 font-mono mt-0.5">Rajdhani + Bebas Neue Fonts</p>
-              </div>
-              <div class="w-12 h-12 rounded-xl bg-red-600/20 border border-red-500/40 text-amber-400 flex items-center justify-center text-2xl shadow-inner group-hover:scale-110 transition">
-                <i class="fa-solid fa-trophy"></i>
-              </div>
-            </div>
-
-            <p class="text-xs text-slate-300 leading-relaxed mb-4">
-              হাই-অক্টেন কম্পিটিটিভ ইস্পোর্টস ভাইব। অবসিডিয়ান ব্ল্যাক ব্যাকগ্রাউন্ড, ফ্লেমিং রেড-অরেঞ্জ এক্সেন্ট, অ্যাঙ্গুলার ব্যাজ এবং অ্যাগ্রেসিভ প্রো-গেমিং ইউআই।
-            </p>
-
-            <!-- Palette & Tags -->
-            <div class="flex items-center gap-2 mb-4 text-[11px] text-slate-400">
-              <span class="font-semibold text-slate-300">Palette:</span>
-              <span class="w-4 h-4 rounded-full bg-[#0a0505] border border-slate-700" title="Obsidian Dark"></span>
-              <span class="w-4 h-4 rounded-full bg-[#ef4444]" title="Crimson Red"></span>
-              <span class="w-4 h-4 rounded-full bg-[#f59e0b]" title="Flame Amber"></span>
-              <span class="w-4 h-4 rounded-full bg-[#e2136e]" title="bKash Pink"></span>
-            </div>
-
-            <!-- Features Highlights -->
-            <ul class="text-xs text-slate-300 space-y-1.5 mb-6 bg-black/50 p-3 rounded-xl border border-red-900/30">
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-[10px]"></i> Esports Match Arena & Tournament Hub</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-[10px]"></i> Pro Pass (3tk, 5tk, 10tk) & Token Wallet</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-[10px]"></i> Redesigned Esports Player Profile Page</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-[10px]"></i> Fire Admin Control Panel with Red Sidebar</li>
-            </ul>
-
-            <!-- Live Action Buttons -->
-            <div class="mt-auto space-y-2 pt-2 border-t border-red-950">
-              <a href="theme2/player/index.html" class="w-full py-2.5 px-4 rounded-xl font-black text-xs text-slate-950 bg-gradient-to-r from-red-600 via-amber-500 to-amber-400 hover:from-red-500 hover:to-amber-300 shadow-md shadow-red-600/30 flex items-center justify-center gap-2 transition uppercase">
-                <i class="fa-solid fa-bolt text-white"></i> Open Esports Arena (Live)
-              </a>
-              <div class="grid grid-cols-2 gap-2">
-                <a href="theme2/index.html" class="py-2 px-3 rounded-lg font-semibold text-[11px] text-slate-200 bg-red-950/60 hover:bg-red-900/60 border border-red-800/50 flex items-center justify-center gap-1.5 transition">
-                  <i class="fa-solid fa-house text-amber-400"></i> Landing
-                </a>
-                <a href="theme2/admin/index.html" class="py-2 px-3 rounded-lg font-semibold text-[11px] text-slate-200 bg-red-950/60 hover:bg-red-900/60 border border-red-800/50 flex items-center justify-center gap-1.5 transition">
-                  <i class="fa-solid fa-shield-halved text-red-400"></i> Admin Panel
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ==================== THEME 3 CARD ==================== -->
-        <div class="relative flex flex-col rounded-2xl bg-[#090e17]/95 border-2 border-cyan-400/50 hover:border-cyan-300 transition-all duration-300 shadow-xl shadow-cyan-400/10 overflow-hidden group">
-          <!-- Top Badge Ribbon -->
-          <div class="bg-gradient-to-r from-cyan-400 via-emerald-400 to-yellow-400 px-4 py-2 flex items-center justify-between text-xs font-bold text-slate-950">
-            <span class="flex items-center gap-1.5 font-black uppercase">
-              🕹️ THEME 3 • RETRO ARCADE
-            </span>
-            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-black text-cyan-300 font-mono border border-cyan-400">8-BIT PIXEL</span>
-          </div>
-
-          <div class="p-6 flex-1 flex flex-col">
-            <!-- Icon & Name -->
-            <div class="flex items-start justify-between gap-4 mb-4">
-              <div>
-                <h3 class="text-xl font-bold text-white flex items-center gap-2 font-mono tracking-tight">
-                  <span class="text-cyan-400">Pixel Arcade</span> Neo-Retro
-                </h3>
-                <p class="text-xs text-cyan-300 font-mono mt-0.5">Press Start 2P + VT323</p>
-              </div>
-              <div class="w-12 h-12 rounded-xl bg-cyan-400/20 border-2 border-cyan-400 text-cyan-300 flex items-center justify-center text-2xl shadow-inner group-hover:scale-110 transition">
-                <i class="fa-solid fa-ghost"></i>
-              </div>
-            </div>
-
-            <p class="text-xs text-slate-300 leading-relaxed mb-4">
-              নস্টালজিক ৮০/৯০-এর দশকের কয়েন-অপ আর্কেড ক্যাবিনেট ফিল। চাঙ্কি ৩ডি পিক্সেল বাটন, সিআরটি স্ক্যানলাইন, আর্কেড মার্কা ফন্ট ও রেট্রো সাউন্ড ভাইব।
-            </p>
-
-            <!-- Palette & Tags -->
-            <div class="flex items-center gap-2 mb-4 text-[11px] text-slate-400">
-              <span class="font-semibold text-slate-300">Palette:</span>
-              <span class="w-4 h-4 rounded-none bg-[#050811] border border-cyan-500" title="Arcade Midnight"></span>
-              <span class="w-4 h-4 rounded-none bg-[#00f0ff]" title="Arcade Cyan"></span>
-              <span class="w-4 h-4 rounded-none bg-[#39ff14]" title="CRT Neon Green"></span>
-              <span class="w-4 h-4 rounded-none bg-[#ff0055]" title="Arcade Pink"></span>
-            </div>
-
-            <!-- Features Highlights -->
-            <ul class="text-xs text-slate-300 space-y-1.5 mb-6 bg-slate-950 p-3 rounded-none border-2 border-cyan-900/60 font-mono text-[11px]">
-              <li class="flex items-center gap-2"><i class="fa-solid fa-square text-cyan-400 text-[8px]"></i> 8-Bit Pixel Games, CRT Scanlines & FX</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-square text-cyan-400 text-[8px]"></i> Coin-Op Token Exchange & 3tk Daily Pass</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-square text-cyan-400 text-[8px]"></i> Pixel Profile with 8-Bit Badges & Level</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-square text-cyan-400 text-[8px]"></i> CRT Terminal Admin Panel with Full Tools</li>
-            </ul>
-
-            <!-- Live Action Buttons -->
-            <div class="mt-auto space-y-2 pt-2 border-t border-cyan-950">
-              <a href="theme3/player/index.html" class="w-full py-2.5 px-4 font-black text-xs text-slate-950 bg-cyan-400 hover:bg-cyan-300 shadow-md shadow-cyan-400/30 flex items-center justify-center gap-2 transition uppercase border-2 border-cyan-300 font-mono">
-                🕹️ Play in Pixel Arcade (Live)
-              </a>
-              <div class="grid grid-cols-2 gap-2 font-mono">
-                <a href="theme3/index.html" class="py-2 px-3 font-bold text-[11px] text-cyan-200 bg-cyan-950/60 hover:bg-cyan-900/60 border border-cyan-800/60 flex items-center justify-center gap-1.5 transition">
-                  <i class="fa-solid fa-house text-cyan-400"></i> Landing
-                </a>
-                <a href="theme3/admin/index.html" class="py-2 px-3 font-bold text-[11px] text-cyan-200 bg-cyan-950/60 hover:bg-cyan-900/60 border border-cyan-800/60 flex items-center justify-center gap-1.5 transition">
-                  <i class="fa-solid fa-terminal text-emerald-400"></i> CRT Admin
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- 2D Games Catalog Section -->
-  <section id="games" class="py-12 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-      <div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white font-gaming">2D Games Catalog</h2>
-        <p class="text-xs sm:text-sm text-slate-400 mt-1">Play smooth HTML5 2D games on mobile or PC with instant high score tracking.</p>
-      </div>
-
-      <!-- Category Filter Pills -->
-      <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0" id="categoryFilterContainer">
-        <button onclick="filterGames('all')" class="cat-btn active px-3.5 py-1.5 rounded-full text-xs font-semibold bg-indigo-600 text-white whitespace-nowrap">All</button>
-        <button onclick="filterGames('Action')" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 whitespace-nowrap">Action</button>
-        <button onclick="filterGames('Arcade')" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 whitespace-nowrap">Arcade</button>
-        <button onclick="filterGames('Classic')" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 whitespace-nowrap">Classic</button>
-        <button onclick="filterGames('Multiplayer')" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 whitespace-nowrap">Multiplayer</button>
-      </div>
-    </div>
-
-    <!-- Games Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="gamesGrid">
-      <!-- Injected by JavaScript -->
-    </div>
-  </section>
-
-  <!-- Tournaments Section -->
-  <section id="tournaments" class="py-12 sm:py-16 bg-slate-950/60 border-y border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-10">
-        <span class="px-3 py-1 rounded-full text-xs font-bold bg-pink-500/20 text-pink-400 border border-pink-500/30">
-          🏆 Cash Leagues
-        </span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-3 font-gaming">Live & Upcoming Tournaments</h2>
-        <p class="text-xs sm:text-sm text-slate-400 mt-2">Compete against other players. Highest scores take home direct bKash cash prizes!</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="tournamentsContainer">
-        <!-- Injected by JavaScript -->
-      </div>
-    </div>
-  </section>
-
-  <!-- Subscription Pricing Section -->
-  <section id="pricing" class="py-12 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-    <div class="text-center max-w-2xl mx-auto mb-10">
-      <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-        ⚡ Affordable Passes
-      </span>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-3 font-gaming">Choose Your Gaming Pass</h2>
-      <p class="text-xs sm:text-sm text-slate-400 mt-2">Pay easily via bKash, Nagad or exchange your earned signup/referral tokens!</p>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="plansContainer">
-      <!-- Injected by JavaScript -->
-    </div>
-  </section>
-
-  <!-- Rules & Fair Play Section -->
-  <section id="rules" class="py-12 bg-slate-900/40 border-t border-slate-800">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-xl sm:text-2xl font-bold font-gaming text-white text-center mb-6">Game Rules & Fair Play Policy</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-300">
-        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
-          <div class="w-8 h-8 rounded-lg bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-sm font-bold mb-3">1</div>
-          <h4 class="font-bold text-white text-sm mb-1">Pass Requirement</h4>
-          <p class="text-slate-400">Active subscription (3 TK/day or token exchange) is mandatory to play 2D games and submit high scores.</p>
-        </div>
-        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
-          <div class="w-8 h-8 rounded-lg bg-pink-600/20 text-pink-400 flex items-center justify-center text-sm font-bold mb-3">2</div>
-          <h4 class="font-bold text-white text-sm mb-1">Anti-Cheat & Fair Play</h4>
-          <p class="text-slate-400">Automated bot usage or score manipulation will result in permanent player ban from the admin control panel.</p>
-        </div>
-        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
-          <div class="w-8 h-8 rounded-lg bg-emerald-600/20 text-emerald-400 flex items-center justify-center text-sm font-bold mb-3">3</div>
-          <h4 class="font-bold text-white text-sm mb-1">Prize Payouts</h4>
-          <p class="text-slate-400">Tournament winners receive cash prizes directly sent to their registered bKash/Nagad wallet within 24 hours.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-slate-950 border-t border-slate-800 py-10 mt-auto text-xs text-slate-400">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-      <div>
-        <div class="flex items-center gap-2 mb-3">
-          <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
+          <div class="w-14 h-14 rounded-2xl bg-indigo-600/30 border border-indigo-400/40 text-indigo-300 flex items-center justify-center text-2xl shadow-lg shadow-indigo-500/20 group-hover:rotate-12 transition transform duration-300">
             <i class="fa-solid fa-gamepad"></i>
           </div>
-          <span class="font-gaming font-bold text-white text-base">WAP GAMES</span>
         </div>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Bangladesh's premier 2D web gaming portal featuring live tournaments, token rewards and bKash payments.
-        </p>
+
+        <!-- Body Content -->
+        <div class="p-6 sm:p-7 flex-1 flex flex-col">
+          
+          <h2 class="text-2xl font-black text-white font-cyber tracking-wide flex items-center justify-between">
+            <span>Cyber Neon</span>
+            <i class="fa-solid fa-arrow-right text-indigo-400 text-base transform group-hover:translate-x-1.5 transition"></i>
+          </h2>
+          <span class="text-xs font-semibold text-indigo-400 -mt-0.5 block">Futuristic Cyberpunk Portal UI</span>
+
+          <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+            আল্ট্রা-মডার্ন সাইবারপাঙ্ক স্টাইল। গ্লাস-মরফিজম কার্ড, গ্লোয়িং নিয়ণ বাটন, পিঙ্ক-ইন্ডিগো এক্সেন্ট এবং ডার্ক ফিউচারিস্টিক ইন্টারফেস।
+          </p>
+
+          <!-- Color Swatches -->
+          <div class="mt-4 flex items-center gap-2">
+            <span class="text-[11px] text-slate-400 font-medium">Palette:</span>
+            <span class="w-4 h-4 rounded-full bg-[#090d16] border border-slate-700" title="#090d16 Cyber Dark"></span>
+            <span class="w-4 h-4 rounded-full bg-[#6366f1]" title="#6366f1 Neon Indigo"></span>
+            <span class="w-4 h-4 rounded-full bg-[#ec4899]" title="#ec4899 Cyber Pink"></span>
+            <span class="w-4 h-4 rounded-full bg-[#10b981]" title="#10b981 Emerald Green"></span>
+          </div>
+
+          <!-- Feature Bullets -->
+          <ul class="mt-5 space-y-2 text-xs text-slate-300 bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800">
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i>
+              <span>৪টি 2D HTML5 গেমস (Snake, Shooter, Flappy, Pong)</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i>
+              <span>bKash ৩টি পাস (3tk, 5tk, 10tk) + ৫০ টোকেন বোনাস</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i>
+              <span>প্লেয়ার প্রোফাইল, লিডারবোর্ড ও WhatsApp সাপোর্ট</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i>
+              <span>অ্যাডমিন সাইডবার ড্যাশবোর্ড (SMS, Player Ban, Subs)</span>
+            </li>
+          </ul>
+
+          <!-- Action Buttons -->
+          <div class="mt-6 pt-4 border-t border-slate-800/80 flex flex-col gap-2">
+            <a href="Theme1/index.html" 
+               class="w-full py-3 px-4 rounded-xl font-bold text-xs sm:text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 transition group-hover:bg-indigo-500">
+              <i class="fa-solid fa-rocket"></i>
+              <span>Launch Theme 1 (Cyber Neon)</span>
+            </a>
+            
+            <div class="grid grid-cols-2 gap-2 mt-1">
+              <a href="Theme1/player/index.html" onclick="event.stopPropagation()" class="py-2 px-3 rounded-lg text-center text-xs font-semibold bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
+                🎮 Player Portal
+              </a>
+              <a href="Theme1/admin/index.html" onclick="event.stopPropagation()" class="py-2 px-3 rounded-lg text-center text-xs font-semibold bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
+                🛡️ Admin Panel
+              </a>
+            </div>
+          </div>
+
+        </div>
       </div>
-      <div>
-        <h4 class="font-bold text-white mb-3">Quick Navigation</h4>
-        <ul class="space-y-2">
-          <li><a href="#themes" class="text-indigo-400 font-bold hover:underline">✨ 3 Live Game Themes</a></li>
-          <li><a href="#games" class="hover:text-indigo-400">2D Games Catalog</a></li>
-          <li><a href="#tournaments" class="hover:text-indigo-400">Live Tournaments</a></li>
-          <li><a href="#pricing" class="hover:text-indigo-400">Passes & Subscriptions</a></li>
-          <li><a href="theme2/index.html" class="text-amber-400 hover:underline">🔥 Theme 2 (Esports Arena)</a></li>
-          <li><a href="theme3/index.html" class="text-cyan-400 hover:underline">🕹️ Theme 3 (Pixel Arcade)</a></li>
-        </ul>
+
+      <!-- ============================================== -->
+      <!-- THEME 2 CARD: ESPORTS FIRE & GOLD ARENA        -->
+      <!-- ============================================== -->
+      <div onclick="window.location.href='theme2/index.html'" 
+           class="theme-card glow-esports cursor-pointer flex flex-col rounded-3xl bg-[#0d0707]/90 border-2 border-red-500/40 hover:border-amber-400 overflow-hidden relative group">
+        
+        <!-- Header Banner Image / Pattern -->
+        <div class="h-32 bg-gradient-to-br from-red-950 via-slate-900 to-amber-950 p-6 flex items-start justify-between relative border-b border-red-500/30 overflow-hidden">
+          <div class="absolute -right-4 -bottom-4 w-28 h-28 bg-red-500/20 rounded-full blur-2xl group-hover:scale-150 transition duration-500"></div>
+          
+          <div>
+            <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-gradient-to-r from-red-600 to-amber-500 text-slate-950 shadow">
+              THEME 2 • COMPETITIVE
+            </span>
+            <div class="font-mono text-xs text-amber-300 mt-2 flex items-center gap-1.5">
+              <i class="fa-solid fa-font text-[10px]"></i> Rajdhani + Bebas Neue
+            </div>
+          </div>
+
+          <div class="w-14 h-14 rounded-2xl bg-red-600/30 border border-red-400/40 text-amber-400 flex items-center justify-center text-2xl shadow-lg shadow-red-500/20 group-hover:rotate-12 transition transform duration-300">
+            <i class="fa-solid fa-fire text-red-400"></i>
+          </div>
+        </div>
+
+        <!-- Body Content -->
+        <div class="p-6 sm:p-7 flex-1 flex flex-col">
+          
+          <h2 class="text-2xl font-black text-white font-esports uppercase tracking-wider flex items-center justify-between">
+            <span>Esports Arena</span>
+            <i class="fa-solid fa-arrow-right text-amber-400 text-base transform group-hover:translate-x-1.5 transition"></i>
+          </h2>
+          <span class="text-xs font-semibold text-amber-400 -mt-0.5 block">Fire & Gold Competitive Arena UI</span>
+
+          <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+            হাই-অক্টেন কম্পিটিটিভ ইস্পোর্টস ভাইব। অবসিডিয়ান ব্ল্যাক ব্যাকগ্রাউন্ড, ফ্লেমিং রেড-অরেঞ্জ এক্সেন্ট, অ্যাঙ্গুলার ব্যাজ এবং প্রফেশনাল টুর্নামেন্ট লুক।
+          </p>
+
+          <!-- Color Swatches -->
+          <div class="mt-4 flex items-center gap-2">
+            <span class="text-[11px] text-slate-400 font-medium">Palette:</span>
+            <span class="w-4 h-4 rounded-full bg-[#0a0505] border border-slate-700" title="#0a0505 Obsidian Dark"></span>
+            <span class="w-4 h-4 rounded-full bg-[#ef4444]" title="#ef4444 Crimson Red"></span>
+            <span class="w-4 h-4 rounded-full bg-[#f59e0b]" title="#f59e0b Flame Amber"></span>
+            <span class="w-4 h-4 rounded-full bg-[#e2136e]" title="#e2136e bKash Pink"></span>
+          </div>
+
+          <!-- Feature Bullets -->
+          <ul class="mt-5 space-y-2 text-xs text-slate-300 bg-black/60 p-3.5 rounded-2xl border border-red-950">
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-circle-check text-amber-400 text-xs"></i>
+              <span>ইস্পোর্টস ম্যাচ অ্যারিনা ও প্রফেশনাল স্কোরবোর্ড</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-circle-check text-amber-400 text-xs"></i>
+              <span>ডেইলি প্রো পাস (৩tk/৫tk/১০tk) ও রেফারেল ওয়ালেট</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-circle-check text-amber-400 text-xs"></i>
+              <span>রিডিজাইন করা ইস্পোর্টস প্লেয়ার প্রোফাইল পেজ</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-circle-check text-amber-400 text-xs"></i>
+              <span>ফায়ার অ্যাডমিন কন্ট্রোল প্যানেল (রেড সাইডবার)</span>
+            </li>
+          </ul>
+
+          <!-- Action Buttons -->
+          <div class="mt-6 pt-4 border-t border-red-950 flex flex-col gap-2">
+            <a href="theme2/index.html" 
+               class="w-full py-3 px-4 rounded-xl font-black text-xs sm:text-sm text-slate-950 bg-gradient-to-r from-red-600 via-amber-500 to-amber-400 hover:from-red-500 hover:to-amber-300 shadow-lg shadow-red-600/30 flex items-center justify-center gap-2 transition uppercase">
+              <i class="fa-solid fa-bolt text-white"></i>
+              <span>Launch Theme 2 (Esports Fire)</span>
+            </a>
+            
+            <div class="grid grid-cols-2 gap-2 mt-1">
+              <a href="theme2/player/index.html" onclick="event.stopPropagation()" class="py-2 px-3 rounded-lg text-center text-xs font-semibold bg-red-950/60 hover:bg-red-900/60 text-slate-300 border border-red-900/60 transition">
+                🎮 Esports Player
+              </a>
+              <a href="theme2/admin/index.html" onclick="event.stopPropagation()" class="py-2 px-3 rounded-lg text-center text-xs font-semibold bg-red-950/60 hover:bg-red-900/60 text-slate-300 border border-red-900/60 transition">
+                🛡️ Fire Admin
+              </a>
+            </div>
+          </div>
+
+        </div>
       </div>
-      <div>
-        <h4 class="font-bold text-white mb-3">Player Account</h4>
-        <ul class="space-y-2">
-          <li><a href="player/login.html" class="hover:text-indigo-400">Sign In / Sign Up (+50 Tokens)</a></li>
-          <li><a href="player/wallet.html" class="hover:text-indigo-400">Token Exchange Wallet</a></li>
-          <li><a href="player/profile.html" class="hover:text-indigo-400">Player Profile & Badges</a></li>
-          <li><a href="admin/index.html" class="hover:text-purple-400">Admin Control Panel</a></li>
-        </ul>
+
+      <!-- ============================================== -->
+      <!-- THEME 3 CARD: NEO-RETRO 8-BIT PIXEL ARCADE     -->
+      <!-- ============================================== -->
+      <div onclick="window.location.href='theme3/index.html'" 
+           class="theme-card glow-pixel cursor-pointer flex flex-col rounded-3xl bg-[#080d16]/95 border-2 border-cyan-400/40 hover:border-cyan-300 overflow-hidden relative group">
+        
+        <!-- Header Banner Image / Pattern -->
+        <div class="h-32 bg-gradient-to-br from-slate-950 via-cyan-950 to-slate-950 p-6 flex items-start justify-between relative border-b border-cyan-400/30 overflow-hidden">
+          <div class="absolute -right-4 -bottom-4 w-28 h-28 bg-cyan-400/20 rounded-full blur-2xl group-hover:scale-150 transition duration-500"></div>
+          
+          <div>
+            <span class="inline-block px-2.5 py-1 rounded-none text-[9px] font-black uppercase tracking-wider bg-cyan-400 text-slate-950 font-pixel shadow border border-cyan-300">
+              THEME 3 • 8-BIT
+            </span>
+            <div class="font-mono text-xs text-cyan-300 mt-2 flex items-center gap-1.5">
+              <i class="fa-solid fa-font text-[10px]"></i> Press Start 2P + VT323
+            </div>
+          </div>
+
+          <div class="w-14 h-14 rounded-none bg-cyan-400/20 border-2 border-cyan-400 text-cyan-300 flex items-center justify-center text-2xl shadow-lg shadow-cyan-400/20 group-hover:rotate-12 transition transform duration-300">
+            <i class="fa-solid fa-ghost"></i>
+          </div>
+        </div>
+
+        <!-- Body Content -->
+        <div class="p-6 sm:p-7 flex-1 flex flex-col">
+          
+          <h2 class="text-xl font-bold text-white font-mono tracking-tight flex items-center justify-between">
+            <span>Pixel Arcade</span>
+            <i class="fa-solid fa-arrow-right text-cyan-400 text-base transform group-hover:translate-x-1.5 transition"></i>
+          </h2>
+          <span class="text-xs font-semibold text-cyan-400 -mt-0.5 block font-mono">Neo-Retro 8-Bit Coin-Op Vibe</span>
+
+          <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+            নস্টালজিক ৮০/৯০ দশকের কয়েন-অপ আর্কেড ক্যাবিনেট ফিল। চাঙ্কি ৩ডি পিক্সেল বাটন, সিআরটি স্ক্যানলাইন ইফেক্ট ও রেট্রো সাউন্ড ভাইব।
+          </p>
+
+          <!-- Color Swatches -->
+          <div class="mt-4 flex items-center gap-2">
+            <span class="text-[11px] text-slate-400 font-medium font-mono">Palette:</span>
+            <span class="w-4 h-4 rounded-none bg-[#050811] border border-cyan-500" title="#050811 Arcade Midnight"></span>
+            <span class="w-4 h-4 rounded-none bg-[#00f0ff]" title="#00f0ff Arcade Cyan"></span>
+            <span class="w-4 h-4 rounded-none bg-[#39ff14]" title="#39ff14 CRT Neon Green"></span>
+            <span class="w-4 h-4 rounded-none bg-[#ff0055]" title="#ff0055 Arcade Pink"></span>
+          </div>
+
+          <!-- Feature Bullets -->
+          <ul class="mt-5 space-y-2 text-xs text-slate-300 bg-slate-950 p-3.5 rounded-none border-2 border-cyan-900/60 font-mono text-[11px]">
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-square text-cyan-400 text-[8px]"></i>
+              <span>৮-বিট পিক্সেল গেমস ও সিআরটি স্ক্যানলাইন এফেক্ট</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-square text-cyan-400 text-[8px]"></i>
+              <span>কয়েন-অপ টোকেন এক্সচেঞ্জ ও ৩ টাকা ডেইলি পাস</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-square text-cyan-400 text-[8px]"></i>
+              <span>পিক্সেল প্রোফাইল, ৮-বিট ব্যাজ ও লেভেল সিস্টেম</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-square text-cyan-400 text-[8px]"></i>
+              <span>সিআরটি টার্মিনাল আর্কেড অ্যাডমিন কনসোল</span>
+            </li>
+          </ul>
+
+          <!-- Action Buttons -->
+          <div class="mt-6 pt-4 border-t border-cyan-950 flex flex-col gap-2 font-mono">
+            <a href="theme3/index.html" 
+               class="pixel-btn-3d w-full py-3 px-4 font-black text-xs sm:text-sm text-slate-950 bg-cyan-400 hover:bg-cyan-300 flex items-center justify-center gap-2 transition uppercase border-2 border-cyan-300">
+              🕹️ Launch Theme 3 (Pixel Arcade)
+            </a>
+            
+            <div class="grid grid-cols-2 gap-2 mt-1">
+              <a href="theme3/player/index.html" onclick="event.stopPropagation()" class="py-2 px-3 text-center text-xs font-bold bg-cyan-950/60 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-800/60 transition">
+                👾 Pixel Player
+              </a>
+              <a href="theme3/admin/index.html" onclick="event.stopPropagation()" class="py-2 px-3 text-center text-xs font-bold bg-cyan-950/60 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-800/60 transition">
+                💻 CRT Admin
+              </a>
+            </div>
+          </div>
+
+        </div>
       </div>
-      <div>
-        <h4 class="font-bold text-white mb-3">Need Quick Support?</h4>
-        <p class="mb-3">Chat with us on WhatsApp 24/7 for instant deposit help or queries:</p>
-        <a href="https://wa.me/8801700000000?text=Hello%20WAP%20Games%20Support!%20I%20need%20help." target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold font-mono">
-          <i class="fa-brands fa-whatsapp text-base"></i> +880 1700-000000
-        </a>
+
+    </div>
+
+    <!-- Features Overview Strip -->
+    <div class="mt-16 bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-indigo-400 font-cyber">100%</div>
+          <div class="text-xs text-slate-400 mt-1">Mobile Responsive</div>
+        </div>
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-pink-400 font-cyber">4+</div>
+          <div class="text-xs text-slate-400 mt-1">2D HTML5 Games</div>
+        </div>
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-amber-400 font-cyber">3 TK</div>
+          <div class="text-xs text-slate-400 mt-1">bKash Daily Pass</div>
+        </div>
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-cyber">A to Z</div>
+          <div class="text-xs text-slate-400 mt-1">Admin Controls</div>
+        </div>
       </div>
     </div>
-    <div class="max-w-7xl mx-auto px-4 border-t border-slate-900 pt-6 text-center flex flex-col sm:flex-row items-center justify-between gap-2">
-      <p>© 2026 WAP Games 2D BD. All rights reserved.</p>
-      <div class="flex items-center gap-3 flex-wrap justify-center">
-        <a href="Theme1/index.html" class="hover:text-indigo-400">Theme 1 (Cyber Neon)</a>
-        <span>•</span>
-        <a href="theme2/index.html" class="text-amber-400 hover:underline">Theme 2 (Esports Fire)</a>
-        <span>•</span>
-        <a href="theme3/index.html" class="text-cyan-400 hover:underline">Theme 3 (Pixel Arcade)</a>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="relative z-10 border-t border-slate-800/80 bg-slate-950/90 py-8 text-center text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="font-cyber font-bold text-white text-sm">WAP GAMES 2D</span>
+        <span class="text-slate-600">•</span>
+        <span>All 3 Themes Ready & Live on GitHub Pages</span>
       </div>
+      <div class="flex items-center gap-4 text-xs font-medium">
+        <a href="Theme1/index.html" class="text-indigo-400 hover:underline">Theme 1 (Cyber)</a>
+        <a href="theme2/index.html" class="text-amber-400 hover:underline">Theme 2 (Esports)</a>
+        <a href="theme3/index.html" class="text-cyan-400 hover:underline">Theme 3 (Pixel)</a>
+      </div>
+      <p class="text-slate-500">© 2026 WAP Games. All rights reserved.</p>
     </div>
   </footer>
 
-  <!-- Floating WhatsApp Quick Communication Button -->
-  <div class="fixed bottom-6 right-6 z-50 flex items-center gap-2">
-    <div id="waTooltip" class="hidden sm:flex items-center bg-slate-900 text-xs px-3 py-1.5 rounded-xl border border-emerald-500/40 text-emerald-300 shadow-xl">
-      <span>Need Help? Chat on WhatsApp</span>
-    </div>
-    <a href="https://wa.me/8801700000000?text=Hello%20WAP%20Games%20Support!%20I%20need%20help." 
-       target="_blank" 
-       class="w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center text-2xl shadow-xl whatsapp-pulse transition transform hover:scale-110"
-       title="Quick WhatsApp Support">
-      <i class="fa-brands fa-whatsapp"></i>
-    </a>
-  </div>
-
-  <!-- Scripts -->
-  <script src="assets/js/db.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      renderNavUser();
-      renderGames();
-      renderTournaments();
-      renderPlans();
-      updateStats();
-    });
-
-    function renderNavUser() {
-      const user = window.wapDB.getCurrentUser();
-      const container = document.getElementById('navAuthArea');
-      if (user) {
-        container.innerHTML = `
-          <div class="flex items-center gap-2">
-            <a href="player/profile.html" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-950 border border-indigo-600/50 text-indigo-300 hover:bg-indigo-900 flex items-center gap-2 transition" title="Go to My Profile">
-              <span class="w-5 h-5 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 text-white flex items-center justify-center text-[10px] font-bold">
-                ${(user.avatar && user.avatar !== '🎮') ? user.avatar : user.name.charAt(0).toUpperCase()}
-              </span>
-              <span>Profile</span>
-              <span class="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.5 rounded font-mono">${user.tokens || 0}🪙</span>
-            </a>
-            <a href="player/index.html" class="neon-btn px-3 py-1.5 rounded-lg text-xs font-bold text-white flex items-center gap-1">
-              <i class="fa-solid fa-gamepad"></i> Play
-            </a>
-          </div>
-        `;
-      } else {
-        container.innerHTML = `
-          <a href="player/login.html" class="neon-btn px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-white flex items-center gap-1.5">
-            <i class="fa-solid fa-user"></i>
-            <span>Player Login</span>
-          </a>
-        `;
-      }
-    }
-
-    let currentCategory = 'all';
-    function filterGames(category) {
-      currentCategory = category;
-      document.querySelectorAll('.cat-btn').forEach(btn => {
-        btn.classList.remove('bg-indigo-600', 'text-white');
-        btn.classList.add('bg-slate-800', 'text-slate-300');
-      });
-      event.target.classList.add('bg-indigo-600', 'text-white');
-      event.target.classList.remove('bg-slate-800', 'text-slate-300');
-      renderGames();
-    }
-
-    function renderGames() {
-      const allGames = window.wapDB.getGames();
-      const filtered = currentCategory === 'all' 
-        ? allGames 
-        : currentCategory === 'Multiplayer'
-          ? allGames.filter(g => g.type === 'Multiplayer')
-          : allGames.filter(g => g.category.toLowerCase() === currentCategory.toLowerCase());
-
-      const grid = document.getElementById('gamesGrid');
-      grid.innerHTML = filtered.map(game => {
-        return `
-          <div class="cyber-card rounded-2xl overflow-hidden flex flex-col justify-between group">
-            <div class="relative h-44 overflow-hidden bg-slate-900">
-              <img src="${game.thumbnail}" alt="${game.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
-              
-              <!-- Badges -->
-              <div class="absolute top-3 left-3 flex gap-1.5">
-                ${game.isNew ? '<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-pink-500 text-white uppercase tracking-wider">NEW</span>' : ''}
-                <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-slate-900/80 text-indigo-300 border border-indigo-500/30">
-                  ${game.type}
-                </span>
-              </div>
-              <div class="absolute bottom-2 left-3 text-xs text-slate-300 font-mono">
-                <i class="fa-solid fa-fire text-amber-400"></i> ${game.playsCount || 0} plays
-              </div>
-            </div>
-
-            <div class="p-4 flex-1 flex flex-col justify-between">
-              <div>
-                <div class="text-[11px] text-indigo-400 font-semibold">${game.category}</div>
-                <h3 class="text-base font-bold text-white font-gaming">${game.title}</h3>
-                <p class="text-slate-400 text-xs mt-1 line-clamp-2">${game.description}</p>
-              </div>
-
-              <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between gap-2">
-                <a href="player/play.html?id=${game.id}" class="neon-btn flex-1 text-center py-2 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-1.5">
-                  <i class="fa-solid fa-play"></i> Play 2D
-                </a>
-                <a href="player/play.html?id=${game.id}&view=rules" class="px-3 py-2 rounded-xl text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700" title="Rules">
-                  <i class="fa-solid fa-circle-info"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function renderTournaments() {
-      const tournaments = window.wapDB.getTournaments();
-      const container = document.getElementById('tournamentsContainer');
-      container.innerHTML = tournaments.map(t => {
-        return `
-          <div class="p-6 rounded-2xl cyber-card border border-slate-800 flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-3">
-                <span class="px-3 py-0.5 rounded-full text-xs font-semibold ${t.status === 'Active' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-amber-500/20 text-amber-400 border border-amber-500/40'}">
-                  ● ${t.status}
-                </span>
-                <span class="text-xs text-slate-400 font-mono"><i class="fa-solid fa-users text-indigo-400"></i> ${t.participantsCount} Joined</span>
-              </div>
-
-              <h3 class="text-lg font-bold text-white font-gaming">${t.title}</h3>
-              <p class="text-xs text-indigo-300 font-medium mt-1">Target Game: ${t.gameTitle} (${t.type})</p>
-              
-              <div class="my-4 p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 flex items-center justify-between">
-                <div>
-                  <div class="text-[10px] text-slate-400 uppercase tracking-wider">Cash Prize Pool</div>
-                  <div class="text-xl font-extrabold text-amber-400 font-gaming">${t.prizePool}</div>
-                </div>
-                <div class="text-right">
-                  <div class="text-[10px] text-slate-400 uppercase tracking-wider">Entry Fee</div>
-                  <div class="text-sm font-bold text-emerald-400">
-                    ${t.entryFeeType === 'token' ? `${t.entryFee} Tokens` : `${t.entryFee} TK (bKash)`}
-                  </div>
-                </div>
-              </div>
-
-              <p class="text-xs text-slate-300 mb-4">${t.rules}</p>
-            </div>
-
-            <a href="player/play.html?id=${t.gameId}&tournament=${t.id}" class="neon-btn w-full py-2.5 rounded-xl text-xs font-bold text-center text-white block">
-              <i class="fa-solid fa-trophy mr-1.5"></i> Join Tournament
-            </a>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function renderPlans() {
-      const plans = window.wapDB.getPlans();
-      const container = document.getElementById('plansContainer');
-      container.innerHTML = plans.map(p => {
-        return `
-          <div class="relative p-6 rounded-2xl ${p.popular ? 'bg-gradient-to-b from-indigo-950/90 to-slate-900 border-2 border-indigo-500 shadow-xl shadow-indigo-500/20' : 'bg-slate-900/80 border border-slate-800'} flex flex-col justify-between">
-            ${p.popular ? '<div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-gradient-to-r from-pink-500 to-indigo-500 text-white text-[10px] font-bold uppercase tracking-wider shadow">Most Popular</div>' : ''}
-            <div>
-              <div class="text-xs font-semibold text-slate-400 uppercase">${p.name}</div>
-              <div class="mt-2 flex items-baseline gap-1">
-                <span class="text-3xl font-extrabold font-gaming text-white">${p.price} TK</span>
-                <span class="text-xs text-slate-400">/ ${p.durationDays} Day${p.durationDays > 1 ? 's' : ''}</span>
-              </div>
-              <p class="text-xs text-slate-400 mt-2 mb-4">${p.desc}</p>
-              
-              <div class="py-2.5 px-3 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-amber-300 flex items-center justify-between mb-4">
-                <span>Or Exchange:</span>
-                <span class="font-bold font-mono">🪙 ${p.tokenEquivalent} Tokens</span>
-              </div>
-
-              <ul class="space-y-2 text-xs text-slate-300 mb-6">
-                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> All 2D games unlocked</li>
-                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Leaderboard score submission</li>
-                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Daily Tournament entry</li>
-              </ul>
-            </div>
-
-            <a href="player/subscription.html?plan=${p.id}" class="${p.popular ? 'neon-btn' : 'bg-indigo-600 hover:bg-indigo-500 text-white'} w-full py-2.5 rounded-xl text-xs font-bold text-center block transition">
-              Subscribe Now (bKash)
-            </a>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function updateStats() {
-      const games = window.wapDB.getGames();
-      document.getElementById('statGamesCount').innerText = `${games.length}+`;
-    }
-  </script>
 </body>
 </html>

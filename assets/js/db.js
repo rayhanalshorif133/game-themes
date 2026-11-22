@@ -390,6 +390,155 @@ class WAPDatabase {
     return true;
   }
 
+  updatePlayerProfile(id, updates) {
+    const player = this.getPlayerById(id);
+    if (!player) return { success: false, message: 'Player not found' };
+    
+    Object.assign(player, updates);
+    this.savePlayer(player);
+    return { success: true, player };
+  }
+
+  // --- OTP Verification Service ---
+  sendOtp(phone) {
+    if (!phone) {
+      return { success: false, message: 'ফোন নম্বর প্রদান করুন।' };
+    }
+    const cleanPhone = phone.replace(/[^0-9]/g, '');
+    let normalizedPhone = cleanPhone;
+    if (normalizedPhone.startsWith('880')) {
+      normalizedPhone = '0' + normalizedPhone.slice(3);
+    }
+    if (normalizedPhone.length !== 11 || !normalizedPhone.startsWith('01')) {
+      return { success: false, message: 'সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন (যেমন: 01711002233)।' };
+    }
+
+    // Generate random 4-digit OTP
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+    const expiry = Date.now() + 5 * 60 * 1000; // 5 mins
+
+    const otpData = {
+      phone: normalizedPhone,
+      otp: otp,
+      expiresAt: expiry
+    };
+    sessionStorage.setItem('wap_pending_otp', JSON.stringify(otpData));
+
+    const existingPlayer = this.getPlayerByPhoneOrEmail(normalizedPhone);
+
+    return {
+      success: true,
+      phone: normalizedPhone,
+      otp: otp,
+      isExisting: !!existingPlayer,
+      playerName: existingPlayer ? existingPlayer.name : null,
+      message: `OTP কোড সফলভাবে পাঠানো হয়েছে: ${otp}`
+    };
+  }
+
+  verifyOtp(phone, inputOtp, gamerName = '', referralCode = '') {
+    const cleanPhone = (phone || '').replace(/[^0-9]/g, '');
+    let normalizedPhone = cleanPhone;
+    if (normalizedPhone.startsWith('880')) {
+      normalizedPhone = '0' + normalizedPhone.slice(3);
+    }
+
+    const pendingRaw = sessionStorage.getItem('wap_pending_otp');
+    let validOtp = false;
+
+    // Support universal demo bypass code 1234 or matching stored OTP
+    if (inputOtp === '1234') {
+      validOtp = true;
+    } else if (pendingRaw) {
+      try {
+        const pending = JSON.parse(pendingRaw);
+        if (pending.phone === normalizedPhone && pending.otp === inputOtp.trim()) {
+          if (Date.now() <= pending.expiresAt) {
+            validOtp = true;
+          } else {
+            return { success: false, message: 'OTP এর মেয়াদ শেষ হয়ে গেছে। নতুন OTP পাঠান।' };
+          }
+        }
+      } catch (e) {}
+    }
+
+    if (!validOtp) {
+      return { success: false, message: 'ভুল OTP কোড! আবার চেষ্টা করুন (টেস্টিং কোড: 1234)।' };
+    }
+
+    sessionStorage.removeItem('wap_pending_otp');
+
+    // Check if player exists
+    let player = this.getPlayerByPhoneOrEmail(normalizedPhone);
+    if (player) {
+      if (player.banned) {
+        return { success: false, message: `আপনার একাউন্টটি ব্যান করা হয়েছে! কারণ: ${player.banReason || 'কর্তৃপক্ষের সাথে যোগাযোগ করুন'}` };
+      }
+      this.setCurrentUser(player);
+      return { success: true, isNew: false, player, message: `স্বাগতম ${player.name}! সফলভাবে লগইন হয়েছে।` };
+    }
+
+    // New Player -> Auto-register with 50 bonus tokens
+    const settings = this.getSettings();
+    const defaultName = gamerName.trim() || ('Gamer_' + normalizedPhone.slice(-4));
+    const newPlayer = {
+      id: 'ply-' + Date.now(),
+      name: defaultName,
+      phone: normalizedPhone,
+      email: '',
+      password: 'otp_' + Date.now().toString(36),
+      avatar: '👾',
+      tokens: settings.signupBonusTokens || 50,
+      referralCode: 'WAP-' + Math.random().toString(36).substring(2, 7).toUpperCase(),
+      referredBy: referralCode ? referralCode.trim().toUpperCase() : null,
+      referralCount: 0,
+      banned: false,
+      banReason: '',
+      joinedAt: new Date().toISOString().split('T')[0],
+      subscription: {
+        planId: null,
+        planName: 'None',
+        active: false,
+        expiresAt: null
+      },
+      scores: {},
+      messages: [
+        {
+          id: 'msg-welcome',
+          date: new Date().toLocaleString(),
+          from: 'WAP Arcade Operator',
+          text: `🎉 স্বাগতম WAP Games এ! আপনি নতুন সাইনআপ উপলক্ষে ৫০ ফ্রি টোকেন কয়েন পেয়েছেন। এই কয়েন দিয়ে গেম সাবস্ক্রিপশন নিতে পারবেন!`
+        }
+      ]
+    };
+
+    if (referralCode) {
+      const allPlayers = this.getPlayers();
+      const referrer = allPlayers.find(p => p.referralCode === referralCode.trim().toUpperCase());
+      if (referrer) {
+        referrer.tokens = (referrer.tokens || 0) + (settings.referralBonusTokens || 25);
+        referrer.referralCount = (referrer.referralCount || 0) + 1;
+        if (!referrer.messages) referrer.messages = [];
+        referrer.messages.unshift({
+          id: 'ref-bonus-' + Date.now(),
+          date: new Date().toLocaleString(),
+          from: 'Referral Reward',
+          text: `🎁 আপনার রেফারেল কোড ব্যবহার করে ${newPlayer.name} যোগ দিয়েছে! আপনি ২৫ টোকেন পেয়েছেন।`
+        });
+        this.savePlayer(referrer);
+      }
+    }
+
+    this.savePlayer(newPlayer);
+    this.setCurrentUser(newPlayer);
+    return {
+      success: true,
+      isNew: true,
+      player: newPlayer,
+      message: `🎉 অভিনন্দন! নতুন অ্যাকাউন্ট তৈরি হয়েছে এবং ৫০ ফ্রি টোকেন যুক্ত হয়েছে!`
+    };
+  }
+
   toggleBanPlayer(id, reason = '') {
     const player = this.getPlayerById(id);
     if (player) {
@@ -502,6 +651,10 @@ class WAPDatabase {
     return { success: true, player: newPlayer };
   }
 
+  signup(userData) {
+    return this.register(userData);
+  }
+
   logout() {
     this.setCurrentUser(null);
   }
@@ -562,6 +715,10 @@ class WAPDatabase {
 
     this.savePlayer(player);
     return { success: true, player, expiry: expiry.toLocaleDateString() };
+  }
+
+  subscribeWithMoney(playerId, planId, paymentMethod, trxId = '', phone = '') {
+    return this.purchaseSubscription(playerId, planId, paymentMethod, trxId);
   }
 
   exchangeTokensForSubscription(playerId, planId) {

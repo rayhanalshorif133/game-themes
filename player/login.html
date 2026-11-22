@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Player Login - Pixel WAP 2D Arcade</title>
+  <title>Player Login (Phone & OTP) - Pixel WAP 2D Arcade</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -17,7 +17,8 @@
             arcadePink: '#ff007f',
             arcadeYellow: '#ffe600',
             arcadeGreen: '#00ff66',
-            arcadeBorder: '#1e2942'
+            arcadeBorder: '#1e2942',
+            bkash: '#e2136e'
           }
         }
       }
@@ -29,7 +30,7 @@
 <body class="bg-arcadeBg text-slate-100 min-h-screen flex flex-col justify-between selection:bg-arcadeCyan selection:text-black">
 
   <!-- Header -->
-  <header class="bg-arcadeBg/95 border-b-2 border-arcadeCyan px-4 py-3 sticky top-0 z-30">
+  <header class="bg-arcadeBg/95 border-b-2 border-arcadeCyan px-4 py-3 sticky top-0 z-30 backdrop-blur-md">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
       <a href="../index.html" class="flex items-center gap-3">
         <div class="w-9 h-9 bg-arcadeCyan text-slate-950 flex items-center justify-center text-lg font-arcade border border-cyan-300 shadow-[2px_2px_0px_#0284c7]">
@@ -49,174 +50,307 @@
     </div>
   </header>
 
-  <!-- Main Login Card -->
+  <!-- Main Login Screen -->
   <main class="max-w-md mx-auto px-4 py-10 w-full flex-1 flex flex-col justify-center">
     
-    <div class="arcade-card p-6 sm:p-8 bg-slate-950/95 border-2 border-arcadeCyan shadow-[6px_6px_0px_rgba(0,240,255,0.4)]">
+    <div class="arcade-card p-6 sm:p-8 bg-slate-950/95 border-2 border-arcadeCyan shadow-[6px_6px_0px_rgba(0,240,255,0.4)] font-retro">
       
       <!-- Top Title -->
       <div class="text-center mb-6">
         <div class="inline-block px-3 py-1 bg-arcadePink text-white font-retro font-bold text-xs shadow-[2px_2px_0px_#9f1239] mb-3">
-          PRESS 1P START
+          <i class="fa-solid fa-gamepad mr-1"></i> PRESS 1P START
         </div>
-        <h2 class="text-2xl font-extrabold font-retro text-white">PLAYER AUTHENTICATION</h2>
-        <p class="text-xs text-slate-400 mt-1 font-sans">নতুন সাইন আপ করলেই পাবেন <strong class="text-arcadeYellow font-retro">৫০ ফ্রি টোকেন কয়েন</strong>!</p>
+        <h2 class="text-2xl font-black text-white">PLAYER AUTHENTICATION</h2>
+        <p class="text-xs text-slate-400 font-sans mt-1">
+          মোবাইল নম্বর ও ওটিপি (OTP) দিয়ে সরাসরি লগইন করুন। নতুন গেমাররা পাবেন <strong class="text-arcadeYellow font-retro">৫০ ফ্রি টোকেন কয়েন</strong>!
+        </p>
       </div>
 
-      <!-- Tab Switcher -->
-      <div class="flex border-b-2 border-slate-800 mb-6 font-retro">
-        <button id="tabLoginBtn" onclick="switchTab('login')" class="flex-1 py-2 text-xs font-bold text-arcadeCyan border-b-2 border-arcadeCyan -mb-[2px] transition">
-          SIGN IN (লগইন)
-        </button>
-        <button id="tabSignupBtn" onclick="switchTab('signup')" class="flex-1 py-2 text-xs font-bold text-slate-400 hover:text-slate-200 transition">
-          NEW PLAYER (+50 COINS)
-        </button>
-      </div>
+      <!-- Alert Box -->
+      <div id="pageLoginAlert" class="hidden mb-4 p-3 text-xs font-sans border-2"></div>
 
-      <!-- Login Form -->
-      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+      <!-- Step 1: Phone Form -->
+      <div id="pageStepPhone" class="space-y-4">
         <div>
-          <label class="block text-xs font-bold font-retro text-slate-300 mb-1">PHONE NUMBER (ফোন নম্বর)</label>
+          <label class="block text-xs font-bold text-slate-300 mb-1">MOBILE NUMBER (মোবাইল নম্বর)</label>
           <div class="relative">
-            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs font-mono">+88</span>
-            <input type="tel" id="loginPhone" required placeholder="01700000000"
-                   class="w-full pl-12 pr-4 py-2.5 bg-slate-900 border-2 border-slate-800 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-arcadeCyan font-mono">
+            <div class="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-slate-400 text-xs font-mono select-none">
+              <span>🇧🇩 +88</span>
+            </div>
+            <input type="tel" id="pagePhoneInput" maxlength="11" placeholder="01711002233"
+                   class="w-full pl-20 pr-4 py-3 bg-slate-900 border-2 border-slate-700 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-arcadeCyan font-mono">
+          </div>
+          <p class="text-[10px] text-slate-400 mt-1 font-sans">GP, Robi, Banglalink, Teletalk বা Airtel এর ১১ ডিজিট নম্বর লিখুন</p>
+        </div>
+
+        <button type="button" onclick="handlePageSendOtp()" id="btnPageSendOtp" class="btn-arcade-cyan w-full py-3 text-xs sm:text-sm font-black tracking-wider flex items-center justify-center gap-2">
+          <span>GET OTP CODE (ওটিপি পাঠান)</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+        <!-- Quick 1-Click Test Accounts -->
+        <div class="pt-3 border-t border-slate-800">
+          <div class="text-[10px] text-slate-400 uppercase text-center mb-2">QUICK TEST PLAYERS (১-ক্লিক)</div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <button type="button" onclick="fillPageTestPhone('01711002233')" class="p-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-left hover:border-arcadeCyan transition">
+              <div class="text-arcadeCyan font-bold text-[11px]">Tanvir (2D Pro)</div>
+              <div class="text-[10px] text-slate-400 font-mono">01711002233</div>
+            </button>
+            <button type="button" onclick="fillPageTestPhone('01822334455')" class="p-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-left hover:border-arcadePink transition">
+              <div class="text-arcadePink font-bold text-[11px]">Sabbir (VIP Pass)</div>
+              <div class="text-[10px] text-slate-400 font-mono">01822334455</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: OTP Verification Screen -->
+      <div id="pageStepOtp" class="space-y-4 hidden">
+        <!-- Simulated OTP Notice Box -->
+        <div id="pageOtpSimulatorNotice" class="p-3 bg-arcadeYellow/10 border-2 border-arcadeYellow text-arcadeYellow text-xs font-sans">
+          <div class="font-bold font-retro text-[10px] sm:text-[11px] flex items-center justify-between gap-1.5 mb-1 text-white">
+            <span class="flex items-center gap-1"><i class="fa-solid fa-comment-sms text-arcadeYellow"></i> SMS OTP SIMULATOR:</span>
+            <span class="text-[10px] text-arcadeGreen font-mono">LIVE READY</span>
+          </div>
+          <div class="flex items-center justify-between gap-2 mt-1">
+            <span class="text-slate-200">আপনার ওটিপি কোড:</span>
+            <button type="button" onclick="autoFillPageOtp()" title="Click to auto-fill" class="font-mono text-base font-black text-slate-950 bg-arcadeYellow px-2.5 py-0.5 border border-yellow-300 hover:bg-yellow-300 cursor-pointer flex items-center gap-1 shadow-[2px_2px_0px_#000]">
+              <span id="pageDisplayOtpCode">----</span>
+              <i class="fa-solid fa-copy text-[10px]"></i>
+            </button>
+          </div>
+          <div class="text-[10px] text-slate-400 mt-1 font-sans">টেস্টিং সার্বজনীন কোড: <strong class="text-white font-mono">1234</strong> (অথবা উপরের কোডে ক্লিক করুন)</div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="text-xs font-bold text-slate-300">ENTER 4-DIGIT OTP</label>
+            <span class="text-xs text-arcadeCyan font-mono" id="pageTargetPhoneDisplay">017XXXXXXXX</span>
+          </div>
+
+          <!-- 4 Separate Digit Boxes -->
+          <div class="flex justify-center gap-2 sm:gap-3 my-2" id="pageOtpBoxesContainer">
+            <input type="text" inputmode="numeric" maxlength="1" id="pDigit1" class="w-12 h-14 bg-slate-900 border-2 border-slate-700 text-center text-2xl font-bold font-mono text-arcadeCyan focus:outline-none focus:border-arcadeCyan" oninput="pageOtpDigitInput(1)" onkeydown="pageOtpDigitKeydown(event, 1)">
+            <input type="text" inputmode="numeric" maxlength="1" id="pDigit2" class="w-12 h-14 bg-slate-900 border-2 border-slate-700 text-center text-2xl font-bold font-mono text-arcadeCyan focus:outline-none focus:border-arcadeCyan" oninput="pageOtpDigitInput(2)" onkeydown="pageOtpDigitKeydown(event, 2)">
+            <input type="text" inputmode="numeric" maxlength="1" id="pDigit3" class="w-12 h-14 bg-slate-900 border-2 border-slate-700 text-center text-2xl font-bold font-mono text-arcadeCyan focus:outline-none focus:border-arcadeCyan" oninput="pageOtpDigitInput(3)" onkeydown="pageOtpDigitKeydown(event, 3)">
+            <input type="text" inputmode="numeric" maxlength="1" id="pDigit4" class="w-12 h-14 bg-slate-900 border-2 border-slate-700 text-center text-2xl font-bold font-mono text-arcadeCyan focus:outline-none focus:border-arcadeCyan" oninput="pageOtpDigitInput(4)" onkeydown="pageOtpDigitKeydown(event, 4)">
+          </div>
+
+          <div class="flex items-center justify-between text-xs mt-2 font-sans">
+            <span class="text-slate-400" id="pageOtpTimerText">Resend in <strong class="text-white font-mono" id="pageOtpCountdown">45s</strong></span>
+            <button type="button" id="btnPageResendOtp" onclick="handlePageResendOtp()" class="text-arcadeCyan hover:underline font-bold disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+              Resend OTP
+            </button>
           </div>
         </div>
 
-        <div>
-          <label class="block text-xs font-bold font-retro text-slate-300 mb-1">PASSWORD (পাসওয়ার্ড)</label>
-          <input type="password" id="loginPass" required placeholder="••••••••"
-                 class="w-full px-4 py-2.5 bg-slate-900 border-2 border-slate-800 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-arcadeCyan font-mono">
+        <!-- Optional Gamer Name for New Players -->
+        <div id="pageNewPlayerNameField" class="hidden pt-2 border-t border-slate-800">
+          <label class="block text-xs font-bold text-arcadeYellow mb-1">CHOOSE GAMER NAME (গেমার নাম)</label>
+          <input type="text" id="pageGamerName" placeholder="e.g. CyberNinja"
+                 class="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-arcadeCyan font-retro">
+          <p class="text-[10px] text-arcadeGreen mt-1 font-sans">🎉 নতুন সাইন আপে সাথে সাথে পাবেন ৫০ টোকেন বোনাস!</p>
         </div>
 
-        <button type="submit" class="btn-arcade-cyan w-full py-3 text-xs font-extrabold tracking-wider">
-          <i class="fa-solid fa-right-to-bracket mr-1.5"></i> START GAME (LOGIN)
+        <button type="button" onclick="handlePageVerifyOtp()" id="btnPageVerifyOtp" class="btn-arcade-pink w-full py-3 text-xs sm:text-sm font-black tracking-wider flex items-center justify-center gap-2">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>VERIFY & ENTER ARCADE</span>
         </button>
-      </form>
 
-      <!-- Signup Form -->
-      <form id="signupForm" onsubmit="handleSignup(event)" class="space-y-4 hidden">
-        <div>
-          <label class="block text-xs font-bold font-retro text-slate-300 mb-1">PLAYER NAME (গেমার নাম)</label>
-          <input type="text" id="signupName" required placeholder="e.g. PixelHero"
-                 class="w-full px-4 py-2.5 bg-slate-900 border-2 border-slate-800 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-arcadeCyan">
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold font-retro text-slate-300 mb-1">PHONE NUMBER (ফোন নম্বর)</label>
-          <div class="relative">
-            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs font-mono">+88</span>
-            <input type="tel" id="signupPhone" required placeholder="01700000000"
-                   class="w-full pl-12 pr-4 py-2.5 bg-slate-900 border-2 border-slate-800 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-arcadeCyan font-mono">
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold font-retro text-slate-300 mb-1">PASSWORD (পাসওয়ার্ড)</label>
-          <input type="password" id="signupPass" required placeholder="Minimum 4 characters"
-                 class="w-full px-4 py-2.5 bg-slate-900 border-2 border-slate-800 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-arcadeCyan font-mono">
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold font-retro text-slate-300 mb-1">REFERRAL CODE (যদি থাকে)</label>
-          <input type="text" id="signupRef" placeholder="e.g. WAP2026"
-                 class="w-full px-4 py-2.5 bg-slate-900 border-2 border-slate-800 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-arcadeCyan font-mono uppercase">
-          <p class="text-[10px] text-arcadeGreen mt-1 font-retro">বন্ধু রেফার করলে আপনি পাবেন আরো ২৫ টোকেন কয়েন!</p>
-        </div>
-
-        <button type="submit" class="btn-arcade-pink w-full py-3 text-xs font-extrabold tracking-wider">
-          <i class="fa-solid fa-coins mr-1.5"></i> CLAIM 50 COINS & SIGN UP
-        </button>
-      </form>
-
-      <!-- 1-Click Demo Accounts -->
-      <div class="mt-8 pt-4 border-t-2 border-slate-800 text-center font-retro">
-        <div class="text-[10px] text-slate-400 uppercase mb-2">QUICK TEST ACCOUNTS (1-CLICK)</div>
-        <div class="grid grid-cols-2 gap-2 text-xs">
-          <button type="button" onclick="quickFill('01711111111', '1234')" class="p-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300">
-            <div class="font-bold text-arcadeCyan">Pro Gamer</div>
-            <div class="text-[10px] text-slate-400">Has 3 TK Pass</div>
-          </button>
-          <button type="button" onclick="quickFill('01822222222', '1234')" class="p-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300">
-            <div class="font-bold text-arcadePink">Newbie Gamer</div>
-            <div class="text-[10px] text-slate-400">50 Coins / No Pass</div>
+        <div class="text-center pt-1">
+          <button type="button" onclick="backToPagePhoneStep()" class="text-[11px] text-slate-400 hover:text-white underline">
+            ← Change Mobile Number
           </button>
         </div>
       </div>
+
     </div>
   </main>
 
   <!-- Footer -->
   <footer class="p-4 text-center text-xs text-slate-500 font-sans border-t border-slate-900">
-    © 2026 PIXEL WAP 2D BD (Theme 3). Need help? <a href="https://wa.me/8801700000000" class="text-arcadeCyan hover:underline font-retro">WhatsApp Support</a>
+    © 2026 PIXEL WAP 2D BD. Need help? <a href="https://wa.me/8801700000000" class="text-arcadeCyan hover:underline font-retro">WhatsApp Support</a>
   </footer>
 
-  <!-- Unified Shared Database -->
+  <!-- Unified Database & Auth Modal -->
   <script src="../assets/js/db.js"></script>
+  <script src="../assets/js/auth-modal.js"></script>
   <script>
-    let activeTab = 'login';
+    let currentTargetPhone = '';
+    let countdownInterval = null;
 
-    function switchTab(tab) {
-      activeTab = tab;
-      const loginForm = document.getElementById('loginForm');
-      const signupForm = document.getElementById('signupForm');
-      const tabLoginBtn = document.getElementById('tabLoginBtn');
-      const tabSignupBtn = document.getElementById('tabSignupBtn');
-
-      if (tab === 'login') {
-        loginForm.classList.remove('hidden');
-        signupForm.classList.add('hidden');
-        tabLoginBtn.className = 'flex-1 py-2 text-xs font-bold text-arcadeCyan border-b-2 border-arcadeCyan -mb-[2px] transition';
-        tabSignupBtn.className = 'flex-1 py-2 text-xs font-bold text-slate-400 hover:text-slate-200 transition';
-      } else {
-        loginForm.classList.add('hidden');
-        signupForm.classList.remove('hidden');
-        tabSignupBtn.className = 'flex-1 py-2 text-xs font-bold text-arcadePink border-b-2 border-arcadePink -mb-[2px] transition';
-        tabLoginBtn.className = 'flex-1 py-2 text-xs font-bold text-slate-400 hover:text-slate-200 transition';
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = window.wapDB.getCurrentUser();
+      if (user) {
+        window.location.href = 'profile.html';
       }
+    });
+
+    function showPageAlert(msg, type = 'error') {
+      const el = document.getElementById('pageLoginAlert');
+      el.classList.remove('hidden', 'bg-red-950', 'text-red-300', 'border-red-600', 'bg-emerald-950', 'text-emerald-300', 'border-emerald-600');
+      if (type === 'error') {
+        el.classList.add('bg-red-950', 'text-red-300', 'border-red-600');
+      } else {
+        el.classList.add('bg-emerald-950', 'text-emerald-300', 'border-emerald-600');
+      }
+      el.innerText = msg;
     }
 
-    function quickFill(phone, pass) {
-      switchTab('login');
-      document.getElementById('loginPhone').value = phone;
-      document.getElementById('loginPass').value = pass;
+    function hidePageAlert() {
+      document.getElementById('pageLoginAlert').classList.add('hidden');
     }
 
-    function handleLogin(e) {
-      e.preventDefault();
-      const phone = document.getElementById('loginPhone').value.trim();
-      const pass = document.getElementById('loginPass').value.trim();
+    function fillPageTestPhone(phone) {
+      document.getElementById('pagePhoneInput').value = phone;
+      handlePageSendOtp();
+    }
 
-      const res = window.wapDB.login(phone, pass);
+    function backToPagePhoneStep() {
+      hidePageAlert();
+      document.getElementById('pageStepPhone').classList.remove('hidden');
+      document.getElementById('pageStepOtp').classList.add('hidden');
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+      }
+      document.getElementById('pagePhoneInput').focus();
+    }
+
+    function handlePageSendOtp() {
+      hidePageAlert();
+      const phone = document.getElementById('pagePhoneInput').value.trim();
+
+      const res = window.wapDB.sendOtp(phone);
+      if (!res.success) {
+        showPageAlert(res.message, 'error');
+        return;
+      }
+
+      currentTargetPhone = res.phone;
+      document.getElementById('pageTargetPhoneDisplay').innerText = res.phone;
+      document.getElementById('pageDisplayOtpCode').innerText = res.otp;
+
+      const nameField = document.getElementById('pageNewPlayerNameField');
+      if (res.isExisting) {
+        nameField.classList.add('hidden');
+      } else {
+        nameField.classList.remove('hidden');
+      }
+
+      document.getElementById('pageStepPhone').classList.add('hidden');
+      document.getElementById('pageStepOtp').classList.remove('hidden');
+
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('pDigit' + i).value = '';
+      }
+
+      setTimeout(() => {
+        document.getElementById('pDigit1').focus();
+      }, 100);
+
+      startCountdown(45);
+    }
+
+    function handlePageResendOtp() {
+      if (!currentTargetPhone) return;
+      const res = window.wapDB.sendOtp(currentTargetPhone);
       if (res.success) {
-        alert(`Welcome back, ${res.player.name}! Entering Pixel Lobby...`);
-        window.location.href = 'index.html';
-      } else {
-        alert(res.message);
+        document.getElementById('pageDisplayOtpCode').innerText = res.otp;
+        showPageAlert(`নতুন ওটিপি কোড পাঠানো হয়েছে: ${res.otp}`, 'success');
+        startCountdown(45);
       }
     }
 
-    function handleSignup(e) {
-      e.preventDefault();
-      const name = document.getElementById('signupName').value.trim();
-      const phone = document.getElementById('signupPhone').value.trim();
-      const pass = document.getElementById('signupPass').value.trim();
-      const ref = document.getElementById('signupRef').value.trim();
+    function startCountdown(sec) {
+      if (countdownInterval) clearInterval(countdownInterval);
+      let rem = sec;
+      const timerEl = document.getElementById('pageOtpCountdown');
+      const resendBtn = document.getElementById('btnPageResendOtp');
+      const textEl = document.getElementById('pageOtpTimerText');
 
-      const res = window.wapDB.signup({
-        name,
-        phone,
-        password: pass,
-        referralCodeInput: ref
-      });
+      resendBtn.disabled = true;
+      textEl.style.display = 'inline';
+      timerEl.innerText = `${rem}s`;
 
-      if (res.success) {
-        alert(`Congratulations ${res.player.name}! 50 Free Coins added to your arcade vault!`);
-        window.location.href = 'index.html';
-      } else {
-        alert(res.message);
+      countdownInterval = setInterval(() => {
+        rem--;
+        if (rem <= 0) {
+          clearInterval(countdownInterval);
+          countdownInterval = null;
+          resendBtn.disabled = false;
+          textEl.style.display = 'none';
+        } else {
+          timerEl.innerText = `${rem}s`;
+        }
+      }, 1000);
+    }
+
+    function autoFillPageOtp() {
+      const code = document.getElementById('pageDisplayOtpCode').innerText.trim();
+      if (code && code !== '----') {
+        for (let i = 1; i <= 4; i++) {
+          document.getElementById('pDigit' + i).value = code[i - 1] || '';
+        }
+        setTimeout(() => {
+          handlePageVerifyOtp();
+        }, 150);
       }
+    }
+
+    function pageOtpDigitInput(idx) {
+      const cur = document.getElementById('pDigit' + idx);
+      if (cur.value.length >= 1) {
+        cur.value = cur.value.slice(-1);
+        if (idx < 4) {
+          document.getElementById('pDigit' + (idx + 1)).focus();
+        } else {
+          setTimeout(() => {
+            handlePageVerifyOtp();
+          }, 150);
+        }
+      }
+    }
+
+    function pageOtpDigitKeydown(e, idx) {
+      if (e.key === 'Backspace') {
+        const cur = document.getElementById('pDigit' + idx);
+        if (!cur.value && idx > 1) {
+          const prev = document.getElementById('pDigit' + (idx - 1));
+          if (prev) {
+            prev.focus();
+            prev.value = '';
+          }
+        }
+      } else if (e.key === 'Enter') {
+        handlePageVerifyOtp();
+      }
+    }
+
+    function handlePageVerifyOtp() {
+      hidePageAlert();
+      let otp = '';
+      for (let i = 1; i <= 4; i++) {
+        otp += document.getElementById('pDigit' + i).value.trim();
+      }
+
+      if (otp.length < 4) {
+        showPageAlert('দয়া করে ৪-ডিজিটের পূর্ণ OTP কোড দিন।', 'error');
+        return;
+      }
+
+      const gamerName = (document.getElementById('pageGamerName')?.value || '').trim();
+      const res = window.wapDB.verifyOtp(currentTargetPhone, otp, gamerName);
+
+      if (!res.success) {
+        showPageAlert(res.message, 'error');
+        return;
+      }
+
+      showPageAlert(res.message, 'success');
+      setTimeout(() => {
+        window.location.href = 'profile.html';
+      }, 800);
     }
   </script>
 </body>

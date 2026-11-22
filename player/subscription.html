@@ -154,8 +154,9 @@
     © 2026 PIXEL WAP 2D BD. Need help? <a href="https://wa.me/8801700000000" class="text-arcadeCyan font-retro">WhatsApp Support</a>
   </footer>
 
-  <!-- Shared Unified Database -->
+  <!-- Shared Unified Database & Auth Modal -->
   <script src="../assets/js/db.js"></script>
+  <script src="../assets/js/auth-modal.js"></script>
   <script>
     let currentUser = null;
     let selectedPlan = null;
@@ -164,7 +165,9 @@
     document.addEventListener('DOMContentLoaded', () => {
       currentUser = window.wapDB.getCurrentUser();
       if (!currentUser) {
-        window.location.href = 'login.html';
+        window.openLoginModal((loggedUser) => {
+          window.location.reload();
+        });
         return;
       }
 

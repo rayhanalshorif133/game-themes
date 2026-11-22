@@ -11,7 +11,15 @@ const DB_KEYS = {
   REVIEWS: 'wap_reviews_list',
   SMS_LOGS: 'wap_sms_logs',
   CURRENT_USER: 'wap_current_user',
-  SETTINGS: 'wap_portal_settings'
+  SETTINGS: 'wap_portal_settings',
+  PLAY_ACTIVITY: 'wap_play_activity_logs',
+  SCORES_AUDIT: 'wap_scores_audit_logs',
+  WINNER_PAYOUTS: 'wap_winner_payouts_list',
+  ADMIN_ROLES: 'wap_admin_roles_list',
+  CARRIER_CHARGES: 'wap_carrier_charges_list',
+  TRAFFIC_LOGS: 'wap_traffic_logs_list',
+  CONTACT_GROUPS: 'wap_contact_groups_list',
+  USER_TRACKING: 'wap_user_tracking_list'
 };
 
 // Default seed data
@@ -245,6 +253,70 @@ const DEFAULT_SUBS_HISTORY = [
   { id: 'sub-tx-3', playerId: 'ply-1', playerName: 'Tanvir Hossain', phone: '01711002233', planName: '1 Day Pass', amount: '50 Tokens', method: 'Token Exchange', trxId: 'TOK-EXC-44', status: 'Completed', date: '2026-11-10 11:00' }
 ];
 
+const DEFAULT_PLAY_ACTIVITY = [
+  { id: 'act-1', playerName: 'Tanvir Hossain', phone: '01711002233', gameTitle: 'Space Blaster 2D', score: 1480, duration: '4m 32s', device: 'Android (Chrome)', ip: '103.114.98.12', time: '10 mins ago' },
+  { id: 'act-2', playerName: 'Sabbir Ahmed', phone: '01822334455', gameTitle: 'Neon Flappy 2D', score: 58, duration: '2m 14s', device: 'iOS (Safari)', ip: '27.147.202.45', time: '25 mins ago' },
+  { id: 'act-3', playerName: 'Rakibul Islam', phone: '01933445566', gameTitle: 'Retro Snake Arena', score: 410, duration: '6m 05s', device: 'Android (GP 4G)', ip: '119.30.38.102', time: '1 hour ago' },
+  { id: 'act-4', playerName: 'Tanvir Hossain', phone: '01711002233', gameTitle: 'Cyber Brick Breaker', score: 2100, duration: '5m 50s', device: 'Desktop (Windows)', ip: '103.114.98.12', time: '2 hours ago' },
+  { id: 'act-5', playerName: 'Gamer_9821', phone: '01677889900', gameTitle: 'Space Blaster 2D', score: 820, duration: '3m 10s', device: 'Android (Robi)', ip: '182.160.118.23', time: '3 hours ago' },
+  { id: 'act-6', playerName: 'Sabbir Ahmed', phone: '01822334455', gameTitle: 'Cyber Brick Breaker', score: 3450, duration: '7m 40s', device: 'iOS (Safari)', ip: '27.147.202.45', time: '5 hours ago' }
+];
+
+const DEFAULT_SCORES_AUDIT = [
+  { id: 'sc-aud-1', playerId: 'ply-2', playerName: 'Sabbir Ahmed', gameTitle: 'Cyber Brick Breaker', submittedScore: 3450, prevHighScore: 2800, status: 'Verified', checksum: 'HASH-OK-8842', auditNote: 'Legitimate gameplay duration and paddle bounce intervals verified.', date: '2026-11-20 18:20' },
+  { id: 'sc-aud-2', playerId: 'ply-1', playerName: 'Tanvir Hossain', gameTitle: 'Space Blaster 2D', submittedScore: 1480, prevHighScore: 1100, status: 'Verified', checksum: 'HASH-OK-3120', auditNote: 'Standard enemy kill cadence. Clean score delta.', date: '2026-11-19 14:15' },
+  { id: 'sc-aud-3', playerId: 'ply-99', playerName: 'SpeedyBot_X', gameTitle: 'Neon Flappy 2D', submittedScore: 9840, prevHighScore: 20, status: 'Suspicious', checksum: 'HASH-FAIL-XX9', auditNote: 'Abnormal score surge (+9820 pts in 12s). Scripting suspected.', date: '2026-11-18 22:40' },
+  { id: 'sc-aud-4', playerId: 'ply-3', playerName: 'Rakibul Islam', gameTitle: 'Retro Snake Arena', submittedScore: 410, prevHighScore: 350, status: 'Verified', checksum: 'HASH-OK-7711', auditNote: 'Multiplayer tick rate within normal tolerance.', date: '2026-11-18 11:05' }
+];
+
+const DEFAULT_WINNER_PAYOUTS = [
+  { id: 'win-101', tournament: 'Space Blaster Mega League', playerName: 'Sabbir Ahmed', phone: '01822334455', rank: '1st Place', prize: '800 TK', method: 'bKash', trxId: 'BK90124A', status: 'Paid', date: '2026-11-18' },
+  { id: 'win-102', tournament: 'Space Blaster Mega League', playerName: 'Tanvir Hossain', phone: '01711002233', rank: '2nd Place', prize: '500 TK', method: 'bKash', trxId: 'BK77812B', status: 'Paid', date: '2026-11-18' },
+  { id: 'win-103', tournament: 'Space Blaster Mega League', playerName: 'Rakibul Islam', phone: '01933445566', rank: '3rd Place', prize: '200 TK', method: 'Nagad', trxId: 'NG44019Z', status: 'Paid', date: '2026-11-18' },
+  { id: 'win-104', tournament: 'Neon Flappy 2D Clash', playerName: 'Tanvir Hossain', phone: '01711002233', rank: '1st Place', prize: '500 TK + 500 Coins', method: 'bKash', trxId: 'BK33901M', status: 'Approved', date: '2026-11-21' },
+  { id: 'win-105', tournament: 'Snake Arena Battle Royale', playerName: 'Farhan Kabir', phone: '01511223344', rank: 'Upcoming Prize', prize: '1,000 TK', method: 'bKash', trxId: 'PENDING', status: 'Pending', date: '2026-11-22' }
+];
+
+const DEFAULT_ADMIN_ROLES = [
+  { id: 'adm-1', name: 'Rayhan Shorif', email: 'admin@wapgames.com', role: 'Super Admin', permissions: 'Full Access (A to Z)', status: 'Active', lastLogin: 'Just now' },
+  { id: 'adm-2', name: 'Karim Ahmed', email: 'moderator@wapgames.com', role: 'Game Ops Moderator', permissions: 'Games, Tournaments, Feedbacks', status: 'Active', lastLogin: '2 hours ago' },
+  { id: 'adm-3', name: 'Nusrat Jahan', email: 'finance@wapgames.com', role: 'Finance Manager', permissions: 'Winner Payments, Carrier Logs, Revenue', status: 'Active', lastLogin: 'Yesterday' },
+  { id: 'adm-4', name: 'Hasan Ali', email: 'support@wapgames.com', role: 'Support & Messaging', permissions: 'SMS Center, Player Ban/Unban', status: 'Active', lastLogin: '3 days ago' }
+];
+
+const DEFAULT_CARRIER_CHARGES = [
+  { id: 'chg-101', telco: 'Grameenphone', phone: '01711002233', amount: '3 TK', plan: '1 Day Pass', status: 'Success', trx: 'GP-WAP-884102', time: 'Today 10:14 AM' },
+  { id: 'chg-102', telco: 'Robi', phone: '01822334455', amount: '5 TK', plan: '2 Days Pass', status: 'Success', trx: 'ROBI-WAP-119024', time: 'Today 09:30 AM' },
+  { id: 'chg-103', telco: 'Banglalink', phone: '01933445566', amount: '10 TK', plan: '5 Days Pass', status: 'Failed', reason: 'Insufficient Balance', trx: 'BL-WAP-773412', time: 'Today 08:45 AM' },
+  { id: 'chg-104', telco: 'Teletalk', phone: '01511223344', amount: '3 TK', plan: '1 Day Pass', status: 'Success', trx: 'TT-WAP-332190', time: 'Yesterday 11:20 PM' },
+  { id: 'chg-105', telco: 'Grameenphone', phone: '01799887766', amount: '5 TK', plan: '2 Days Pass', status: 'Success', trx: 'GP-WAP-990412', time: 'Yesterday 07:15 PM' },
+  { id: 'chg-106', telco: 'Robi', phone: '01811998877', amount: '3 TK', plan: '1 Day Pass', status: 'Success', trx: 'ROBI-WAP-448201', time: 'Yesterday 04:30 PM' }
+];
+
+const DEFAULT_TRAFFIC_LOGS = [
+  { id: 'trf-1', ip: '103.114.98.12', operator: 'Grameenphone 4G', device: 'Xiaomi Poco X3 (Android 13)', page: '/player/play.html?id=game-1', referrer: 'SMS Campaign #1', time: '1 min ago' },
+  { id: 'trf-2', ip: '27.147.202.45', operator: 'Robi Axiata', device: 'iPhone 14 (iOS 17)', page: '/player/index.html', referrer: 'Direct WAP Portal', time: '3 mins ago' },
+  { id: 'trf-3', ip: '119.30.38.102', operator: 'Banglalink Digital', device: 'Samsung Galaxy A52', page: '/index.html#tournaments', referrer: 'Facebook Promo', time: '7 mins ago' },
+  { id: 'trf-4', ip: '180.211.214.5', operator: 'Dot Internet Fiber', device: 'Windows 11 / Chrome 124', page: '/admin/index.html', referrer: 'Direct Bookmark', time: '12 mins ago' },
+  { id: 'trf-5', ip: '103.230.106.88', operator: 'Teletalk 4G', device: 'Realme 8 5G', page: '/player/play.html?id=game-2', referrer: 'WhatsApp Referral', time: '18 mins ago' }
+];
+
+const DEFAULT_CONTACT_GROUPS = [
+  { id: 'grp-1', name: 'VIP Daily Gamers', count: 420, operatorTarget: 'All Operators', description: 'Top active players with passes in last 3 days', tags: ['High Spenders', 'Active'] },
+  { id: 'grp-2', name: 'Active Pass Subscribers', count: 185, operatorTarget: 'bKash + Carrier', description: 'Players with unexpired 1, 2, or 5-day passes', tags: ['Subscribers'] },
+  { id: 'grp-3', name: 'Inactive Players (7+ Days)', count: 890, operatorTarget: 'All', description: 'Re-engagement target audience for 50 bonus token promo', tags: ['Churned'] },
+  { id: 'grp-4', name: 'Grameenphone Users (017/013)', count: 1240, operatorTarget: 'Grameenphone', description: 'Target group for GP carrier billing pass offer', tags: ['GP Special'] },
+  { id: 'grp-5', name: 'Robi & Airtel Gamers (018/016)', count: 950, operatorTarget: 'Robi / Airtel', description: 'Weekend tournament promotion segment', tags: ['Robi Blitz'] }
+];
+
+const DEFAULT_USER_TRACKING = [
+  { id: 'trk-1', channel: 'Facebook Retro Ads', impressions: 45200, clicks: 3820, signups: 610, conversionRate: '15.9%', costPerLead: '1.8 TK', activePlayers: 420 },
+  { id: 'trk-2', channel: 'TikTok Influencer Video', impressions: 68000, clicks: 5400, signups: 890, conversionRate: '16.4%', costPerLead: '1.4 TK', activePlayers: 670 },
+  { id: 'trk-3', channel: 'Player Referral Viral Loop', impressions: 12400, clicks: 2100, signups: 490, conversionRate: '23.3%', costPerLead: '0.0 TK', activePlayers: 380 },
+  { id: 'trk-4', channel: 'Carrier WAP Push SMS', impressions: 28000, clicks: 4200, signups: 740, conversionRate: '17.6%', costPerLead: '1.2 TK', activePlayers: 560 },
+  { id: 'trk-5', channel: 'Organic Search & Direct', impressions: 9500, clicks: 3100, signups: 520, conversionRate: '16.7%', costPerLead: '0.0 TK', activePlayers: 410 }
+];
+
 const DEFAULT_SETTINGS = {
   portalName: 'WAP Games 2D',
   tagline: 'Play 2D Web Games, Win Cash & Tournaments',
@@ -284,6 +356,30 @@ class WAPDatabase {
     }
     if (!localStorage.getItem(DB_KEYS.SETTINGS)) {
       localStorage.setItem(DB_KEYS.SETTINGS, JSON.stringify(DEFAULT_SETTINGS));
+    }
+    if (!localStorage.getItem(DB_KEYS.PLAY_ACTIVITY)) {
+      localStorage.setItem(DB_KEYS.PLAY_ACTIVITY, JSON.stringify(DEFAULT_PLAY_ACTIVITY));
+    }
+    if (!localStorage.getItem(DB_KEYS.SCORES_AUDIT)) {
+      localStorage.setItem(DB_KEYS.SCORES_AUDIT, JSON.stringify(DEFAULT_SCORES_AUDIT));
+    }
+    if (!localStorage.getItem(DB_KEYS.WINNER_PAYOUTS)) {
+      localStorage.setItem(DB_KEYS.WINNER_PAYOUTS, JSON.stringify(DEFAULT_WINNER_PAYOUTS));
+    }
+    if (!localStorage.getItem(DB_KEYS.ADMIN_ROLES)) {
+      localStorage.setItem(DB_KEYS.ADMIN_ROLES, JSON.stringify(DEFAULT_ADMIN_ROLES));
+    }
+    if (!localStorage.getItem(DB_KEYS.CARRIER_CHARGES)) {
+      localStorage.setItem(DB_KEYS.CARRIER_CHARGES, JSON.stringify(DEFAULT_CARRIER_CHARGES));
+    }
+    if (!localStorage.getItem(DB_KEYS.TRAFFIC_LOGS)) {
+      localStorage.setItem(DB_KEYS.TRAFFIC_LOGS, JSON.stringify(DEFAULT_TRAFFIC_LOGS));
+    }
+    if (!localStorage.getItem(DB_KEYS.CONTACT_GROUPS)) {
+      localStorage.setItem(DB_KEYS.CONTACT_GROUPS, JSON.stringify(DEFAULT_CONTACT_GROUPS));
+    }
+    if (!localStorage.getItem(DB_KEYS.USER_TRACKING)) {
+      localStorage.setItem(DB_KEYS.USER_TRACKING, JSON.stringify(DEFAULT_USER_TRACKING));
     }
   }
 
@@ -883,6 +979,154 @@ class WAPDatabase {
     const s = { ...this.getSettings(), ...newSettings };
     localStorage.setItem(DB_KEYS.SETTINGS, JSON.stringify(s));
     return s;
+  }
+
+  // --- Play Activity ---
+  getPlayActivity() {
+    return JSON.parse(localStorage.getItem(DB_KEYS.PLAY_ACTIVITY) || '[]');
+  }
+
+  logPlayActivity(activity) {
+    const logs = this.getPlayActivity();
+    const item = {
+      id: 'act-' + Date.now(),
+      time: 'Just now',
+      ...activity
+    };
+    logs.unshift(item);
+    localStorage.setItem(DB_KEYS.PLAY_ACTIVITY, JSON.stringify(logs));
+    return item;
+  }
+
+  // --- Scores Audit ---
+  getScoresAudit() {
+    return JSON.parse(localStorage.getItem(DB_KEYS.SCORES_AUDIT) || '[]');
+  }
+
+  updateScoreAuditStatus(id, newStatus, note = '') {
+    const list = this.getScoresAudit();
+    const item = list.find(s => s.id === id);
+    if (item) {
+      item.status = newStatus;
+      if (note) item.auditNote = note;
+      localStorage.setItem(DB_KEYS.SCORES_AUDIT, JSON.stringify(list));
+      return true;
+    }
+    return false;
+  }
+
+  resetPlayerScore(playerId, gameTitle) {
+    const player = this.getPlayerById(playerId);
+    if (player && player.scores) {
+      const game = this.getGames().find(g => g.title === gameTitle);
+      if (game && player.scores[game.id] !== undefined) {
+        player.scores[game.id] = 0;
+        this.savePlayer(player);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // --- Winner Payments ---
+  getWinnerPayouts() {
+    return JSON.parse(localStorage.getItem(DB_KEYS.WINNER_PAYOUTS) || '[]');
+  }
+
+  updatePayoutStatus(id, newStatus, trxId = '') {
+    const list = this.getWinnerPayouts();
+    const item = list.find(w => w.id === id);
+    if (item) {
+      item.status = newStatus;
+      if (trxId) item.trxId = trxId;
+      localStorage.setItem(DB_KEYS.WINNER_PAYOUTS, JSON.stringify(list));
+      return true;
+    }
+    return false;
+  }
+
+  addWinnerPayout(payout) {
+    const list = this.getWinnerPayouts();
+    const item = {
+      id: 'win-' + Date.now(),
+      status: 'Pending',
+      date: new Date().toISOString().split('T')[0],
+      ...payout
+    };
+    list.unshift(item);
+    localStorage.setItem(DB_KEYS.WINNER_PAYOUTS, JSON.stringify(list));
+    return item;
+  }
+
+  // --- Admin Roles & Permissions ---
+  getAdminRoles() {
+    return JSON.parse(localStorage.getItem(DB_KEYS.ADMIN_ROLES) || '[]');
+  }
+
+  saveAdminRole(adminUser) {
+    const list = this.getAdminRoles();
+    const idx = list.findIndex(a => a.id === adminUser.id);
+    if (idx >= 0) {
+      list[idx] = { ...list[idx], ...adminUser };
+    } else {
+      list.push({
+        id: 'adm-' + Date.now(),
+        lastLogin: 'Never',
+        status: 'Active',
+        ...adminUser
+      });
+    }
+    localStorage.setItem(DB_KEYS.ADMIN_ROLES, JSON.stringify(list));
+    return true;
+  }
+
+  deleteAdminRole(id) {
+    const list = this.getAdminRoles().filter(a => a.id !== id);
+    localStorage.setItem(DB_KEYS.ADMIN_ROLES, JSON.stringify(list));
+    return true;
+  }
+
+  // --- Carrier Charge Logs ---
+  getCarrierCharges() {
+    return JSON.parse(localStorage.getItem(DB_KEYS.CARRIER_CHARGES) || '[]');
+  }
+
+  // --- Traffic Logs ---
+  getTrafficLogs() {
+    return JSON.parse(localStorage.getItem(DB_KEYS.TRAFFIC_LOGS) || '[]');
+  }
+
+  // --- Contact Groups ---
+  getContactGroups() {
+    return JSON.parse(localStorage.getItem(DB_KEYS.CONTACT_GROUPS) || '[]');
+  }
+
+  saveContactGroup(group) {
+    const list = this.getContactGroups();
+    const idx = list.findIndex(g => g.id === group.id);
+    if (idx >= 0) {
+      list[idx] = { ...list[idx], ...group };
+    } else {
+      list.push({
+        id: 'grp-' + Date.now(),
+        count: group.count || 0,
+        tags: group.tags || ['Custom'],
+        ...group
+      });
+    }
+    localStorage.setItem(DB_KEYS.CONTACT_GROUPS, JSON.stringify(list));
+    return true;
+  }
+
+  deleteContactGroup(id) {
+    const list = this.getContactGroups().filter(g => g.id !== id);
+    localStorage.setItem(DB_KEYS.CONTACT_GROUPS, JSON.stringify(list));
+    return true;
+  }
+
+  // --- User Tracking ---
+  getUserTracking() {
+    return JSON.parse(localStorage.getItem(DB_KEYS.USER_TRACKING) || '[]');
   }
 }
 

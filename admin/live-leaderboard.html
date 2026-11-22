@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Leaderboard - Admin Console | Pixel WAP 2D</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            arcadeBg: '#070913',
+            arcadeSurface: '#0e1322',
+            arcadeCyan: '#00f0ff',
+            arcadePink: '#ff007f',
+            arcadeYellow: '#ffe600',
+            arcadeGreen: '#00ff66',
+            arcadeBorder: '#1e2942',
+            bkash: '#e2136e'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme3.css">
+</head>
+<body data-admin-page="live-leaderboard" class="bg-arcadeBg text-slate-100 min-h-screen flex selection:bg-arcadeCyan selection:text-black font-sans">
+
+  <!-- Desktop Sidebar -->
+  <aside class="w-64 bg-slate-950 border-r-2 border-arcadeBorder flex-shrink-0 hidden md:flex flex-col z-30 fixed top-0 bottom-0">
+    <div class="p-4 border-b-2 border-slate-800 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-arcadeCyan text-slate-950 flex items-center justify-center font-arcade text-xs border border-cyan-300 shadow-[2px_2px_0px_#0284c7]">
+          🕹️
+        </div>
+        <div>
+          <span class="font-arcade text-white text-xs tracking-wider">PIXEL ADMIN</span>
+          <span class="text-[9px] block text-arcadePink font-pixel tracking-wider -mt-0.5">TOURNAMENTS</span>
+        </div>
+      </a>
+      <a href="../index.html" target="_blank" class="text-slate-400 hover:text-arcadeCyan p-1">
+        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+      </a>
+    </div>
+
+    <!-- Categorized Nav Items (Injected by admin-nav.js) -->
+    <div id="adminSidebarNav" class="flex-1 overflow-y-auto px-2 py-3 space-y-4"></div>
+
+    <div class="p-3 border-t-2 border-slate-800 text-[10px] font-retro text-slate-400 flex items-center justify-between">
+      <span>SERVER: BANGLADESH</span>
+      <span class="text-arcadeGreen">ONLINE</span>
+    </div>
+  </aside>
+
+  <!-- Mobile Drawer Overlay & Sidebar -->
+  <div id="mobileSidebarOverlay" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm md:hidden"></div>
+  <div id="mobileSidebar" class="fixed top-0 bottom-0 left-0 w-64 bg-slate-950 border-r-2 border-arcadeCyan z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col font-retro">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+      <span class="font-arcade text-white text-xs">PIXEL ADMIN</span>
+      <button onclick="toggleMobileSidebar()" class="text-slate-400 hover:text-white p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+    <div id="adminMobileNav" class="flex-1 overflow-y-auto px-2 py-3 space-y-4"></div>
+  </div>
+
+  <!-- Main Content Wrapper -->
+  <div class="md:pl-64 flex-1 flex flex-col min-h-screen">
+    
+    <!-- Top Header Bar -->
+    <header class="bg-slate-950/95 border-b-2 border-arcadeBorder px-4 sm:px-6 py-3 sticky top-0 z-20 flex items-center justify-between backdrop-blur-md">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="p-2 bg-slate-900 border border-slate-700 text-slate-300 md:hidden text-xs">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold font-retro text-white flex items-center gap-2">
+            <i class="fa-solid fa-ranking-star text-arcadePink"></i>
+            <span>LIVE TOURNAMENT LEADERBOARDS</span>
+          </h1>
+          <p class="text-[11px] text-slate-400 hidden sm:block font-sans">টুর্নামেন্টের রিয়েল-টাইম প্লেয়ার স্কোর, র্যাঙ্কিং ও প্রাইজ পজিশন ট্র্যাকার।</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 font-retro text-xs">
+        <button onclick="exportLeaderboardCSV()" class="btn-arcade-dark px-3 py-1.5 text-xs font-bold flex items-center gap-1.5">
+          <i class="fa-solid fa-download"></i> Export CSV
+        </button>
+        <button onclick="renderLeaderboard()" class="p-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300" title="Refresh">
+          <i class="fa-solid fa-arrows-rotate"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="p-4 sm:p-6 space-y-6 flex-1 max-w-7xl w-full mx-auto">
+      
+      <!-- Tournament Selector Bar -->
+      <div class="arcade-card p-4 sm:p-5 border-2 border-arcadeYellow shadow-[4px_4px_0px_#a16207]">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-retro">
+          <div>
+            <label class="block text-[10px] text-slate-400 uppercase mb-1">SELECT ACTIVE TOURNAMENT:</label>
+            <select id="tournamentSelect" onchange="switchTournament()" class="px-3 py-2 bg-slate-900 border-2 border-slate-700 text-xs sm:text-sm text-white font-bold focus:outline-none focus:border-arcadeYellow">
+              <!-- Injected by JS -->
+            </select>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-4 text-xs">
+            <div>
+              <span class="text-slate-400 block text-[10px]">TOTAL PRIZE POOL</span>
+              <span class="text-arcadeYellow font-bold text-base" id="trnPrizePool">1,500 TK</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block text-[10px]">PARTICIPANTS</span>
+              <span class="text-arcadeCyan font-bold text-base" id="trnParticipants">84 Players</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block text-[10px]">STATUS</span>
+              <span class="px-2 py-0.5 bg-arcadePink text-white text-[10px] font-bold" id="trnStatus">ACTIVE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prize Brackets Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 font-retro">
+        <div class="p-4 bg-slate-950 border-2 border-arcadeYellow shadow-[3px_3px_0px_#a16207] flex items-center gap-4">
+          <div class="text-3xl">🥇</div>
+          <div>
+            <div class="text-[10px] text-arcadeYellow uppercase">1ST PLACE REWARD</div>
+            <div class="text-lg font-bold text-white mt-0.5" id="bracket1st">800 TK (bKash)</div>
+            <div class="text-[10px] text-slate-400 font-sans" id="leader1st">Leader: Tanvir Hossain</div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-slate-950 border-2 border-slate-700 shadow-[3px_3px_0px_#334155] flex items-center gap-4">
+          <div class="text-3xl">🥈</div>
+          <div>
+            <div class="text-[10px] text-slate-300 uppercase">2ND PLACE REWARD</div>
+            <div class="text-lg font-bold text-white mt-0.5" id="bracket2nd">500 TK (bKash)</div>
+            <div class="text-[10px] text-slate-400 font-sans" id="leader2nd">Leader: Sabbir Ahmed</div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-slate-950 border-2 border-amber-800 shadow-[3px_3px_0px_#78350f] flex items-center gap-4">
+          <div class="text-3xl">🥉</div>
+          <div>
+            <div class="text-[10px] text-amber-500 uppercase">3RD PLACE REWARD</div>
+            <div class="text-lg font-bold text-white mt-0.5" id="bracket3rd">200 TK (Nagad)</div>
+            <div class="text-[10px] text-slate-400 font-sans" id="leader3rd">Leader: Rakibul Islam</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leaderboard Table -->
+      <div class="arcade-card overflow-hidden border-2 border-slate-800">
+        <div class="p-4 border-b border-slate-800 flex items-center justify-between font-retro">
+          <h3 class="text-xs font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-trophy text-arcadeYellow"></i>
+            <span>LIVE RANKINGS BOARD</span>
+          </h3>
+          <span class="text-[10px] text-arcadeGreen font-mono">UPDATED SECONDS AGO</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-retro">
+            <thead class="bg-slate-950 border-b-2 border-slate-800 text-slate-400 uppercase text-[10px]">
+              <tr>
+                <th class="p-3.5 text-center">RANK</th>
+                <th class="p-3.5">PLAYER GAMER</th>
+                <th class="p-3.5">PHONE NUMBER</th>
+                <th class="p-3.5">HIGHEST SCORE</th>
+                <th class="p-3.5">ARENA PASS</th>
+                <th class="p-3.5">PRIZE ESTIMATION</th>
+                <th class="p-3.5 text-right">ACTION</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardTbody" class="divide-y divide-slate-800 font-sans">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-4 border-t border-slate-900 text-center text-xs text-slate-500 font-sans mt-auto">
+      © 2026 PIXEL WAP 2D BD • Real-Time Tournament Engine
+    </footer>
+  </div>
+
+  <!-- Shared Unified Database & Navigation Script -->
+  <script src="../assets/js/db.js"></script>
+  <script src="assets/admin-nav.js"></script>
+  <script>
+    let currentTrn = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initTournaments();
+    });
+
+    function initTournaments() {
+      const tournaments = window.wapDB.getTournaments();
+      const select = document.getElementById('tournamentSelect');
+      select.innerHTML = tournaments.map(t => `<option value="${t.id}">${t.title} (${t.status})</option>`).join('');
+      currentTrn = tournaments[0];
+      renderLeaderboard();
+    }
+
+    function switchTournament() {
+      const id = document.getElementById('tournamentSelect').value;
+      currentTrn = window.wapDB.getTournamentById(id);
+      renderLeaderboard();
+    }
+
+    function renderLeaderboard() {
+      if (!currentTrn) return;
+
+      document.getElementById('trnPrizePool').innerText = currentTrn.prizePool;
+      document.getElementById('trnParticipants').innerText = `${currentTrn.participantsCount} Players`;
+      document.getElementById('trnStatus').innerText = currentTrn.status.toUpperCase();
+
+      const gameId = currentTrn.gameId || 'game-1';
+      const scores = window.wapDB.getLeaderboard(gameId);
+
+      // Update leaders preview
+      if (scores[0]) document.getElementById('leader1st').innerText = `Leader: ${scores[0].playerName} (${scores[0].score} pts)`;
+      if (scores[1]) document.getElementById('leader2nd').innerText = `Leader: ${scores[1].playerName} (${scores[1].score} pts)`;
+      if (scores[2]) document.getElementById('leader3rd').innerText = `Leader: ${scores[2].playerName} (${scores[2].score} pts)`;
+
+      const tbody = document.getElementById('leaderboardTbody');
+      if (scores.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-500 font-retro text-xs">No player scores submitted for this tournament yet.</td></tr>`;
+        return;
+      }
+
+      const players = window.wapDB.getPlayers();
+
+      tbody.innerHTML = scores.map((s, idx) => {
+        const rank = idx + 1;
+        const playerObj = players.find(p => p.id === s.playerId) || {};
+        let rankBadge = `<span class="font-mono font-bold text-slate-400">#${rank}</span>`;
+        let prizeTag = `<span class="text-slate-500 text-[11px]">-</span>`;
+
+        if (rank === 1) {
+          rankBadge = `<span class="px-2 py-0.5 bg-arcadeYellow text-slate-950 font-bold font-retro text-xs shadow-[2px_2px_0px_#000]">1ST 👑</span>`;
+          prizeTag = `<span class="font-bold text-arcadeYellow font-retro">800 TK</span>`;
+        } else if (rank === 2) {
+          rankBadge = `<span class="px-2 py-0.5 bg-slate-300 text-slate-950 font-bold font-retro text-xs shadow-[2px_2px_0px_#000]">2ND 🥈</span>`;
+          prizeTag = `<span class="font-bold text-slate-200 font-retro">500 TK</span>`;
+        } else if (rank === 3) {
+          rankBadge = `<span class="px-2 py-0.5 bg-amber-700 text-white font-bold font-retro text-xs shadow-[2px_2px_0px_#000]">3RD 🥉</span>`;
+          prizeTag = `<span class="font-bold text-amber-400 font-retro">200 TK</span>`;
+        }
+
+        return `
+          <tr class="hover:bg-slate-900/40 transition">
+            <td class="p-3.5 text-center">${rankBadge}</td>
+            <td class="p-3.5 font-bold text-white font-retro">
+              ${s.playerName}
+            </td>
+            <td class="p-3.5 font-mono text-slate-400 text-xs">
+              ${playerObj.phone || '017XXXXXXXX'}
+            </td>
+            <td class="p-3.5">
+              <span class="font-mono font-bold text-arcadeYellow text-base">${s.score} pts</span>
+            </td>
+            <td class="p-3.5">
+              <span class="px-2 py-0.5 text-[10px] font-bold font-retro ${s.subscriptionActive ? 'bg-emerald-500/20 text-arcadeGreen border border-emerald-500/40' : 'bg-pink-500/20 text-arcadePink border border-pink-500/40'}">
+                ${s.subscriptionActive ? 'Active Pass' : 'Expired'}
+              </span>
+            </td>
+            <td class="p-3.5">${prizeTag}</td>
+            <td class="p-3.5 text-right">
+              <a href="winner-payments.html" class="px-2.5 py-1 text-[10px] bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 font-retro" title="Manage Payout">
+                Payout →
+              </a>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function exportLeaderboardCSV() {
+      alert('Exporting Live Leaderboard data to CSV format...\nFile downloaded: wap_tournament_leaderboard.csv');
+    }
+  </script>
+</body>
+</html>

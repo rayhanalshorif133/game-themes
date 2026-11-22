@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Settings - Admin Console | Pixel WAP 2D</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            arcadeBg: '#070913',
+            arcadeSurface: '#0e1322',
+            arcadeCyan: '#00f0ff',
+            arcadePink: '#ff007f',
+            arcadeYellow: '#ffe600',
+            arcadeGreen: '#00ff66',
+            arcadeBorder: '#1e2942',
+            bkash: '#e2136e'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme3.css">
+</head>
+<body data-admin-page="settings" class="bg-arcadeBg text-slate-100 min-h-screen flex selection:bg-arcadeCyan selection:text-black font-sans">
+
+  <!-- Desktop Sidebar -->
+  <aside class="w-64 bg-slate-950 border-r-2 border-arcadeBorder flex-shrink-0 hidden md:flex flex-col z-30 fixed top-0 bottom-0">
+    <div class="p-4 border-b-2 border-slate-800 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-arcadeCyan text-slate-950 flex items-center justify-center font-arcade text-xs border border-cyan-300 shadow-[2px_2px_0px_#0284c7]">
+          🕹️
+        </div>
+        <div>
+          <span class="font-arcade text-white text-xs tracking-wider">PIXEL ADMIN</span>
+          <span class="text-[9px] block text-slate-400 font-pixel tracking-wider -mt-0.5">SETTINGS</span>
+        </div>
+      </a>
+      <a href="../index.html" target="_blank" class="text-slate-400 hover:text-arcadeCyan p-1">
+        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+      </a>
+    </div>
+
+    <!-- Categorized Nav Items (Injected by admin-nav.js) -->
+    <div id="adminSidebarNav" class="flex-1 overflow-y-auto px-2 py-3 space-y-4"></div>
+
+    <div class="p-3 border-t-2 border-slate-800 text-[10px] font-retro text-slate-400 flex items-center justify-between">
+      <span>PORTAL: ONLINE</span>
+      <span class="text-arcadeGreen">v3.2.0</span>
+    </div>
+  </aside>
+
+  <!-- Mobile Drawer Overlay & Sidebar -->
+  <div id="mobileSidebarOverlay" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm md:hidden"></div>
+  <div id="mobileSidebar" class="fixed top-0 bottom-0 left-0 w-64 bg-slate-950 border-r-2 border-arcadeCyan z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col font-retro">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+      <span class="font-arcade text-white text-xs">PIXEL ADMIN</span>
+      <button onclick="toggleMobileSidebar()" class="text-slate-400 hover:text-white p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+    <div id="adminMobileNav" class="flex-1 overflow-y-auto px-2 py-3 space-y-4"></div>
+  </div>
+
+  <!-- Main Content Wrapper -->
+  <div class="md:pl-64 flex-1 flex flex-col min-h-screen">
+    
+    <!-- Top Header Bar -->
+    <header class="bg-slate-950/95 border-b-2 border-arcadeBorder px-4 sm:px-6 py-3 sticky top-0 z-20 flex items-center justify-between backdrop-blur-md">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="p-2 bg-slate-900 border border-slate-700 text-slate-300 md:hidden text-xs">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold font-retro text-white flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-arcadeCyan"></i>
+            <span>SYSTEM & PORTAL SETTINGS</span>
+          </h1>
+          <p class="text-[11px] text-slate-400 hidden sm:block font-sans">পোর্টাল কনফিগারেশন, বিকাশ/নগদ মার্চেন্ট নম্বর ও বোনাস টোকেন কন্ট্রোল।</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 font-retro text-xs">
+        <a href="../index.html" target="_blank" class="btn-arcade-cyan px-3 py-1.5 text-xs font-bold flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Site
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="p-4 sm:p-6 space-y-6 flex-1 max-w-5xl w-full mx-auto font-retro">
+      
+      <!-- Settings Form -->
+      <form onsubmit="handleSaveSettings(event)" class="space-y-6">
+        
+        <!-- General Portal Identity -->
+        <div class="arcade-card p-6 border-2 border-slate-800 space-y-4">
+          <div class="flex items-center gap-2 text-arcadeCyan font-bold text-sm border-b border-slate-800 pb-2">
+            <i class="fa-solid fa-globe"></i>
+            <span>PORTAL BRANDING & MARQUEE NOTICE</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">PORTAL NAME</label>
+              <input type="text" id="settingPortalName" required
+                     class="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-arcadeCyan font-sans">
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">TAGLINE / SUBTITLE</label>
+              <input type="text" id="settingTagline" required
+                     class="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-arcadeCyan font-sans">
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-xs text-slate-300 mb-1">HEADER MARQUEE TICKER (ব্যানার নোটিশ)</label>
+              <input type="text" id="settingMarquee" required
+                     class="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-xs text-arcadeYellow focus:outline-none focus:border-arcadeCyan font-sans">
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment & Gateway Details -->
+        <div class="arcade-card p-6 border-2 border-slate-800 space-y-4">
+          <div class="flex items-center gap-2 text-arcadePink font-bold text-sm border-b border-slate-800 pb-2">
+            <i class="fa-solid fa-credit-card"></i>
+            <span>MOBILE FINANCIAL SERVICES (MFS) NUMBERS</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">bKash MERCHANT / PAYMENT NUMBER</label>
+              <input type="text" id="settingBkash" required
+                     class="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-arcadePink font-mono">
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">NAGAD MERCHANT NUMBER</label>
+              <input type="text" id="settingNagad" required
+                     class="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-arcadePink font-mono">
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">OFFICIAL WHATSAPP SUPPORT NUMBER</label>
+              <input type="text" id="settingWhatsapp" required
+                     class="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-arcadeGreen font-mono">
+              <p class="text-[10px] text-slate-500 font-sans mt-0.5">880 সহ কান্ট্রি কোড দিন (যেমন: 8801700000000)</p>
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">SUPPORT EMAIL ADDRESS</label>
+              <input type="email" id="settingEmail" required
+                     class="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-arcadeCyan font-mono">
+            </div>
+          </div>
+        </div>
+
+        <!-- Token Rewards & Economy -->
+        <div class="arcade-card p-6 border-2 border-slate-800 space-y-4">
+          <div class="flex items-center gap-2 text-arcadeYellow font-bold text-sm border-b border-slate-800 pb-2">
+            <i class="fa-solid fa-coins"></i>
+            <span>TOKEN COIN ECONOMY & REWARD RATES</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">NEW SIGNUP BONUS TOKENS</label>
+              <input type="number" id="settingSignupTokens" min="0" required
+                     class="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-xs text-arcadeYellow focus:outline-none focus:border-arcadeYellow font-mono font-bold">
+              <p class="text-[10px] text-slate-500 font-sans mt-0.5">নতুন প্লেয়ার রেজিস্ট্রেশন করলেই এই পরিমাণ টোকেন পাবে (ডিফল্ট: ৫০)</p>
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">REFERRAL REWARD TOKENS</label>
+              <input type="number" id="settingReferralTokens" min="0" required
+                     class="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-xs text-arcadeGreen focus:outline-none focus:border-arcadeYellow font-mono font-bold">
+              <p class="text-[10px] text-slate-500 font-sans mt-0.5">বন্ধু রেফার করলে ইনভাইটার এই পরিমাণ টোকেন পাবে (ডিফল্ট: ২৫)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button type="submit" class="btn-arcade-cyan px-6 py-3 text-xs sm:text-sm font-black tracking-wider flex items-center gap-2 shadow-[4px_4px_0px_#0284c7]">
+            <i class="fa-solid fa-floppy-disk"></i>
+            <span>SAVE ALL SETTINGS</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Danger Zone / Data Reset -->
+      <div class="arcade-card p-6 border-2 border-red-900/50 bg-red-950/10 space-y-4">
+        <div class="text-xs font-bold text-red-400 uppercase flex items-center gap-2">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>PORTAL DATA BACKUP & MAINTENANCE</span>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-4 font-sans text-xs">
+          <p class="text-slate-400 max-w-lg">
+            সম্পূর্ণ ডেটাবেস JSON ফরম্যাটে ব্যাকআপ ডাউনলোড করুন অথবা ফ্যাক্টরি সিড ডেটায় রিসেট করুন।
+          </p>
+
+          <div class="flex items-center gap-2 font-retro">
+            <button type="button" onclick="exportFullDatabaseJson()" class="btn-arcade-dark px-3 py-2 text-xs font-bold flex items-center gap-1.5">
+              <i class="fa-solid fa-download"></i> Backup JSON
+            </button>
+            <button type="button" onclick="resetDatabaseDefaults()" class="px-3 py-2 bg-red-950 hover:bg-red-900 text-red-200 border border-red-700 text-xs font-bold">
+              <i class="fa-solid fa-rotate-left"></i> Reset Defaults
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-4 border-t border-slate-900 text-center text-xs text-slate-500 font-sans mt-auto">
+      © 2026 PIXEL WAP 2D BD • System Administration Console
+    </footer>
+  </div>
+
+  <!-- Shared Unified Database & Navigation Script -->
+  <script src="../assets/js/db.js"></script>
+  <script src="assets/admin-nav.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSettings();
+    });
+
+    function loadSettings() {
+      const s = window.wapDB.getSettings();
+      document.getElementById('settingPortalName').value = s.portalName || 'WAP Games 2D';
+      document.getElementById('settingTagline').value = s.tagline || 'Play 2D Web Games, Win Cash & Tournaments';
+      document.getElementById('settingMarquee').value = s.bannerNotice || '⚡ Play 2D Single & Multiplayer Tournaments - Win instant bKash Cash Rewards daily!';
+      document.getElementById('settingBkash').value = s.bkashNumber || '01711-223344 (Personal/Merchant)';
+      document.getElementById('settingNagad').value = s.nagadNumber || '01822-334455 (Merchant)';
+      document.getElementById('settingWhatsapp').value = s.whatsappNumber || '8801700000000';
+      document.getElementById('settingEmail').value = s.supportEmail || 'support@wapgames.com';
+      document.getElementById('settingSignupTokens').value = s.signupBonusTokens !== undefined ? s.signupBonusTokens : 50;
+      document.getElementById('settingReferralTokens').value = s.referralBonusTokens !== undefined ? s.referralBonusTokens : 25;
+    }
+
+    function handleSaveSettings(e) {
+      e.preventDefault();
+      const newSettings = {
+        portalName: document.getElementById('settingPortalName').value.trim(),
+        tagline: document.getElementById('settingTagline').value.trim(),
+        bannerNotice: document.getElementById('settingMarquee').value.trim(),
+        bkashNumber: document.getElementById('settingBkash').value.trim(),
+        nagadNumber: document.getElementById('settingNagad').value.trim(),
+        whatsappNumber: document.getElementById('settingWhatsapp').value.trim(),
+        supportEmail: document.getElementById('settingEmail').value.trim(),
+        signupBonusTokens: parseInt(document.getElementById('settingSignupTokens').value) || 50,
+        referralBonusTokens: parseInt(document.getElementById('settingReferralTokens').value) || 25
+      };
+
+      window.wapDB.saveSettings(newSettings);
+      alert('System Settings saved successfully! Portal configuration updated.');
+    }
+
+    function exportFullDatabaseJson() {
+      const dbDump = {};
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('wap_')) {
+          try {
+            dbDump[key] = JSON.parse(localStorage.getItem(key));
+          } catch (e) {
+            dbDump[key] = localStorage.getItem(key);
+          }
+        }
+      }
+      const blob = new Blob([JSON.stringify(dbDump, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `wap_games_db_backup_${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function resetDatabaseDefaults() {
+      if (confirm('CAUTION: Are you sure you want to reset all portal data to initial default seeds?\nThis will clear current test scores and transactions.')) {
+        for (let i = localStorage.length - 1; i >= 0; i--) {
+          const key = localStorage.key(i);
+          if (key.startsWith('wap_')) {
+            localStorage.removeItem(key);
+          }
+        }
+        window.wapDB.init();
+        alert('Database reset to defaults successfully.');
+        window.location.reload();
+      }
+    }
+  </script>
+</body>
+</html>

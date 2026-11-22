@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scores Audit - Admin Console | Pixel WAP 2D</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            arcadeBg: '#070913',
+            arcadeSurface: '#0e1322',
+            arcadeCyan: '#00f0ff',
+            arcadePink: '#ff007f',
+            arcadeYellow: '#ffe600',
+            arcadeGreen: '#00ff66',
+            arcadeBorder: '#1e2942',
+            bkash: '#e2136e'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme3.css">
+</head>
+<body data-admin-page="scores-audit" class="bg-arcadeBg text-slate-100 min-h-screen flex selection:bg-arcadeCyan selection:text-black font-sans">
+
+  <!-- Desktop Sidebar -->
+  <aside class="w-64 bg-slate-950 border-r-2 border-arcadeBorder flex-shrink-0 hidden md:flex flex-col z-30 fixed top-0 bottom-0">
+    <div class="p-4 border-b-2 border-slate-800 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-arcadeCyan text-slate-950 flex items-center justify-center font-arcade text-xs border border-cyan-300 shadow-[2px_2px_0px_#0284c7]">
+          🕹️
+        </div>
+        <div>
+          <span class="font-arcade text-white text-xs tracking-wider">PIXEL ADMIN</span>
+          <span class="text-[9px] block text-arcadeGreen font-pixel tracking-wider -mt-0.5">GAME CENTER</span>
+        </div>
+      </a>
+      <a href="../index.html" target="_blank" class="text-slate-400 hover:text-arcadeCyan p-1" title="View Portal">
+        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+      </a>
+    </div>
+
+    <!-- Categorized Nav Items (Injected by admin-nav.js) -->
+    <div id="adminSidebarNav" class="flex-1 overflow-y-auto px-2 py-3 space-y-4"></div>
+
+    <div class="p-3 border-t-2 border-slate-800 text-[10px] font-retro text-slate-400 flex items-center justify-between">
+      <span>SERVER: BANGLADESH</span>
+      <span class="text-arcadeGreen">ONLINE</span>
+    </div>
+  </aside>
+
+  <!-- Mobile Drawer Overlay & Sidebar -->
+  <div id="mobileSidebarOverlay" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm md:hidden"></div>
+  <div id="mobileSidebar" class="fixed top-0 bottom-0 left-0 w-64 bg-slate-950 border-r-2 border-arcadeCyan z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col font-retro">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+      <span class="font-arcade text-white text-xs">PIXEL ADMIN</span>
+      <button onclick="toggleMobileSidebar()" class="text-slate-400 hover:text-white p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+    <div id="adminMobileNav" class="flex-1 overflow-y-auto px-2 py-3 space-y-4"></div>
+  </div>
+
+  <!-- Main Content Wrapper -->
+  <div class="md:pl-64 flex-1 flex flex-col min-h-screen">
+    
+    <!-- Top Header Bar -->
+    <header class="bg-slate-950/95 border-b-2 border-arcadeBorder px-4 sm:px-6 py-3 sticky top-0 z-20 flex items-center justify-between backdrop-blur-md">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="p-2 bg-slate-900 border border-slate-700 text-slate-300 md:hidden text-xs">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold font-retro text-white flex items-center gap-2">
+            <i class="fa-solid fa-shield-virus text-arcadeYellow"></i>
+            <span>SCORES AUDIT & ANTI-CHEAT</span>
+          </h1>
+          <p class="text-[11px] text-slate-400 hidden sm:block font-sans">হাই স্কোর ভেরিফিকেশন, অস্বাভাবিক স্কোর মনিটরিং ও রিসেট কন্ট্রোল।</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 font-retro text-xs">
+        <span class="px-2.5 py-1 bg-slate-900 border border-arcadeYellow text-arcadeYellow text-[11px]">
+          AUTO-AUDIT: <strong class="text-white">ON</strong>
+        </span>
+        <button onclick="window.location.reload()" class="p-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300" title="Refresh">
+          <i class="fa-solid fa-arrows-rotate"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="p-4 sm:p-6 space-y-6 flex-1 max-w-7xl w-full mx-auto">
+      
+      <!-- Metrics Overview -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-retro">
+        <div class="arcade-card p-4 border-2 border-slate-800">
+          <div class="text-[10px] text-slate-400 uppercase">TOTAL AUDITED RUNS</div>
+          <div class="text-2xl font-extrabold text-white mt-1" id="statTotalAudit">0</div>
+          <div class="text-[10px] text-arcadeCyan mt-1 font-pixel">ALL 2D GAMES</div>
+        </div>
+
+        <div class="arcade-card p-4 border-2 border-slate-800">
+          <div class="text-[10px] text-slate-400 uppercase">VERIFIED SCORES</div>
+          <div class="text-2xl font-extrabold text-arcadeGreen mt-1" id="statVerified">0</div>
+          <div class="text-[10px] text-slate-400 mt-1 font-sans">Clean cadence checksum</div>
+        </div>
+
+        <div class="arcade-card p-4 border-2 border-arcadePink shadow-[3px_3px_0px_#9f1239]">
+          <div class="text-[10px] text-arcadePink uppercase font-bold">SUSPICIOUS RUNS</div>
+          <div class="text-2xl font-extrabold text-white mt-1" id="statSuspicious">0</div>
+          <div class="text-[10px] text-pink-400 mt-1 font-sans">Potential botting/scripts</div>
+        </div>
+
+        <div class="arcade-card p-4 border-2 border-slate-800">
+          <div class="text-[10px] text-slate-400 uppercase">CLEAN INTEGRITY RATE</div>
+          <div class="text-2xl font-extrabold text-arcadeYellow mt-1">98.4%</div>
+          <div class="text-[10px] text-slate-400 mt-1 font-sans">Anti-cheat active</div>
+        </div>
+      </div>
+
+      <!-- Filters & Action Bar -->
+      <div class="arcade-card p-4 flex flex-col sm:flex-row items-center justify-between gap-4 font-retro">
+        <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+          <div class="relative w-full sm:w-64">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+            <input type="text" id="auditSearchInput" oninput="renderAuditTable()" placeholder="Search player, game, ID..."
+                   class="w-full pl-9 pr-3 py-2 bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-arcadeCyan font-mono">
+          </div>
+
+          <select id="statusFilter" onchange="renderAuditTable()" class="px-3 py-2 bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-arcadeCyan">
+            <option value="all">All Statuses</option>
+            <option value="Verified">Verified Only</option>
+            <option value="Suspicious">Suspicious / Bot Alert</option>
+          </select>
+        </div>
+
+        <button onclick="runAutoAuditCheck()" class="btn-arcade-cyan px-4 py-2 text-xs font-bold w-full sm:w-auto flex items-center justify-center gap-2">
+          <i class="fa-solid fa-bolt"></i> RUN INTEGRITY CHECK
+        </button>
+      </div>
+
+      <!-- Audit Table -->
+      <div class="arcade-card overflow-hidden border-2 border-slate-800">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-retro">
+            <thead class="bg-slate-950 border-b-2 border-slate-800 text-slate-400 uppercase text-[10px]">
+              <tr>
+                <th class="p-3.5">AUDIT ID</th>
+                <th class="p-3.5">PLAYER GAMER</th>
+                <th class="p-3.5">GAME TITLE</th>
+                <th class="p-3.5">SUBMITTED SCORE</th>
+                <th class="p-3.5">CHECKSUM STATUS</th>
+                <th class="p-3.5">INVESTIGATION NOTE</th>
+                <th class="p-3.5 text-right">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="scoresAuditTableBody" class="divide-y divide-slate-800 font-sans">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-4 border-t border-slate-900 text-center text-xs text-slate-500 font-sans mt-auto">
+      © 2026 PIXEL WAP 2D BD • Scores Integrity & Anti-Cheat Engine v2.4
+    </footer>
+  </div>
+
+  <!-- Shared Unified Database & Navigation Script -->
+  <script src="../assets/js/db.js"></script>
+  <script src="assets/admin-nav.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderAuditTable();
+    });
+
+    function renderAuditTable() {
+      const audits = window.wapDB.getScoresAudit();
+      const search = (document.getElementById('auditSearchInput').value || '').toLowerCase();
+      const statusFilter = document.getElementById('statusFilter').value;
+
+      let verifiedCount = 0;
+      let suspiciousCount = 0;
+
+      audits.forEach(a => {
+        if (a.status === 'Verified') verifiedCount++;
+        if (a.status === 'Suspicious') suspiciousCount++;
+      });
+
+      document.getElementById('statTotalAudit').innerText = audits.length;
+      document.getElementById('statVerified').innerText = verifiedCount;
+      document.getElementById('statSuspicious').innerText = suspiciousCount;
+
+      const filtered = audits.filter(a => {
+        const matchesSearch = !search || 
+          a.playerName.toLowerCase().includes(search) || 
+          a.gameTitle.toLowerCase().includes(search) || 
+          a.id.toLowerCase().includes(search);
+        const matchesStatus = (statusFilter === 'all' || a.status === statusFilter);
+        return matchesSearch && matchesStatus;
+      });
+
+      const tbody = document.getElementById('scoresAuditTableBody');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-500 font-retro text-xs">No score audit records matching filters.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(item => {
+        const isVerified = item.status === 'Verified';
+        return `
+          <tr class="hover:bg-slate-900/40 transition">
+            <td class="p-3.5 font-mono text-slate-400 text-[11px]">${item.id}</td>
+            <td class="p-3.5">
+              <div class="font-bold text-white font-retro">${item.playerName}</div>
+              <div class="text-[10px] text-slate-400 font-mono">${item.date}</div>
+            </td>
+            <td class="p-3.5">
+              <span class="px-2 py-0.5 bg-slate-900 border border-slate-700 text-arcadeCyan text-[11px] font-retro">
+                ${item.gameTitle}
+              </span>
+            </td>
+            <td class="p-3.5">
+              <span class="font-mono font-bold text-base ${isVerified ? 'text-arcadeYellow' : 'text-arcadePink'}">
+                ${item.submittedScore} pts
+              </span>
+              <div class="text-[10px] text-slate-500">Prev best: ${item.prevHighScore || 0}</div>
+            </td>
+            <td class="p-3.5">
+              <span class="px-2 py-1 text-[10px] font-bold font-retro ${isVerified ? 'bg-emerald-500/20 text-arcadeGreen border border-emerald-500/40' : 'bg-pink-500/20 text-arcadePink border border-pink-500/40'}">
+                ● ${item.status}
+              </span>
+              <div class="text-[9px] text-slate-500 font-mono mt-0.5">${item.checksum || 'N/A'}</div>
+            </td>
+            <td class="p-3.5 max-w-xs text-xs text-slate-300 leading-snug">
+              ${item.auditNote}
+            </td>
+            <td class="p-3.5 text-right whitespace-nowrap">
+              ${isVerified ? `
+                <button onclick="flagSuspicious('${item.id}')" class="px-2.5 py-1 text-[11px] bg-slate-900 hover:bg-pink-950 text-slate-300 hover:text-pink-300 border border-slate-700 font-retro" title="Flag as suspicious">
+                  <i class="fa-solid fa-flag text-arcadePink mr-1"></i> Flag
+                </button>
+              ` : `
+                <div class="flex items-center justify-end gap-1.5">
+                  <button onclick="markVerified('${item.id}')" class="btn-arcade-green px-2.5 py-1 text-[11px] font-bold font-retro">
+                    Verify
+                  </button>
+                  <button onclick="handleResetScore('${item.playerId}', '${item.gameTitle}', '${item.id}')" class="px-2.5 py-1 text-[11px] bg-red-950 hover:bg-red-900 text-red-200 border border-red-700 font-retro">
+                    Reset (0)
+                  </button>
+                </div>
+              `}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function markVerified(id) {
+      window.wapDB.updateScoreAuditStatus(id, 'Verified', 'Manually investigated and approved by Operator.');
+      renderAuditTable();
+    }
+
+    function flagSuspicious(id) {
+      window.wapDB.updateScoreAuditStatus(id, 'Suspicious', 'Operator flagged score for detailed cadence inspection.');
+      renderAuditTable();
+    }
+
+    function handleResetScore(playerId, gameTitle, auditId) {
+      if (confirm(`Are you sure you want to RESET score to 0 for ${gameTitle}?`)) {
+        window.wapDB.resetPlayerScore(playerId, gameTitle);
+        window.wapDB.updateScoreAuditStatus(auditId, 'Verified', 'Score reset to 0 by Operator due to verification failure.');
+        alert('Score reset successfully.');
+        renderAuditTable();
+      }
+    }
+
+    function runAutoAuditCheck() {
+      alert('Scanning 2D game high scores with Anti-Cheat heuristics...\nAll current high score rates are within normal gameplay range!');
+      renderAuditTable();
+    }
+  </script>
+</body>
+</html>

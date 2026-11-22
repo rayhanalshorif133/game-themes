@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users & Roles - Admin Console | Pixel WAP 2D</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            arcadeBg: '#070913',
+            arcadeSurface: '#0e1322',
+            arcadeCyan: '#00f0ff',
+            arcadePink: '#ff007f',
+            arcadeYellow: '#ffe600',
+            arcadeGreen: '#00ff66',
+            arcadeBorder: '#1e2942',
+            bkash: '#e2136e'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme3.css">
+</head>
+<body data-admin-page="users-roles" class="bg-arcadeBg text-slate-100 min-h-screen flex selection:bg-arcadeCyan selection:text-black font-sans">
+
+  <!-- Desktop Sidebar -->
+  <aside class="w-64 bg-slate-950 border-r-2 border-arcadeBorder flex-shrink-0 hidden md:flex flex-col z-30 fixed top-0 bottom-0">
+    <div class="p-4 border-b-2 border-slate-800 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-arcadeCyan text-slate-950 flex items-center justify-center font-arcade text-xs border border-cyan-300 shadow-[2px_2px_0px_#0284c7]">
+          🕹️
+        </div>
+        <div>
+          <span class="font-arcade text-white text-xs tracking-wider">PIXEL ADMIN</span>
+          <span class="text-[9px] block text-arcadeCyan font-pixel tracking-wider -mt-0.5">USERS & ROLES</span>
+        </div>
+      </a>
+      <a href="../index.html" target="_blank" class="text-slate-400 hover:text-arcadeCyan p-1">
+        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+      </a>
+    </div>
+
+    <!-- Categorized Nav Items (Injected by admin-nav.js) -->
+    <div id="adminSidebarNav" class="flex-1 overflow-y-auto px-2 py-3 space-y-4"></div>
+
+    <div class="p-3 border-t-2 border-slate-800 text-[10px] font-retro text-slate-400 flex items-center justify-between">
+      <span>SERVER: BANGLADESH</span>
+      <span class="text-arcadeGreen">ONLINE</span>
+    </div>
+  </aside>
+
+  <!-- Mobile Drawer Overlay & Sidebar -->
+  <div id="mobileSidebarOverlay" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm md:hidden"></div>
+  <div id="mobileSidebar" class="fixed top-0 bottom-0 left-0 w-64 bg-slate-950 border-r-2 border-arcadeCyan z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col font-retro">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+      <span class="font-arcade text-white text-xs">PIXEL ADMIN</span>
+      <button onclick="toggleMobileSidebar()" class="text-slate-400 hover:text-white p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+    <div id="adminMobileNav" class="flex-1 overflow-y-auto px-2 py-3 space-y-4"></div>
+  </div>
+
+  <!-- Main Content Wrapper -->
+  <div class="md:pl-64 flex-1 flex flex-col min-h-screen">
+    
+    <!-- Top Header Bar -->
+    <header class="bg-slate-950/95 border-b-2 border-arcadeBorder px-4 sm:px-6 py-3 sticky top-0 z-20 flex items-center justify-between backdrop-blur-md">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="p-2 bg-slate-900 border border-slate-700 text-slate-300 md:hidden text-xs">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold font-retro text-white flex items-center gap-2">
+            <i class="fa-solid fa-user-shield text-arcadeCyan"></i>
+            <span>USERS, ROLES & PLAYER CONTROLS</span>
+          </h1>
+          <p class="text-[11px] text-slate-400 hidden sm:block font-sans">অ্যাডমিন টিম পারমিশন ম্যানেজমেন্ট এবং প্লেয়ার ব্যান/টোকেন ও মেসেজ কন্ট্রোল।</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 font-retro text-xs">
+        <button onclick="openAddStaffModal()" class="btn-arcade-cyan px-3 py-1.5 text-xs font-bold flex items-center gap-1.5">
+          <i class="fa-solid fa-user-plus"></i> Add Staff
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="p-4 sm:p-6 space-y-6 flex-1 max-w-7xl w-full mx-auto">
+      
+      <!-- Metrics Overview -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-retro">
+        <div class="arcade-card p-4 border-2 border-slate-800">
+          <div class="text-[10px] text-slate-400 uppercase">SYSTEM OPERATORS</div>
+          <div class="text-2xl font-extrabold text-white mt-1" id="statStaffCount">4 Staff</div>
+          <div class="text-[10px] text-arcadeCyan mt-1 font-sans">Super Admin & Mods</div>
+        </div>
+
+        <div class="arcade-card p-4 border-2 border-slate-800">
+          <div class="text-[10px] text-slate-400 uppercase">REGISTERED PLAYERS</div>
+          <div class="text-2xl font-extrabold text-arcadeGreen mt-1" id="statPlayerCount">0</div>
+          <div class="text-[10px] text-slate-400 mt-1 font-sans">Mobile OTP verified</div>
+        </div>
+
+        <div class="arcade-card p-4 border-2 border-slate-800">
+          <div class="text-[10px] text-slate-400 uppercase">ACTIVE SUBSCRIBERS</div>
+          <div class="text-2xl font-extrabold text-arcadeYellow mt-1" id="statSubCount">0</div>
+          <div class="text-[10px] text-slate-400 mt-1 font-sans">Current pass holders</div>
+        </div>
+
+        <div class="arcade-card p-4 border-2 border-slate-800">
+          <div class="text-[10px] text-slate-400 uppercase">BANNED ACCOUNTS</div>
+          <div class="text-2xl font-extrabold text-arcadePink mt-1" id="statBannedCount">0</div>
+          <div class="text-[10px] text-slate-400 mt-1 font-sans">Fair play restrictions</div>
+        </div>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="flex border-b-2 border-slate-800 font-retro">
+        <button id="tabPlayersBtn" onclick="switchUserTab('players')" class="px-5 py-2.5 text-xs font-bold text-arcadeCyan border-b-2 border-arcadeCyan -mb-[2px] transition flex items-center gap-2">
+          <i class="fa-solid fa-gamepad"></i>
+          <span>REGISTERED PLAYERS & BAN CONTROL</span>
+        </button>
+        <button id="tabStaffBtn" onclick="switchUserTab('staff')" class="px-5 py-2.5 text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>ADMIN ROLES & PERMISSIONS</span>
+        </button>
+      </div>
+
+      <!-- Tab 1: Players Management View -->
+      <div id="viewPlayers" class="space-y-4">
+        <div class="arcade-card p-4 flex flex-col sm:flex-row items-center justify-between gap-4 font-retro">
+          <div class="relative w-full sm:w-72">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+            <input type="text" id="playerSearchInput" oninput="renderPlayersTable()" placeholder="Search player name, phone, code..."
+                   class="w-full pl-9 pr-3 py-2 bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-arcadeCyan font-mono">
+          </div>
+
+          <div class="flex items-center gap-2 text-xs">
+            <span class="text-slate-400">Total Players:</span>
+            <span class="font-bold text-arcadeCyan" id="tablePlayerCountBadge">0</span>
+          </div>
+        </div>
+
+        <div class="arcade-card overflow-hidden border-2 border-slate-800">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs font-retro">
+              <thead class="bg-slate-950 border-b-2 border-slate-800 text-slate-400 uppercase text-[10px]">
+                <tr>
+                  <th class="p-3.5">PLAYER</th>
+                  <th class="p-3.5">PHONE NUMBER</th>
+                  <th class="p-3.5">TOKENS</th>
+                  <th class="p-3.5">SUBSCRIPTION</th>
+                  <th class="p-3.5">REFERRAL CODE</th>
+                  <th class="p-3.5">STATUS</th>
+                  <th class="p-3.5 text-right">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="playersTableBody" class="divide-y divide-slate-800 font-sans">
+                <!-- Injected by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Admin Staff Roles View -->
+      <div id="viewStaff" class="space-y-4 hidden">
+        <div class="arcade-card overflow-hidden border-2 border-slate-800">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs font-retro">
+              <thead class="bg-slate-950 border-b-2 border-slate-800 text-slate-400 uppercase text-[10px]">
+                <tr>
+                  <th class="p-3.5">STAFF MEMBER</th>
+                  <th class="p-3.5">EMAIL IDENTITY</th>
+                  <th class="p-3.5">ASSIGNED ROLE</th>
+                  <th class="p-3.5">PERMISSIONS SCOPE</th>
+                  <th class="p-3.5">LAST LOGIN</th>
+                  <th class="p-3.5">STATUS</th>
+                  <th class="p-3.5 text-right">ACTION</th>
+                </tr>
+              </thead>
+              <tbody id="staffTableBody" class="divide-y divide-slate-800 font-sans">
+                <!-- Injected by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-4 border-t border-slate-900 text-center text-xs text-slate-500 font-sans mt-auto">
+      © 2026 PIXEL WAP 2D BD • User Roles & RBAC System
+    </footer>
+  </div>
+
+  <!-- Shared Unified Database & Navigation Script -->
+  <script src="../assets/js/db.js"></script>
+  <script src="assets/admin-nav.js"></script>
+  <script>
+    let activeTab = 'players';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderPlayersTable();
+      renderStaffTable();
+    });
+
+    function switchUserTab(tab) {
+      activeTab = tab;
+      const vp = document.getElementById('viewPlayers');
+      const vs = document.getElementById('viewStaff');
+      const bp = document.getElementById('tabPlayersBtn');
+      const bs = document.getElementById('tabStaffBtn');
+
+      if (tab === 'players') {
+        vp.classList.remove('hidden');
+        vs.classList.add('hidden');
+        bp.className = 'px-5 py-2.5 text-xs font-bold text-arcadeCyan border-b-2 border-arcadeCyan -mb-[2px] transition flex items-center gap-2';
+        bs.className = 'px-5 py-2.5 text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2';
+      } else {
+        vp.classList.add('hidden');
+        vs.classList.remove('hidden');
+        bs.className = 'px-5 py-2.5 text-xs font-bold text-arcadeYellow border-b-2 border-arcadeYellow -mb-[2px] transition flex items-center gap-2';
+        bp.className = 'px-5 py-2.5 text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2';
+      }
+    }
+
+    function renderPlayersTable() {
+      const players = window.wapDB.getPlayers();
+      const search = (document.getElementById('playerSearchInput').value || '').toLowerCase();
+
+      let subCount = 0;
+      let bannedCount = 0;
+
+      players.forEach(p => {
+        if (window.wapDB.hasActiveSubscription(p)) subCount++;
+        if (p.banned) bannedCount++;
+      });
+
+      document.getElementById('statPlayerCount').innerText = `${players.length} Players`;
+      document.getElementById('statSubCount').innerText = `${subCount} Active`;
+      document.getElementById('statBannedCount').innerText = bannedCount;
+      document.getElementById('tablePlayerCountBadge').innerText = players.length;
+
+      const filtered = players.filter(p => {
+        return !search || 
+          p.name.toLowerCase().includes(search) || 
+          p.phone.includes(search) || 
+          (p.referralCode && p.referralCode.toLowerCase().includes(search));
+      });
+
+      const tbody = document.getElementById('playersTableBody');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-500 font-retro text-xs">No player accounts found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(p => {
+        const hasSubs = window.wapDB.hasActiveSubscription(p);
+        return `
+          <tr class="hover:bg-slate-900/40 transition">
+            <td class="p-3.5">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 bg-slate-950 border border-arcadeCyan flex items-center justify-center text-base">
+                  ${p.avatar || '👾'}
+                </span>
+                <div>
+                  <div class="font-bold text-white font-retro">${p.name}</div>
+                  <div class="text-[10px] text-slate-400 font-mono">ID: ${p.id}</div>
+                </div>
+              </div>
+            </td>
+            <td class="p-3.5 font-mono text-slate-300 text-xs">${p.phone}</td>
+            <td class="p-3.5 font-mono font-bold text-arcadeYellow text-sm">
+              🪙 ${p.tokens || 0}
+            </td>
+            <td class="p-3.5">
+              <span class="px-2 py-0.5 text-[10px] font-bold font-retro ${hasSubs ? 'bg-emerald-500/20 text-arcadeGreen border border-emerald-500/40' : 'bg-slate-800 text-slate-400'}">
+                ${hasSubs ? `● ${p.subscription.planName}` : 'No Pass'}
+              </span>
+            </td>
+            <td class="p-3.5 font-mono text-xs text-arcadeCyan">${p.referralCode || 'N/A'}</td>
+            <td class="p-3.5">
+              <span class="px-2 py-0.5 text-[10px] font-bold font-retro ${p.banned ? 'bg-red-950 text-red-300 border border-red-700' : 'bg-emerald-950 text-emerald-300 border border-emerald-700'}">
+                ${p.banned ? 'BANNED' : 'ACTIVE'}
+              </span>
+            </td>
+            <td class="p-3.5 text-right whitespace-nowrap space-x-1">
+              <button onclick="grantTokens('${p.id}', '${p.name}')" class="px-2 py-1 text-[10px] bg-slate-900 hover:bg-slate-800 border border-arcadeYellow text-arcadeYellow font-retro" title="Grant Coins">
+                +Coins
+              </button>
+              <button onclick="sendPlayerMsg('${p.id}', '${p.name}')" class="px-2 py-1 text-[10px] bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 font-retro" title="Send Direct Message">
+                <i class="fa-solid fa-envelope"></i>
+              </button>
+              <button onclick="toggleBan('${p.id}', '${p.name}')" class="px-2 py-1 text-[10px] ${p.banned ? 'btn-arcade-green' : 'bg-red-950 hover:bg-red-900 text-red-300 border border-red-700'} font-retro">
+                ${p.banned ? 'Unban' : 'Ban'}
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderStaffTable() {
+      const staff = window.wapDB.getAdminRoles();
+      document.getElementById('statStaffCount').innerText = `${staff.length} Staff`;
+
+      const tbody = document.getElementById('staffTableBody');
+      tbody.innerHTML = staff.map(s => {
+        return `
+          <tr class="hover:bg-slate-900/40 transition">
+            <td class="p-3.5 font-bold text-white font-retro">${s.name}</td>
+            <td class="p-3.5 font-mono text-slate-300 text-xs">${s.email}</td>
+            <td class="p-3.5">
+              <span class="px-2 py-0.5 bg-slate-900 border border-arcadeCyan text-arcadeCyan text-[11px] font-retro">
+                ${s.role}
+              </span>
+            </td>
+            <td class="p-3.5 text-xs text-slate-300">${s.permissions}</td>
+            <td class="p-3.5 font-mono text-slate-400 text-xs">${s.lastLogin}</td>
+            <td class="p-3.5">
+              <span class="px-2 py-0.5 text-[10px] font-bold font-retro bg-emerald-500/20 text-arcadeGreen border border-emerald-500/40">
+                ● ${s.status}
+              </span>
+            </td>
+            <td class="p-3.5 text-right">
+              ${s.role === 'Super Admin' ? `
+                <span class="text-[10px] text-slate-500 font-retro">LOCKED</span>
+              ` : `
+                <button onclick="deleteStaff('${s.id}')" class="px-2.5 py-1 text-[10px] bg-red-950 hover:bg-red-900 text-red-300 border border-red-700 font-retro">
+                  Remove
+                </button>
+              `}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function toggleBan(id, name) {
+      if (confirm(`Change Ban status for player: ${name}?`)) {
+        window.wapDB.toggleBanPlayer(id, 'Violation of tournament integrity');
+        renderPlayersTable();
+      }
+    }
+
+    function grantTokens(id, name) {
+      const amt = parseInt(prompt(`Enter token coins to grant to ${name}:`, '50'));
+      if (amt && amt > 0) {
+        const player = window.wapDB.getPlayerById(id);
+        if (player) {
+          player.tokens = (player.tokens || 0) + amt;
+          window.wapDB.savePlayer(player);
+          alert(`Granted ${amt} tokens to ${name}!`);
+          renderPlayersTable();
+        }
+      }
+    }
+
+    function sendPlayerMsg(id, name) {
+      const msg = prompt(`Send direct notification to ${name}:`);
+      if (msg) {
+        window.wapDB.sendMessageToPlayer(id, msg);
+        alert(`Message sent to ${name}'s inbox!`);
+      }
+    }
+
+    function openAddStaffModal() {
+      const name = prompt('Enter staff member name:');
+      if (!name) return;
+      const email = prompt('Enter staff email:', 'staff@wapgames.com');
+      const role = prompt('Enter staff role (e.g. Game Ops Moderator, Finance Manager, Support Staff):', 'Game Ops Moderator');
+
+      window.wapDB.saveAdminRole({
+        name,
+        email,
+        role,
+        permissions: 'Standard Admin Console Access'
+      });
+
+      renderStaffTable();
+      alert('Staff member added successfully!');
+    }
+
+    function deleteStaff(id) {
+      if (confirm('Remove this staff member?')) {
+        window.wapDB.deleteAdminRole(id);
+        renderStaffTable();
+      }
+    }
+  </script>
+</body>
+</html>

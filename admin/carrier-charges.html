@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrier Charge Logs - Admin Console | Pixel WAP 2D</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            arcadeBg: '#070913',
+            arcadeSurface: '#0e1322',
+            arcadeCyan: '#00f0ff',
+            arcadePink: '#ff007f',
+            arcadeYellow: '#ffe600',
+            arcadeGreen: '#00ff66',
+            arcadeBorder: '#1e2942',
+            bkash: '#e2136e'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/theme3.css">
+</head>
+<body data-admin-page="carrier-charges" class="bg-arcadeBg text-slate-100 min-h-screen flex selection:bg-arcadeCyan selection:text-black font-sans">
+
+  <!-- Desktop Sidebar -->
+  <aside class="w-64 bg-slate-950 border-r-2 border-arcadeBorder flex-shrink-0 hidden md:flex flex-col z-30 fixed top-0 bottom-0">
+    <div class="p-4 border-b-2 border-slate-800 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-arcadeCyan text-slate-950 flex items-center justify-center font-arcade text-xs border border-cyan-300 shadow-[2px_2px_0px_#0284c7]">
+          🕹️
+        </div>
+        <div>
+          <span class="font-arcade text-white text-xs tracking-wider">PIXEL ADMIN</span>
+          <span class="text-[9px] block text-arcadeGreen font-pixel tracking-wider -mt-0.5">CARRIER BILLING</span>
+        </div>
+      </a>
+      <a href="../index.html" target="_blank" class="text-slate-400 hover:text-arcadeCyan p-1">
+        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+      </a>
+    </div>
+
+    <!-- Categorized Nav Items (Injected by admin-nav.js) -->
+    <div id="adminSidebarNav" class="flex-1 overflow-y-auto px-2 py-3 space-y-4"></div>
+
+    <div class="p-3 border-t-2 border-slate-800 text-[10px] font-retro text-slate-400 flex items-center justify-between">
+      <span>TELCO DCB: CONNECTED</span>
+      <span class="text-arcadeGreen">ACTIVE</span>
+    </div>
+  </aside>
+
+  <!-- Mobile Drawer Overlay & Sidebar -->
+  <div id="mobileSidebarOverlay" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm md:hidden"></div>
+  <div id="mobileSidebar" class="fixed top-0 bottom-0 left-0 w-64 bg-slate-950 border-r-2 border-arcadeCyan z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col font-retro">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+      <span class="font-arcade text-white text-xs">PIXEL ADMIN</span>
+      <button onclick="toggleMobileSidebar()" class="text-slate-400 hover:text-white p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+    <div id="adminMobileNav" class="flex-1 overflow-y-auto px-2 py-3 space-y-4"></div>
+  </div>
+
+  <!-- Main Content Wrapper -->
+  <div class="md:pl-64 flex-1 flex flex-col min-h-screen">
+    
+    <!-- Top Header Bar -->
+    <header class="bg-slate-950/95 border-b-2 border-arcadeBorder px-4 sm:px-6 py-3 sticky top-0 z-20 flex items-center justify-between backdrop-blur-md">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="p-2 bg-slate-900 border border-slate-700 text-slate-300 md:hidden text-xs">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold font-retro text-white flex items-center gap-2">
+            <i class="fa-solid fa-sim-card text-arcadeGreen"></i>
+            <span>TELCO CARRIER CHARGE LOGS (DCB)</span>
+          </h1>
+          <p class="text-[11px] text-slate-400 hidden sm:block font-sans">GP, Robi, Banglalink ও Teletalk মোবাইল ব্যালেন্স চার্জিং ও ডেব্রিট হিস্ট্রি।</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 font-retro text-xs">
+        <button onclick="simulateCarrierCharge()" class="btn-arcade-green px-3 py-1.5 text-xs font-bold flex items-center gap-1.5">
+          <i class="fa-solid fa-bolt"></i> Test DCB Ping
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="p-4 sm:p-6 space-y-6 flex-1 max-w-7xl w-full mx-auto">
+      
+      <!-- Telco Operators Grid Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-retro">
+        <div class="arcade-card p-4 border-2 border-sky-500/40">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold text-sky-400">GRAMEENPHONE</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          </div>
+          <div class="text-2xl font-extrabold text-white">96.2%</div>
+          <div class="text-[10px] text-slate-400 font-sans mt-0.5">Success Rate • 017/013 Prefix</div>
+        </div>
+
+        <div class="arcade-card p-4 border-2 border-red-500/40">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold text-red-400">ROBI & AIRTEL</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          </div>
+          <div class="text-2xl font-extrabold text-white">94.8%</div>
+          <div class="text-[10px] text-slate-400 font-sans mt-0.5">Success Rate • 018/016 Prefix</div>
+        </div>
+
+        <div class="arcade-card p-4 border-2 border-orange-500/40">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold text-orange-400">BANGLALINK</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          </div>
+          <div class="text-2xl font-extrabold text-white">92.5%</div>
+          <div class="text-[10px] text-slate-400 font-sans mt-0.5">Success Rate • 019/014 Prefix</div>
+        </div>
+
+        <div class="arcade-card p-4 border-2 border-emerald-500/40">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold text-emerald-400">TELETALK</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          </div>
+          <div class="text-2xl font-extrabold text-white">91.0%</div>
+          <div class="text-[10px] text-slate-400 font-sans mt-0.5">Success Rate • 015 Prefix</div>
+        </div>
+      </div>
+
+      <!-- Filters & Action Bar -->
+      <div class="arcade-card p-4 flex flex-col sm:flex-row items-center justify-between gap-4 font-retro">
+        <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+          <div class="relative w-full sm:w-64">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+            <input type="text" id="chargeSearchInput" oninput="renderCarrierTable()" placeholder="Search phone, operator, Trx..."
+                   class="w-full pl-9 pr-3 py-2 bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-arcadeGreen font-mono">
+          </div>
+
+          <select id="operatorFilter" onchange="renderCarrierTable()" class="px-3 py-2 bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-arcadeGreen">
+            <option value="all">All Telco Operators</option>
+            <option value="Grameenphone">Grameenphone</option>
+            <option value="Robi">Robi</option>
+            <option value="Banglalink">Banglalink</option>
+            <option value="Teletalk">Teletalk</option>
+          </select>
+        </div>
+
+        <div class="text-xs text-slate-400 font-mono">
+          Direct Carrier Billing (DCB) Gateway
+        </div>
+      </div>
+
+      <!-- Carrier Table -->
+      <div class="arcade-card overflow-hidden border-2 border-slate-800">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-retro">
+            <thead class="bg-slate-950 border-b-2 border-slate-800 text-slate-400 uppercase text-[10px]">
+              <tr>
+                <th class="p-3.5">CHARGE ID</th>
+                <th class="p-3.5">TELCO OPERATOR</th>
+                <th class="p-3.5">SUBSCRIBER MSISDN</th>
+                <th class="p-3.5">PASS PLAN</th>
+                <th class="p-3.5">AMOUNT</th>
+                <th class="p-3.5">NETWORK TRX</th>
+                <th class="p-3.5">STATUS</th>
+                <th class="p-3.5 text-right">TIMESTAMP</th>
+              </tr>
+            </thead>
+            <tbody id="carrierTableBody" class="divide-y divide-slate-800 font-sans">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-4 border-t border-slate-900 text-center text-xs text-slate-500 font-sans mt-auto">
+      © 2026 PIXEL WAP 2D BD • Direct Carrier Billing (DCB) Gateway Engine
+    </footer>
+  </div>
+
+  <!-- Shared Unified Database & Navigation Script -->
+  <script src="../assets/js/db.js"></script>
+  <script src="assets/admin-nav.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCarrierTable();
+    });
+
+    function renderCarrierTable() {
+      const charges = window.wapDB.getCarrierCharges();
+      const search = (document.getElementById('chargeSearchInput').value || '').toLowerCase();
+      const opFilter = document.getElementById('operatorFilter').value;
+
+      const filtered = charges.filter(c => {
+        const matchesSearch = !search ||
+          c.phone.includes(search) ||
+          c.telco.toLowerCase().includes(search) ||
+          (c.trx && c.trx.toLowerCase().includes(search));
+        const matchesOp = (opFilter === 'all' || c.telco === opFilter);
+        return matchesSearch && matchesOp;
+      });
+
+      const tbody = document.getElementById('carrierTableBody');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-500 font-retro text-xs">No carrier charges found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(c => {
+        const isSuccess = (c.status === 'Success');
+        let opColor = 'text-sky-400';
+        if (c.telco === 'Robi') opColor = 'text-red-400';
+        if (c.telco === 'Banglalink') opColor = 'text-orange-400';
+        if (c.telco === 'Teletalk') opColor = 'text-emerald-400';
+
+        return `
+          <tr class="hover:bg-slate-900/40 transition">
+            <td class="p-3.5 font-mono text-slate-400 text-[11px]">${c.id}</td>
+            <td class="p-3.5">
+              <span class="font-bold font-retro text-xs ${opColor}">${c.telco}</span>
+            </td>
+            <td class="p-3.5 font-mono font-bold text-white text-xs">${c.phone}</td>
+            <td class="p-3.5 font-retro text-xs text-slate-300">${c.plan}</td>
+            <td class="p-3.5 font-mono font-bold text-arcadeYellow text-sm">${c.amount}</td>
+            <td class="p-3.5 font-mono text-slate-400 text-xs">${c.trx || 'N/A'}</td>
+            <td class="p-3.5">
+              <span class="px-2 py-0.5 text-[10px] font-bold font-retro ${isSuccess ? 'bg-emerald-500/20 text-arcadeGreen border border-emerald-500/40' : 'bg-pink-500/20 text-arcadePink border border-pink-500/40'}">
+                ● ${c.status}
+              </span>
+              ${c.reason ? `<div class="text-[9px] text-pink-400 mt-0.5 font-sans">${c.reason}</div>` : ''}
+            </td>
+            <td class="p-3.5 text-right font-mono text-slate-400 text-[11px]">${c.time}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function simulateCarrierCharge() {
+      alert('Simulating Carrier Ping to Grameenphone / Robi DCB Gateway...\nStatus: 200 OK • Micro-billing response received in 142ms.');
+    }
+  </script>
+</body>
+</html>
